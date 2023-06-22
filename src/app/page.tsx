@@ -1,7 +1,7 @@
-'use client';
+'use client'
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-
   const createRoom = async () => {
     const res = await fetch("https://api.huddle01.com/api/v1/create-room", {
       method: "POST",
@@ -10,12 +10,15 @@ export default function Home() {
       }),
       headers: {
         "Content-Type": "application/json",
-        'x-api-key': process.env.API_KEY ?? ""
-      }
-    })
-    const data = await res.json()
-    console.log(data)
-  }
+        "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
+      },
+    });
+    const data = await res.json();
+    const { roomId } = data.data;
+    return roomId;
+  };
+
+  const router = useRouter();
 
   return (
     <main className="flex h-screen relative items-center justify-center bg-lobby text-slate-100">
@@ -30,7 +33,13 @@ export default function Home() {
               type="text"
               placeholder="Display name"
             />
-            <button className="bg-slate-100 text-slate-900 rounded-md p-2 mt-2" onClick={createRoom}>
+            <button
+              className="bg-slate-100 text-slate-900 rounded-md p-2 mt-2"
+              onClick={(async () => {
+                const roomId = await createRoom();
+                router.push(`/${roomId}`);
+              })}
+            >
               Start Spaces
             </button>
           </div>

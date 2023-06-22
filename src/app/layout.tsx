@@ -5,6 +5,7 @@ import "./globals.css";
 
 // Components
 import Navbar from "@/components/common/Navbar";
+import HuddleProvider from "@/components/clientComponents/HuddleProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} min-h-screen relative`}>
         <Navbar />
-        <main>{children}</main>
+        <HuddleProvider>{children}</HuddleProvider>
       </body>
     </html>
   );

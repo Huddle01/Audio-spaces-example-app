@@ -5,10 +5,13 @@ import React from "react";
 // Store
 import useStore from "@/store/slices";
 import { BasicIcons, NestedBasicIcons } from "@/assets/BasicIcons";
+import { useRouter } from "next/navigation";
 
 type BottomBarProps = {};
 
 const BottomBar: React.FC<BottomBarProps> = () => {
+  const { push } = useRouter();
+
   const sidebarView = useStore((state) => state.sidebar.sidebarView);
 
   const setSidebarView = useStore((state) => state.setSidebarView);
@@ -29,7 +32,12 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       <div className="mx-auto flex items-center gap-4">
         <button>{NestedBasicIcons.active.mic}</button>
         <button>{BasicIcons.avatar}</button>
-        <button>{BasicIcons.leave}</button>
+        <button
+          type="button"
+          onClick={() => push("https://huddle01.com/docs/sdk/usecase")}
+        >
+          {BasicIcons.leave}
+        </button>
       </div>
 
       <button

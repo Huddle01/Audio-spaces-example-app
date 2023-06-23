@@ -1,16 +1,39 @@
 import { StoreSlice } from "../types";
 
+export type TSidebarView = "close" | "peers";
+
 export interface ISidebarState {
-  isSidebarOpen: boolean;
-  setIsSidebarOpen: (val: boolean) => void;
+  sidebar: {
+    isSidebarOpen: boolean;
+    sidebarView: TSidebarView;
+  };
+
+  setSidebarView: (val: TSidebarView) => void;
 }
 
-const createSidebarSlice: StoreSlice<ISidebarState> = (set) => ({
-  isSidebarOpen: false,
+const createSidebarSlice: StoreSlice<ISidebarState> = (set, get) => ({
+  sidebar: {
+    isSidebarOpen: false,
+    sidebarView: "close",
+  },
 
-  setIsSidebarOpen(val: boolean) {
+  setSidebarView(sidebarView: TSidebarView) {
+    const prevView = get().sidebar.sidebarView;
+
+    if (sidebarView === "close" || sidebarView === prevView) {
+      set(() => ({
+        sidebar: {
+          isSidebarOpen: false,
+          sidebarView: "close",
+        },
+      }));
+    }
+
     set(() => ({
-      isSidebarOpen: val,
+      sidebar: {
+        isSidebarOpen: true,
+        sidebarView,
+      },
     }));
   },
 });

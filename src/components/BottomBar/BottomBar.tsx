@@ -9,9 +9,9 @@ import { BasicIcons, NestedBasicIcons } from "@/assets/BasicIcons";
 type BottomBarProps = {};
 
 const BottomBar: React.FC<BottomBarProps> = () => {
-  const isSidebarOpen = useStore((state) => state.isSidebarOpen);
+  const sidebarView = useStore((state) => state.sidebar.sidebarView);
 
-  const setIsSidebarOpen = useStore((state) => state.setIsSidebarOpen);
+  const setSidebarView = useStore((state) => state.setSidebarView);
 
   return (
     <div className="absolute bottom-6 w-full flex items-center px-10">
@@ -35,7 +35,9 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       <button
         type="button"
         className="ml-auto flex items-center gap-3 border border-custom-4 rounded-lg py-2 px-3"
-        onClick={() => setIsSidebarOpen(isSidebarOpen ? false : true)}
+        onClick={() =>
+          setSidebarView(sidebarView === "peers" ? "close" : "peers")
+        }
       >
         {BasicIcons.peers}
         <span>count</span>

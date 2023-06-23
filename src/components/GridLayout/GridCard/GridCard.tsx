@@ -9,8 +9,8 @@ const GridCard: React.FC<GridCardProps> = () => {
       <Image
         src="/images/default.png"
         alt="default-avatar"
-        width={105}
-        height={105}
+        width={100}
+        height={100}
         quality={100}
         priority
       />
@@ -21,4 +21,4 @@ const GridCard: React.FC<GridCardProps> = () => {
     </div>
   );
 };
-export default GridCard;
+export default React.memo(GridCard);

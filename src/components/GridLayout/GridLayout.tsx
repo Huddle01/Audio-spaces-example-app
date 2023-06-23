@@ -7,7 +7,7 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
   return (
     <div className="w-full h-full ml-10 flex items-center justify-center flex-col py-20">
       <div className="flex-wrap flex items-center justify-center gap-4 w-full">
-        {Array.from({ length: 10 }).map((_, i) => (
+        {Array.from({ length: 4 }).map((_, i) => (
           <GridCard key={i} />
         ))}
       </div>
@@ -16,7 +16,7 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
           Listeners - count
         </div>
         <div className="flex-wrap flex items-center justify-center gap-4 w-full">
-          {Array.from({ length: 26 }).map((_, i) => (
+          {Array.from({ length: 10 }).map((_, i) => (
             <GridCard key={i} />
           ))}
         </div>

@@ -25,7 +25,6 @@ const FeatCommon = ({ onClose, children, className }: Props) => {
     >
       <div className="flex justify-between items-center border-b border-b-slate-700 px-8 pb-2.5">
         <div className="flex items-center">
-          Hello
           <div className="ml-2  font-medium text-slate-300">Select your Avatar</div>
         </div>
         <div className="cursor-pointer" onClick={onClose} role="presentation">

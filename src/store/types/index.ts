@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { ISidebarState } from "../slices/createSidebarSlice";
+import { ISidebarState } from "../slices/createHandlerSlice";
 
 export type IState = ISidebarState;
 

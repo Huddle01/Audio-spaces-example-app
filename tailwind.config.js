@@ -18,6 +18,9 @@ module.exports = {
           5: "#CBD5E1",
           6: "#94A3B8",
         },
+        rgbColors: {
+          1: "rgba(24, 24, 27, 0.8)",
+        },
       },
     },
   },

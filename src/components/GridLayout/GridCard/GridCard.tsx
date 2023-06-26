@@ -1,5 +1,8 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+
+// Assets
+import { BasicIcons } from "@/assets/BasicIcons";
 
 type GridCardProps = {};
 
@@ -18,6 +21,8 @@ const GridCard: React.FC<GridCardProps> = () => {
         <div className="text-custom-5 text-xl font-medium">name</div>
         <div className="text-custom-6 text-base font-normal">Host</div>
       </div>
+
+      <div className="absolute right-0">{BasicIcons.mic}</div>
     </div>
   );
 };

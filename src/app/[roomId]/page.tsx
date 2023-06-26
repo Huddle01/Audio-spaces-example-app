@@ -6,6 +6,7 @@ import React from "react";
 import BottomBar from "@/components/BottomBar/BottomBar";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import GridLayout from "@/components/GridLayout/GridLayout";
+import Prompts from "@/components/common/Prompts";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
   return (
@@ -16,6 +17,7 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
       </div>
 
       <BottomBar />
+      <Prompts />
     </section>
   );
 };

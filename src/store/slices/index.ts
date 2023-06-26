@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { IState } from "../types";
-import createSidebarSlice from "./createSidebarSlice";
+
+// Slices
+import createHandlerSlice from "./createHandlerSlice";
 
 const useStore = create<IState>()(
   devtools(
     (...a) => ({
-      ...createSidebarSlice(...a),
+      ...createHandlerSlice(...a),
     }),
     { name: "store" }
   )

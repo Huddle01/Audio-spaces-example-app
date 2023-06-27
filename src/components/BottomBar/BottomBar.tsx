@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // Store
@@ -15,6 +15,8 @@ import EmojiTray from "../EmojiTray/EmojiTray";
 type BottomBarProps = {};
 
 const BottomBar: React.FC<BottomBarProps> = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const { push } = useRouter();
 
   const sidebarView = useStore((state) => state.sidebar.sidebarView);
@@ -50,8 +52,15 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       {/* Bottom Bar Center */}
       <div className="mx-auto flex items-center gap-4">
         <button>{NestedBasicIcons.active.mic}</button>
-        <Dropdown triggerChild={BasicIcons.avatar}>
-          <EmojiTray onClick={() => alert("todo")} />
+        <Dropdown
+          triggerChild={BasicIcons.avatar}
+          open={isOpen}
+          onOpenChange={() => setIsOpen((prev) => !prev)}
+        >
+          <EmojiTray
+            onClick={() => alert("todo")}
+            onClose={() => setIsOpen(false)}
+          />
         </Dropdown>
         <button
           type="button"

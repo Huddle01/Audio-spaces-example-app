@@ -4,13 +4,20 @@ import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 type DropdownProps = {
+  open: boolean;
+  onOpenChange?(open: boolean): void;
   triggerChild: JSX.Element;
   children: React.ReactNode;
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ children, triggerChild }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  children,
+  triggerChild,
+  onOpenChange,
+  open,
+}) => {
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root open={open} onOpenChange={onOpenChange}>
       <DropdownMenu.Trigger asChild>
         <span>{triggerChild}</span>
       </DropdownMenu.Trigger>

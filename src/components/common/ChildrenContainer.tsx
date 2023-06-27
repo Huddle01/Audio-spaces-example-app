@@ -9,7 +9,7 @@ const ChildrenContainer: React.FC<ChildrenContainerProps> = ({ children }) => {
     <div
       role="presentation"
       onClick={(e) => e.stopPropagation()}
-      className="bg-custom-2 p-6 border border-custom-1 rounded-xl"
+      className="bg-custom-2 p-6 border border-custom-1 rounded-xl shadow-xl"
     >
       {children}
     </div>

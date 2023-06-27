@@ -22,7 +22,7 @@ const GridCard: React.FC<GridCardProps> = () => {
         <div className="text-custom-6 text-base font-normal">Host</div>
       </div>
 
-      <div className="absolute right-0">{BasicIcons.mic}</div>
+      <div className="absolute right-0">{BasicIcons.audio}</div>
     </div>
   );
 };

@@ -9,6 +9,8 @@ import useStore from "@/store/slices";
 // Assets
 import { BasicIcons, NestedBasicIcons } from "@/assets/BasicIcons";
 import { cn } from "@/utils/helpers";
+import Dropdown from "../common/Dropdown";
+import EmojiTray from "../EmojiTray/EmojiTray";
 
 type BottomBarProps = {};
 
@@ -48,7 +50,9 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       {/* Bottom Bar Center */}
       <div className="mx-auto flex items-center gap-4">
         <button>{NestedBasicIcons.active.mic}</button>
-        <button>{BasicIcons.avatar}</button>
+        <Dropdown triggerChild={BasicIcons.avatar}>
+          <EmojiTray onClick={() => alert("todo")} />
+        </Dropdown>
         <button
           type="button"
           onClick={() => push("https://huddle01.com/docs/sdk/usecase")}

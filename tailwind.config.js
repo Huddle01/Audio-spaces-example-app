@@ -22,6 +22,7 @@ module.exports = {
         },
         rgbColors: {
           1: "rgba(24, 24, 27, 0.8)",
+          2: "rgba(71, 85, 105, 0.2)",
         },
       },
     },

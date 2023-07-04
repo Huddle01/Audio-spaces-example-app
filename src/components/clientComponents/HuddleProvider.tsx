@@ -40,7 +40,7 @@ const HuddleProvider: React.FC<ToasterProps> = ({ children }) => {
           error: {
             style: {
               border: "1px solid #F87171",
-              background: "transparent",
+              background: "black",
               color: "#F87171",
             },
           },

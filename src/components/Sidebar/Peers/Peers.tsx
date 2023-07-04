@@ -40,7 +40,7 @@ const Peers: React.FC<PeersProps> = () => {
         />
       </PeerList>
 
-      <PeerList title="Speakers">
+      <PeerList title="Speakers" count={1}>
         <PeerMetaData
           className="mt-5"
           name="name"
@@ -49,11 +49,11 @@ const Peers: React.FC<PeersProps> = () => {
         />
       </PeerList>
 
-      <PeerList title="Listeners">
+      <PeerList title="Listeners" count={20}>
         {Array.from({ length: 20 }).map((_, i) => (
           <PeerMetaData
             key={i}
-            className="mt-5"
+            className="mt-3.5"
             name="name"
             src="/images/Default.png"
             role="listeners"

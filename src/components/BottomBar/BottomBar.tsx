@@ -1,16 +1,27 @@
 "use client";
 
 import React from "react";
-
-// Store
 import useStore from "@/store/slices";
 import { BasicIcons, NestedBasicIcons } from "@/assets/BasicIcons";
 import { useRouter } from "next/navigation";
+import { Audio } from "@huddle01/react/components";
+import { useAudio } from "@huddle01/react/hooks";
+import { useMeetingMachine } from "@huddle01/react/hooks";
+import { useEventListener } from "@huddle01/react";
 
 type BottomBarProps = {};
 
 const BottomBar: React.FC<BottomBarProps> = () => {
   const { push } = useRouter();
+  const { state } = useMeetingMachine();
+  const {
+    fetchAudioStream,
+    produceAudio,
+    isProducing: isAudioProducing,
+    stopAudioStream,
+    stopProducingAudio,
+    stream: micStream,
+  } = useAudio();
 
   const sidebarView = useStore((state) => state.sidebar.sidebarView);
 
@@ -30,7 +41,15 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       </button>
 
       <div className="mx-auto flex items-center gap-4">
-        <button>{NestedBasicIcons.active.mic}</button>
+        {state.matches("Initialized.JoinedLobby.Mic.Muted") ? (
+          <button onClick={() => {
+            produceAudio(micStream);
+          }}>{NestedBasicIcons.active.mic}</button>
+        ) : (
+          <button onClick={() => {
+            stopAudioStream();
+          }}>{NestedBasicIcons.inactive.mic}</button>
+        )}
         <button>{BasicIcons.avatar}</button>
         <button
           type="button"

@@ -1,13 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FeatCommon from "../components/common/FeatCommon";
+import { useHuddle01 } from "@huddle01/react";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState<string>("");
   const router = useRouter();
+  const { initialize } = useHuddle01();
 
   const createRoom = async () => {
     const res = await fetch("https://api.huddle01.com/api/v1/create-room", {
@@ -101,7 +103,7 @@ export default function Home() {
             className="flex items-center justify-center bg-[#246BFD] text-slate-100 rounded-md p-2 mt-2 w-full"
             onClick={async () => {
               const roomId = await createRoom();
-              router.push(`/${roomId}`);
+              window.location.href = `/${roomId}`;
             }}
           >
             Start Spaces

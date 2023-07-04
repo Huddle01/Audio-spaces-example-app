@@ -1,23 +1,31 @@
-import React from "react";
+import { Peer } from "@/utils/types";
 import GridCard from "./GridCard/GridCard";
+import { usePeers } from "@huddle01/react/hooks";
 
-type GridLayoutProps = {};
+type GridLayoutProps = {
+  mePeer: Peer;
+};
 
-const GridLayout: React.FC<GridLayoutProps> = () => {
+const GridLayout: React.FC<GridLayoutProps> = ({mePeer}) => {
+  const { peers } = usePeers();
+
   return (
     <div className="w-full h-full ml-10 flex items-center justify-center flex-col py-20">
       <div className="flex-wrap flex items-center justify-center gap-4 w-full">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <GridCard key={i} />
-        ))}
+        {Object.values(peers).length == 0 && (
+          <GridCard key={1} peer={mePeer}/>
+        )}
+      {Object.values(peers).filter((peer) => peer.role == 'host').map((peer) => (
+            <GridCard key={peer.peerId} peer={peer}/>
+          ))}
       </div>
       <div className="mt-10">
         <div className="text-custom-6 text-base font-normal text-center mb-5">
           Listeners - count
         </div>
         <div className="flex-wrap flex items-center justify-center gap-4 w-full">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <GridCard key={i} />
+        {Object.values(peers).filter((peer) => peer.role == 'peer').map((peer) => (
+            <GridCard key={peer.peerId} peer={peer}/>
           ))}
         </div>
       </div>

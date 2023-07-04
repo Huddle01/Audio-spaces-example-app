@@ -3,6 +3,10 @@ import Dropdown from "@/components/common/Dropdown";
 import { cn } from "@/utils/helpers";
 import Image from "next/image";
 import React from "react";
+import HostData from "./PeerRole/HostData";
+import CoHostData from "./PeerRole/CoHostData";
+import SpeakerData from "./PeerRole/SpeakerData";
+import ListenersData from "./PeerRole/ListenersData";
 
 interface PeerMetaDatProps {
   role: "host" | "co-host" | "speaker" | "listeners";
@@ -22,10 +26,10 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
   role,
 }) => {
   const RoleData = {
-    host: <div>Host</div>,
-    "co-host": <div>Co-Host</div>,
-    speaker: <div>Speaker</div>,
-    listeners: <div>Listeners</div>,
+    host: <HostData />,
+    "co-host": <CoHostData />,
+    speaker: <SpeakerData />,
+    listeners: <ListenersData />,
   } as const;
 
   return (

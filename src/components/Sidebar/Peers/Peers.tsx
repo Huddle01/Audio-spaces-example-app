@@ -4,6 +4,7 @@ import React from "react";
 import { BasicIcons } from "@/assets/BasicIcons";
 import { toast } from "react-hot-toast";
 import CustomInput from "@/components/common/CustomInput";
+import PeerList from "./PeerList";
 
 type PeersProps = {};
 
@@ -19,6 +20,10 @@ const Peers: React.FC<PeersProps> = () => {
         value=""
         className="mt-3"
       />
+
+      <PeerList className="mt-5" title="Host">
+        <PeerMetaData />
+      </PeerList>
     </div>
   );
 };
@@ -38,3 +43,5 @@ const MuteMicDiv: React.FC<Props> = ({ onClick }) => (
     <span className="text-custom-6 text-sm font-semibold">Mute Everyone</span>
   </button>
 );
+
+const PeerMetaData = () => <div>Data</div>;

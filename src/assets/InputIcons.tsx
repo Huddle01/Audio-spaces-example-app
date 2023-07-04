@@ -1,8 +1,8 @@
-interface IInputIcons {
+export interface ISvgIcons {
   [key: string]: JSX.Element;
 }
 
-export const InputIcons: IInputIcons = {
+export const InputIcons: ISvgIcons = {
   search: (
     <svg
       width="16"

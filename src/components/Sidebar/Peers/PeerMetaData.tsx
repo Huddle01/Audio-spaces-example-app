@@ -1,4 +1,4 @@
-import { NestedPeerListIcons } from "@/assets/PeerListIcons";
+import { NestedPeerListIcons, PeerListIcons } from "@/assets/PeerListIcons";
 import Dropdown from "@/components/common/Dropdown";
 import { cn } from "@/utils/helpers";
 import Image from "next/image";
@@ -9,12 +9,15 @@ import SpeakerData from "./PeerRole/SpeakerData";
 import ListenersData from "./PeerRole/ListenersData";
 
 interface PeerMetaDatProps {
+  isRequested?: boolean;
   role: "host" | "co-host" | "speaker" | "listeners";
   className?: string;
   isHandRaised?: boolean;
   isMicActive?: boolean;
   name: string;
   src: string;
+  onAccept?: () => void;
+  onDeny?: () => void;
 }
 
 const PeerMetaData: React.FC<PeerMetaDatProps> = ({
@@ -23,7 +26,10 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
   isMicActive,
   name,
   src,
+  isRequested,
   role,
+  onAccept,
+  onDeny,
 }) => {
   const RoleData = {
     host: <HostData />,
@@ -46,19 +52,39 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
         />
         <div className="text-slate-400 tex-sm font-normal">{name}</div>
       </div>
-      <div className="flex items-center gap-3">
-        <div>{NestedPeerListIcons.inactive.hand}</div>
-        <div>{NestedPeerListIcons.inactive.mic}</div>
+      {isRequested ? (
+        <AcceptDenyGroup onDeny={onDeny} onAccept={onAccept} />
+      ) : (
+        <div className="flex items-center gap-3">
+          <div>{NestedPeerListIcons.inactive.hand}</div>
+          <div>{NestedPeerListIcons.inactive.mic}</div>
 
-        <Dropdown
-          triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}
-          align="end"
-        >
-          {RoleData[role]}
-        </Dropdown>
-      </div>
+          <Dropdown
+            triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}
+            align="end"
+          >
+            {RoleData[role]}
+          </Dropdown>
+        </div>
+      )}
     </div>
   );
 };
 
 export default React.memo(PeerMetaData);
+
+interface IAcceptDenyProps {
+  onAccept?: () => void;
+  onDeny?: () => void;
+}
+
+const AcceptDenyGroup: React.FC<IAcceptDenyProps> = ({ onAccept, onDeny }) => (
+  <div className="flex items-center gap-4">
+    <div role="presentation" onClick={onAccept}>
+      {PeerListIcons.accept}
+    </div>
+    <div role="presentation" onClick={onDeny}>
+      {PeerListIcons.deny}
+    </div>
+  </div>
+);

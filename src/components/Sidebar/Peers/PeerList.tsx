@@ -19,7 +19,7 @@ const PeerList: React.FC<PeerListProps> = ({
   title,
   count,
 }) => {
-  const TitleArr = ["Speakers", "Listeners"];
+  const TitleArr = ["Speakers", "Listeners", "Requested to Speak"];
 
   return (
     <div className={cn(className)}>

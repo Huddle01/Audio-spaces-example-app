@@ -10,6 +10,7 @@ import PeerMetaData from "./PeerMetaData";
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
+  const isRequested = false;
   return (
     <div>
       <MuteMicDiv onClick={() => toast.error("todo")} />
@@ -21,6 +22,23 @@ const Peers: React.FC<PeersProps> = () => {
         value=""
         className="mt-3"
       />
+
+      {isRequested && (
+        <PeerList className="mt-5" title="Requested to Speak">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <PeerMetaData
+              key={i}
+              isRequested
+              className="mt-5"
+              name="name"
+              src="/images/Default.png"
+              role="host"
+              onAccept={() => ""}
+              onDeny={() => ""}
+            />
+          ))}
+        </PeerList>
+      )}
 
       <PeerList className="mt-5" title="Host">
         <PeerMetaData

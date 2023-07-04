@@ -5,6 +5,7 @@ import { BasicIcons } from "@/assets/BasicIcons";
 import { toast } from "react-hot-toast";
 import CustomInput from "@/components/common/CustomInput";
 import PeerList from "./PeerList";
+import PeerMetaData from "./PeerMetaData";
 
 type PeersProps = {};
 
@@ -22,7 +23,7 @@ const Peers: React.FC<PeersProps> = () => {
       />
 
       <PeerList className="mt-5" title="Host">
-        <PeerMetaData />
+        <PeerMetaData className="mt-5" name="name" src="/images/Default.png" />
       </PeerList>
     </div>
   );
@@ -43,5 +44,3 @@ const MuteMicDiv: React.FC<Props> = ({ onClick }) => (
     <span className="text-custom-6 text-sm font-semibold">Mute Everyone</span>
   </button>
 );
-
-const PeerMetaData = () => <div>Data</div>;

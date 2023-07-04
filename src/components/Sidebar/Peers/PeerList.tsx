@@ -4,7 +4,7 @@ import React from "react";
 import { cn } from "@/utils/helpers";
 
 // Assets
-import PeerListIcons from "@/assets/PeerListIcons";
+import { PeerListIcons } from "@/assets/PeerListIcons";
 
 type PeerListProps = {
   className?: string;

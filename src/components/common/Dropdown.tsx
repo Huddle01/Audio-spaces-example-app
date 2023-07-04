@@ -4,7 +4,7 @@ import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 type DropdownProps = {
-  open: boolean;
+  open?: boolean;
   onOpenChange?(open: boolean): void;
   triggerChild: JSX.Element;
   children: React.ReactNode;

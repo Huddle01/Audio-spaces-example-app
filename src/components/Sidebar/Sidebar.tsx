@@ -4,6 +4,7 @@ import React from "react";
 import useStore from "@/store/slices";
 import { cn } from "@/utils/helpers";
 import Header from "./Header/Header";
+import ViewComponent from "./ViewController";
 
 type SidebarProps = {};
 
@@ -17,11 +18,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
   return (
     <aside
       className={cn(
-        "w-[28rem] bg-custom-3 h-[40rem] mr-1 rounded-md  transition-all duration-300 ease-out",
+        "w-[28rem] bg-custom-3 h-[40rem] mr-1 rounded-md  transition-all duration-300 ease-out flex-col",
         isSidebarOpen ? "flex" : "hidden"
       )}
     >
       <Header />
+
+      <div className="px-6 pt-4 overflow-y-auto">
+        {ViewComponent[sidebarView].component}
+      </div>
     </aside>
   );
 };

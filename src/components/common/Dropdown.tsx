@@ -4,6 +4,7 @@ import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 type DropdownProps = {
+  align?: "center" | "start" | "end";
   open?: boolean;
   onOpenChange?(open: boolean): void;
   triggerChild: JSX.Element;
@@ -15,6 +16,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   triggerChild,
   onOpenChange,
   open,
+  align,
 }) => {
   return (
     <DropdownMenu.Root open={open} onOpenChange={onOpenChange}>
@@ -24,7 +26,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       <DropdownMenu.Content
         sideOffset={5}
-        className="relative bg-custom-3 border border-custom-4 rounded-xl p-3"
+        align={align}
+        className="relative bg-custom-3 border border-custom-4 rounded-xl p-3 z-10"
       >
         {children}
       </DropdownMenu.Content>

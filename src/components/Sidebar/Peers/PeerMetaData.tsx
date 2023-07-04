@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 
 interface PeerMetaDatProps {
+  role: "host" | "co-host" | "speaker" | "listeners";
   className?: string;
   isHandRaised?: boolean;
   isMicActive?: boolean;
@@ -18,29 +19,42 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
   isMicActive,
   name,
   src,
-}) => (
-  <div className={cn(className, "flex items-center justify-between w-full")}>
-    <div className="flex items-center gap-2">
-      <Image
-        src={src}
-        alt="default"
-        width={30}
-        height={30}
-        priority
-        quality={100}
-        className="object-contain"
-      />
-      <div className="text-slate-400 tex-sm font-normal">{name}</div>
-    </div>
-    <div className="flex items-center gap-3">
-      <div>{NestedPeerListIcons.inactive.hand}</div>
-      <div>{NestedPeerListIcons.inactive.mic}</div>
+  role,
+}) => {
+  const RoleData = {
+    host: <div>Host</div>,
+    "co-host": <div>Co-Host</div>,
+    speaker: <div>Speaker</div>,
+    listeners: <div>Listeners</div>,
+  } as const;
 
-      <Dropdown triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}>
-        hello
-      </Dropdown>
+  return (
+    <div className={cn(className, "flex items-center justify-between w-full")}>
+      <div className="flex items-center gap-2">
+        <Image
+          src={src}
+          alt="default"
+          width={30}
+          height={30}
+          priority
+          quality={100}
+          className="object-contain"
+        />
+        <div className="text-slate-400 tex-sm font-normal">{name}</div>
+      </div>
+      <div className="flex items-center gap-3">
+        <div>{NestedPeerListIcons.inactive.hand}</div>
+        <div>{NestedPeerListIcons.inactive.mic}</div>
+
+        <Dropdown
+          triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}
+          align="end"
+        >
+          {RoleData[role]}
+        </Dropdown>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default React.memo(PeerMetaData);

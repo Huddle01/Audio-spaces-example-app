@@ -23,7 +23,42 @@ const Peers: React.FC<PeersProps> = () => {
       />
 
       <PeerList className="mt-5" title="Host">
-        <PeerMetaData className="mt-5" name="name" src="/images/Default.png" />
+        <PeerMetaData
+          className="mt-5"
+          name="name"
+          src="/images/Default.png"
+          role="host"
+        />
+      </PeerList>
+
+      <PeerList title="Co-Hosts">
+        <PeerMetaData
+          className="mt-5"
+          name="name"
+          src="/images/Default.png"
+          role="co-host"
+        />
+      </PeerList>
+
+      <PeerList title="Speakers">
+        <PeerMetaData
+          className="mt-5"
+          name="name"
+          src="/images/Default.png"
+          role="speaker"
+        />
+      </PeerList>
+
+      <PeerList title="Listeners">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <PeerMetaData
+            key={i}
+            className="mt-5"
+            name="name"
+            src="/images/Default.png"
+            role="listeners"
+          />
+        ))}
       </PeerList>
     </div>
   );

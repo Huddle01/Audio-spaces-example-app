@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
     >
       <Header />
 
-      <div className="px-6 pt-4 overflow-y-auto">
+      <div className="px-6 py-4 overflow-y-auto noScrollbar">
         {ViewComponent[sidebarView].component}
       </div>
     </aside>

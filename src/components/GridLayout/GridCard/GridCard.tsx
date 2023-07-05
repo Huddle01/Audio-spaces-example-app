@@ -3,12 +3,18 @@ import Image from "next/image";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
+import { Audio } from "@huddle01/react/components";
+import { Peer } from "@/utils/types";
 
-type GridCardProps = {};
 
-const GridCard: React.FC<GridCardProps> = () => {
+type GridCardProps = {
+  peer: Peer;
+};
+
+const GridCard: React.FC<GridCardProps> = ({ peer }) => {
   return (
     <div className="relative flex items-center justify-center flex-col">
+      <Audio peerId={peer?.peerId} track={peer?.mic} />
       <Image
         src="/images/user-avatar.png"
         alt="default-avatar"
@@ -18,8 +24,8 @@ const GridCard: React.FC<GridCardProps> = () => {
         priority
       />
       <div className="mt-1 text-center">
-        <div className="text-custom-5 text-xl font-medium">name</div>
-        <div className="text-custom-6 text-base font-normal">Host</div>
+        <div className="text-custom-5 text-xl font-medium">{peer?.displayName}</div>
+        <div className="text-custom-6 text-base font-normal">{peer?.role}</div>
       </div>
 
       <div className="absolute right-0">{BasicIcons.audio}</div>

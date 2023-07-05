@@ -3,11 +3,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import FeatCommon from "../components/common/FeatCommon";
+import AvatarWrapper from "@/components/common/AvatarWrapper";
+import { useAvatarStore } from "@/store/slices/avatar";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState<string>("");
   const router = useRouter();
+  const { setAvatarUrl, avatarUrl } = useAvatarStore();
 
   const createRoom = async () => {
     const res = await fetch("https://api.huddle01.com/api/v1/create-room", {
@@ -30,7 +33,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center gap-4 w-[26.25rem]">
         <div className="relative text-center flex items-center justify-center w-fit mx-auto">
           <Image
-            src="/images/avatar.png"
+            src={avatarUrl}
             alt="audio-spaces-img"
             width={125}
             height={125}
@@ -39,7 +42,7 @@ export default function Home() {
             priority
           />
           <video
-            src="/images/avatar.png"
+            src={avatarUrl}
             muted
             className="maskAvatar absolute left-1/2 top-1/2 z-10 h-full w-full -translate-x-1/2 -translate-y-1/2"
             autoPlay
@@ -75,10 +78,34 @@ export default function Home() {
             onClose={() => setIsOpen(false)}
             className={
               isOpen
-                ? "absolute top-1/2 -translate-y-1/2 block"
+                ? "absolute top-4 block"
                 : "absolute top-1/2 -translate-y-1/2 hidden"
             }
           >
+            <div className="relative mt-5">
+              <div className="grid-cols-3 pb-14 grid h-full w-full  place-items-center  gap-6  px-6">
+                {Array.from({ length: 20 }).map((_, i) => {
+                  const url = `/avatars/avatars/${i}.png`;
+
+                  return (
+                    <AvatarWrapper
+                      key={`sidebar-avatars-${i}`}
+                      isActive={avatarUrl === url}
+                      onClick={() => setAvatarUrl(url)}
+                    >
+                      <Image
+                        src={url}
+                        alt={`avatar-${i}`}
+                        width={45}
+                        height={45}
+                        loading="lazy"
+                        className="maskAvatar object-contain"
+                      />
+                    </AvatarWrapper>
+                  );
+                })}
+              </div>
+            </div>
           </FeatCommon>
         </div>
         <div className="flex items-center w-full">

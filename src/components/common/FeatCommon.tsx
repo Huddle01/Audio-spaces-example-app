@@ -47,7 +47,7 @@ const FeatCommon = ({ onClose, children, className }: Props) => {
       <div
         className={`scrollBoxDark gap-1 overflow-y-auto px-6 ${
           "h-80"
-        }`}
+        } `}
       >
         {children}
       </div>

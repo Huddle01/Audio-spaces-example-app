@@ -10,7 +10,7 @@ const GridCard: React.FC<GridCardProps> = () => {
   return (
     <div className="relative flex items-center justify-center flex-col">
       <Image
-        src="/images/default.png"
+        src="/images/user-avatar.png"
         alt="default-avatar"
         width={100}
         height={100}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Components
 import BottomBar from "@/components/BottomBar/BottomBar";
@@ -15,6 +15,7 @@ import {
   usePeers,
   useMeetingMachine,
 } from "@huddle01/react/hooks";
+import { Peer } from "@/utils/types";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
   const { initialize } = useHuddle01();
@@ -22,15 +23,14 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   const { joinRoom } = useRoom();
   const { state } = useMeetingMachine();
 
-  const {fetchAudioStream, produceAudio, stream: micStream} = useAudio();
-  
+  const { fetchAudioStream, produceAudio, stream: micStream } = useAudio();
 
   useEffect(() => {
-    initialize("L-UtmOW84pscUfMWmRGCk2-dwngKPaoK");
+    initialize("TxG-OolMwGeCoZPzX660e65wwuU2MP83");
   }, []);
 
   useEffect(() => {
-    if(state.matches("Initialized")) {
+    if (state.matches("Initialized")) {
       joinLobby(params.roomId);
     }
   }, [state]);
@@ -41,11 +41,11 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
 
   useEventListener("lobby:mic-on", () => {
     joinRoom();
-  })
+  });
 
   useEventListener("room:joined", () => {
     produceAudio(micStream);
-  })
+  });
 
   return (
     <section className="bg-audio flex h-screen items-center justify-center w-full relative  text-slate-100">

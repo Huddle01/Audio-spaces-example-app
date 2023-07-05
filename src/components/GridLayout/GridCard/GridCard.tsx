@@ -14,7 +14,7 @@ type GridCardProps = {
 const GridCard: React.FC<GridCardProps> = ({ peer }) => {
   return (
     <div className="relative flex items-center justify-center flex-col">
-      <Audio peerId={peer?.peerId} track={peer?.mic} />
+      {peer.mic && <Audio peerId={peer?.peerId} track={peer?.mic} />}
       <Image
         src="/images/user-avatar.png"
         alt="default-avatar"

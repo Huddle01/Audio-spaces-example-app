@@ -10,7 +10,7 @@ enum IRoleEnum {
 export type Peer = {
   peerId: string;
   role: IRoleEnum;
-  mic: MediaStreamTrack;
-  cam: MediaStreamTrack;
+  mic?: MediaStreamTrack;
+  cam?: MediaStreamTrack;
   displayName: string;
 };

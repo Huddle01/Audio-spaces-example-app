@@ -31,7 +31,7 @@ const Peers: React.FC<PeersProps> = () => {
               isRequested
               className="mt-5"
               name="name"
-              src="/images/Default.png"
+              src="/images/user-avatar.png"
               role="host"
               onAccept={() => ""}
               onDeny={() => ""}
@@ -44,7 +44,7 @@ const Peers: React.FC<PeersProps> = () => {
         <PeerMetaData
           className="mt-5"
           name="name"
-          src="/images/Default.png"
+          src="/images/user-avatar.png"
           role="host"
         />
       </PeerList>
@@ -53,7 +53,7 @@ const Peers: React.FC<PeersProps> = () => {
         <PeerMetaData
           className="mt-5"
           name="name"
-          src="/images/Default.png"
+          src="/images/user-avatar.png"
           role="co-host"
         />
       </PeerList>
@@ -62,7 +62,7 @@ const Peers: React.FC<PeersProps> = () => {
         <PeerMetaData
           className="mt-5"
           name="name"
-          src="/images/Default.png"
+          src="/images/user-avatar.png"
           role="speaker"
         />
       </PeerList>
@@ -73,7 +73,7 @@ const Peers: React.FC<PeersProps> = () => {
             key={i}
             className="mt-3.5"
             name="name"
-            src="/images/Default.png"
+            src="/images/user-avatar.png"
             role="listeners"
           />
         ))}

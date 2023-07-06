@@ -9,8 +9,10 @@ export interface ISidebarState {
     sidebarView: TSidebarView;
   };
   promptView: TPromptView;
+  avatarUrl: string;
   setPromptView: (val: TPromptView) => void;
   setSidebarView: (val: TSidebarView) => void;
+  setAvatarUrl: (va: string) => void;
 }
 
 const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
@@ -18,7 +20,7 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
     isSidebarOpen: false,
     sidebarView: "close",
   },
-
+  avatarUrl: "/avatars/avatars/0.png",
   promptView: "close",
 
   setSidebarView(sidebarView: TSidebarView) {
@@ -52,6 +54,12 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
 
     set(() => ({
       promptView: val,
+    }));
+  },
+
+  setAvatarUrl: (val: string) => {
+    set(() => ({
+      avatarUrl: val,
     }));
   },
 });

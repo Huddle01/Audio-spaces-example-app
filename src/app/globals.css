@@ -5,3 +5,15 @@
 .noScrollbar::-webkit-scrollbar {
   width: 0px;
 }
+
+.maskAvatar {
+  -webkit-mask-image: url("/images/Mask.svg");
+  mask-image: url("/images/Mask.svg");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  aspect-ratio: 1/1;
+}

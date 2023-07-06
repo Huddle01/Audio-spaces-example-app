@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import useStore from "@/store/slices";
 
 // Assets
@@ -62,7 +62,23 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
       {/* Bottom Bar Center */}
       <div className="mx-auto flex items-center gap-4">
-        <button>{NestedBasicIcons.active.mic}</button>
+        {state.matches("Initialized.JoinedLobby.Mic.Muted") ? (
+          <button
+            onClick={() => {
+              produceAudio(micStream);
+            }}
+          >
+            {NestedBasicIcons.active.mic}
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              stopAudioStream();
+            }}
+          >
+            {NestedBasicIcons.inactive.mic}
+          </button>
+        )}
         <Dropdown
           triggerChild={BasicIcons.avatar}
           open={isOpen}
@@ -73,16 +89,6 @@ const BottomBar: React.FC<BottomBarProps> = () => {
             onClose={() => setIsOpen(false)}
           />
         </Dropdown>
-        {state.matches("Initialized.JoinedLobby.Mic.Muted") ? (
-          <button onClick={() => {
-            produceAudio(micStream);
-          }}>{NestedBasicIcons.active.mic}</button>
-        ) : (
-          <button onClick={() => {
-            stopAudioStream();
-          }}>{NestedBasicIcons.inactive.mic}</button>
-        )}
-        <button>{BasicIcons.avatar}</button>
         <button
           type="button"
           onClick={() => push("https://huddle01.com/docs/sdk/usecase")}

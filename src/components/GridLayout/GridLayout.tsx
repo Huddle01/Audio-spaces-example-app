@@ -16,11 +16,19 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
             peer={Object.values(peers)[0]!}
           />
         )} */}
-        {Object.values(peers)
+        {/* {Object.values(peers)
           .filter((peer) => peer.role == "host")
           .map((peer) => (
             <GridCard key={peer.peerId} peer={peer} />
-          ))}
+          ))} */}
+
+        {/* Todo: Need To Remove when ACL is merged */}
+        <GridCard
+          peer={{
+            displayName: "harsh",
+            peerId: "123",
+          }}
+        />
       </div>
       <div className="mt-10">
         <div className="text-custom-6 text-base font-normal text-center mb-5">

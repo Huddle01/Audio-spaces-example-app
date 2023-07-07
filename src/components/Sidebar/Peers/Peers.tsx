@@ -6,10 +6,13 @@ import { toast } from "react-hot-toast";
 import CustomInput from "@/components/common/CustomInput";
 import PeerList from "./PeerList";
 import PeerMetaData from "./PeerMetaData";
+import { usePeers } from "@huddle01/react/hooks";
 
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
+  const { peers } = usePeers();
+
   const isRequested = false;
   return (
     <div>
@@ -68,11 +71,11 @@ const Peers: React.FC<PeersProps> = () => {
       </PeerList>
 
       <PeerList title="Listeners" count={20}>
-        {Array.from({ length: 20 }).map((_, i) => (
+        {Object.values(peers).map((peer) => (
           <PeerMetaData
-            key={i}
+            key={peer.peerId}
             className="mt-3.5"
-            name="name"
+            name={peer.displayName}
             src="/images/user-avatar.png"
             role="listeners"
           />

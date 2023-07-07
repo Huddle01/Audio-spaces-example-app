@@ -3,9 +3,9 @@ import Image from "next/image";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
-import { Audio } from "@huddle01/react/components";
 import { Peer } from "@/utils/types";
 import useStore from "@/store/slices";
+import Audio from "@/components/clientComponents/Audio";
 
 type GridCardProps = {
   peer: Peer;
@@ -16,7 +16,7 @@ const GridCard: React.FC<GridCardProps> = ({ peer }) => {
 
   return (
     <div className="relative flex items-center justify-center flex-col">
-      {peer.mic && <Audio peerId={peer?.peerId} track={peer?.mic} />}
+      {peer.mic && <Audio track={peer?.mic} />}
       <Image
         src={avatarUrl}
         alt="default-avatar"

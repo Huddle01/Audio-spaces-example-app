@@ -10,9 +10,7 @@ import Dropdown from "../common/Dropdown";
 import EmojiTray from "../EmojiTray/EmojiTray";
 import { useRouter } from "next/navigation";
 import { Audio } from "@huddle01/react/components";
-import { useAudio } from "@huddle01/react/hooks";
-import { useMeetingMachine } from "@huddle01/react/hooks";
-import { useEventListener } from "@huddle01/react";
+import { useAudio, useEventListener } from "@huddle01/react/hooks";
 
 type BottomBarProps = {};
 
@@ -20,7 +18,6 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { push } = useRouter();
-  const { state } = useMeetingMachine();
   const {
     fetchAudioStream,
     produceAudio,
@@ -35,6 +32,16 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   const setSidebarView = useStore((state) => state.setSidebarView);
 
   const setPromptView = useStore((state) => state.setPromptView);
+
+  const [isMicOn, setIsMicOn] = useState<boolean>(false);
+
+  useEventListener("app:mic-on", () => {
+    setIsMicOn(true);
+  })
+
+  useEventListener("app:mic-off", () => {
+    setIsMicOn(false);
+  });
 
   // Todo: Will come from Acl Events
   const isHost = false;
@@ -61,14 +68,14 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       )}
 
       {/* Bottom Bar Center */}
-      <div className="mx-auto flex items-center gap-4">
-        {state.matches("Initialized.JoinedLobby.Mic.Muted") ? (
+      <div className="flex items-center gap-4">
+        {isMicOn && micStream ? (
           <button
             onClick={() => {
               produceAudio(micStream);
             }}
           >
-            {NestedBasicIcons.active.mic}
+            {NestedBasicIcons.inactive.mic}
           </button>
         ) : (
           <button
@@ -76,7 +83,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
               stopAudioStream();
             }}
           >
-            {NestedBasicIcons.inactive.mic}
+            {NestedBasicIcons.active.mic}
           </button>
         )}
         <Dropdown

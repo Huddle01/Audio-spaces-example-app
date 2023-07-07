@@ -1,11 +1,17 @@
-import { Peer } from "@/utils/types";
 import GridCard from "./GridCard/GridCard";
-import { usePeers } from "@huddle01/react/hooks";
+import { usePeers, useHuddle01 } from "@huddle01/react/hooks";
+import { useEffect } from "react";
 
 type GridLayoutProps = {};
 
 const GridLayout: React.FC<GridLayoutProps> = () => {
   const { peers } = usePeers();
+  const { me } = useHuddle01();
+
+  useEffect(() => {
+    console.log("peers", peers);
+    console.log("me", me);
+  }, [peers]);
 
   return (
     <div className="w-full h-full ml-10 flex items-center justify-center flex-col py-20">
@@ -25,8 +31,8 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
         {/* Todo: Need To Remove when ACL is merged */}
         <GridCard
           peer={{
-            displayName: "harsh",
-            peerId: "123",
+            displayName: me.displayName,
+            peerId: me.meId,
           }}
         />
       </div>
@@ -36,7 +42,6 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
         </div>
         <div className="flex-wrap flex items-center justify-center gap-4 w-full">
           {Object.values(peers)
-            .filter((peer) => peer.role == "peer")
             .map((peer) => (
               <GridCard key={peer.peerId} peer={peer} />
             ))}

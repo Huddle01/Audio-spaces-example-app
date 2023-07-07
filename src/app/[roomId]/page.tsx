@@ -7,48 +7,51 @@ import BottomBar from "@/components/BottomBar/BottomBar";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import GridLayout from "@/components/GridLayout/GridLayout";
 import Prompts from "@/components/common/Prompts";
-import { useEventListener, useHuddle01 } from "@huddle01/react";
+import { useDisplayName } from "@huddle01/react/app-utils";
 import {
   useLobby,
   useRoom,
   useAudio,
   usePeers,
-  useMeetingMachine,
+  useEventListener,
+  useHuddle01,
 } from "@huddle01/react/hooks";
 import { Peer } from "@/utils/types";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
-  const { initialize } = useHuddle01();
-  const { joinLobby } = useLobby();
+  const { initialize, isInitialized } = useHuddle01();
+  const { joinLobby, isLobbyJoined } = useLobby();
   const { joinRoom } = useRoom();
-  const { state } = useMeetingMachine();
+  const { setDisplayName } = useDisplayName();
 
   const { fetchAudioStream, produceAudio, stream: micStream } = useAudio();
 
   useEffect(() => {
-    initialize("TxG-OolMwGeCoZPzX660e65wwuU2MP83");
-  }, []);
+    if (!isInitialized) {
+      initialize("TxG-OolMwGeCoZPzX660e65wwuU2MP83");
+    }
+  }, [isInitialized]);
 
   useEffect(() => {
-    if (state.matches("Initialized")) {
+    if (!isLobbyJoined) {
       joinLobby(params.roomId);
     }
-  }, [state]);
+  }, [isLobbyJoined]);
 
-  useEventListener("lobby:joined", () => {
-    fetchAudioStream();
-  });
-
-  useEventListener("lobby:mic-on", () => {
-    joinRoom();
-  });
+  useEffect(() => {
+    if (micStream) {
+      joinRoom(); 
+    }
+  }, [micStream]);
 
   useEventListener("room:joined", () => {
-    produceAudio(micStream);
+    if (micStream) {
+      produceAudio(micStream);
+    }
   });
 
   return (
-    <section className="bg-audio flex h-screen items-center justify-center w-full relative  text-slate-100">
+    <section className="bg-audio flex h-screen items-center justify-center w-full relative text-slate-100">
       <div className="flex items-center justify-center w-full">
         <GridLayout />
         <Sidebar />

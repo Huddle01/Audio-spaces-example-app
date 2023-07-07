@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Store
 import useStore from "@/store/slices";
@@ -13,10 +13,17 @@ import { BasicIcons } from "@/assets/BasicIcons";
 import FeatCommon from "../components/common/FeatCommon";
 import AvatarWrapper from "@/components/common/AvatarWrapper";
 import { toast } from "react-hot-toast";
+import { useDisplayName } from "@huddle01/react/app-utils";
+import { useRoom, useLobby, useEventListener, useHuddle01, usePeer, useAcl } from "@huddle01/react/hooks";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [displayName, setDisplayName] = useState<string>("");
+  const [userDisplayName, setUserDisplayName] = useState<string>("");
+  const [roomid, setRoomid] = useState<string>("");
+  const { setDisplayName, displayName, isLoading, error } = useDisplayName();
+  const { joinLobby, isLobbyJoined } = useLobby();
+  const { joinRoom, isRoomJoined } = useRoom();
+  const { initialize, isInitialized, me } = useHuddle01();
 
   const avatarUrl = useStore((state) => state.avatarUrl);
   const setAvatarUrl = useStore((state) => state.setAvatarUrl);
@@ -37,15 +44,37 @@ export default function Home() {
     return roomId;
   };
 
+  useEffect(() => {
+    if (!isInitialized) {
+      initialize("TxG-OolMwGeCoZPzX660e65wwuU2MP83");
+    }
+  }, [isInitialized]);
+
+  useEffect(() => {
+    if(isLobbyJoined) {
+      setDisplayName(userDisplayName)
+    }
+  }, [isLobbyJoined])
+
+  useEffect(() => {
+    if (me.displayName !== "") {
+      window.location.href = `/${roomid}`;
+    }
+  }, [me.displayName]);
+
   // Handlers
   const handleStartSpaces = async () => {
-    if (!displayName.length) {
+    if (!userDisplayName.length) {
       toast.error("Display Name is required!");
       return;
     }
 
-    const roomId = await createRoom();
-    window.location.href = `/${roomId}`;
+    if (roomid === "") {
+      const roomId = await createRoom();
+      window.location.href = `/${roomId}`;
+    } else {
+      await joinLobby(roomid);
+    }
   };
 
   return (
@@ -123,10 +152,24 @@ export default function Home() {
                 />
               </div>
               <input
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
+                value={userDisplayName}
+                onChange={(e) => setUserDisplayName(e.target.value)}
                 type="text"
                 placeholder="Enter your name"
+                className="flex-1 bg-transparent py-3 outline-none"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center w-full">
+          <div className="flex flex-col justify-center w-full gap-1">
+            Enter room id
+            <div className="flex w-full items-center rounded-[10px] border px-3 text-slate-300 outline-none border-zinc-800 backdrop-blur-[400px] focus-within:border-slate-600 gap-">
+              <input
+                value={roomid}
+                onChange={(e) => setRoomid(e.target.value)}
+                type="text"
+                placeholder="Enter room id"
                 className="flex-1 bg-transparent py-3 outline-none"
               />
             </div>

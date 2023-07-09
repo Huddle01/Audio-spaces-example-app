@@ -19,14 +19,12 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   const { fetchAudioStream, produceAudio, stream: micStream } = useAudio();
 
   useEffect(() => {
-    initialize("TxG-OolMwGeCoZPzX660e65wwuU2MP83");
+    initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? "");
   }, []);
 
-  useEffect(() => {
-    if (roomState === "INIT") {
-      joinLobby(params.roomId);
-    }
-  }, [roomState]);
+  useEventListener("app:initialized", () => {
+    joinLobby(params.roomId);
+  });
 
   useEventListener("lobby:joined", () => {
     fetchAudioStream();

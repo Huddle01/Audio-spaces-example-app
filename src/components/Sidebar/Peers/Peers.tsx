@@ -6,22 +6,27 @@ import { toast } from "react-hot-toast";
 import CustomInput from "@/components/common/CustomInput";
 import PeerList from "./PeerList";
 import PeerMetaData from "./PeerMetaData";
+import { useAcl, usePeers } from "@huddle01/react/hooks";
 
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
+  const { changeRoomControls } = useAcl();
+
+  const { peers } = usePeers();
+
   const isRequested = false;
   return (
     <div>
-      <MuteMicDiv onClick={() => toast.error("todo")} />
+      <MuteMicDiv onClick={() => changeRoomControls("muteEveryone", true)} />
 
-      <CustomInput
+      {/* <CustomInput
         placeholder="Search for peers"
         type="search"
         onChange={() => ""}
         value=""
         className="mt-3"
-      />
+      /> */}
 
       {isRequested && (
         <PeerList className="mt-5" title="Requested to Speak">
@@ -41,12 +46,18 @@ const Peers: React.FC<PeersProps> = () => {
       )}
 
       <PeerList className="mt-5" title="Host">
-        <PeerMetaData
-          className="mt-5"
-          name="name"
-          src="/images/user-avatar.png"
-          role="host"
-        />
+        {Object.values(peers).map(({ cam, displayName, mic, peerId, role }) => {
+          console.log({ role });
+          return (
+            <PeerMetaData
+              key={peerId}
+              className="mt-5"
+              name={displayName}
+              src="/images/user-avatar.png"
+              role={role}
+            />
+          );
+        })}
       </PeerList>
 
       <PeerList title="Co-Hosts">

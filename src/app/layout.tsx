@@ -5,7 +5,7 @@ import "./globals.css";
 
 // Components
 import Navbar from "@/components/common/Navbar";
-import HuddleProvider from "@/components/clientComponents/HuddleProvider";
+import HuddleProvider from "@/components/ClientComponents/HuddleProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 

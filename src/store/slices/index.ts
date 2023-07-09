@@ -4,11 +4,13 @@ import { IState } from "../types";
 
 // Slices
 import createHandlerSlice from "./createHandlerSlice";
+import createRoomSlice from "./createRoomSlice";
 
 const useStore = create<IState>()(
   devtools(
     (...a) => ({
       ...createHandlerSlice(...a),
+      ...createRoomSlice(...a),
     }),
     { name: "store" }
   )

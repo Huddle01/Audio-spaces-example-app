@@ -1,27 +1,20 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 
 // Components
 import BottomBar from "@/components/BottomBar/BottomBar";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import GridLayout from "@/components/GridLayout/GridLayout";
 import Prompts from "@/components/common/Prompts";
-import { useEventListener, useHuddle01 } from "@huddle01/react";
-import {
-  useLobby,
-  useRoom,
-  useAudio,
-  usePeers,
-  useMeetingMachine,
-} from "@huddle01/react/hooks";
-import { Peer } from "@/utils/types";
+import { useEventListener, useHuddle01 } from "@huddle01/react/hooks";
+import { useLobby, useRoom, useAudio } from "@huddle01/react/hooks";
+// import { Peer } from "@/utils/types";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
-  const { initialize } = useHuddle01();
+  const { initialize, roomState } = useHuddle01();
   const { joinLobby } = useLobby();
   const { joinRoom } = useRoom();
-  const { state } = useMeetingMachine();
 
   const { fetchAudioStream, produceAudio, stream: micStream } = useAudio();
 
@@ -30,21 +23,22 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   }, []);
 
   useEffect(() => {
-    if (state.matches("Initialized")) {
+    if (roomState === "INIT") {
       joinLobby(params.roomId);
     }
-  }, [state]);
+  }, [roomState]);
 
   useEventListener("lobby:joined", () => {
     fetchAudioStream();
   });
 
-  useEventListener("lobby:mic-on", () => {
+  useEventListener("app:mic-on", () => {
     joinRoom();
   });
 
   useEventListener("room:joined", () => {
-    produceAudio(micStream);
+    if (!micStream) return null;
+    return produceAudio(micStream);
   });
 
   return (

@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-
+import { toast } from "react-hot-toast";
+import { useAcl } from "@huddle01/react/hooks";
 // Store
 import useStore from "@/store/slices";
 
@@ -12,7 +13,6 @@ import { BasicIcons } from "@/assets/BasicIcons";
 // Common Components
 import FeatCommon from "../components/common/FeatCommon";
 import AvatarWrapper from "@/components/common/AvatarWrapper";
-import { toast } from "react-hot-toast";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -109,7 +109,7 @@ export default function Home() {
             </div>
           </FeatCommon>
         </div>
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full flex-col">
           <div className="flex flex-col justify-center w-full gap-1">
             Set a display name
             <div className="flex w-full items-center rounded-[10px] border px-3 text-slate-300 outline-none border-zinc-800 backdrop-blur-[400px] focus-within:border-slate-600 gap-">

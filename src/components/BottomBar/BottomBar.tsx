@@ -9,18 +9,18 @@ import { cn } from "@/utils/helpers";
 import Dropdown from "../common/Dropdown";
 import EmojiTray from "../EmojiTray/EmojiTray";
 import { useRouter } from "next/navigation";
-import { Audio } from "@huddle01/react/components";
-import { useAudio } from "@huddle01/react/hooks";
-import { useMeetingMachine } from "@huddle01/react/hooks";
-import { useEventListener } from "@huddle01/react";
+import { useAudio, useHuddle01 } from "@huddle01/react/hooks";
+import { useEventListener } from "@huddle01/react/hooks";
 
 type BottomBarProps = {};
 
 const BottomBar: React.FC<BottomBarProps> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const { roomState } = useHuddle01();
+
   const { push } = useRouter();
-  const { state } = useMeetingMachine();
+  // const { state } = useMeetingMachine();
   const {
     fetchAudioStream,
     produceAudio,
@@ -62,10 +62,11 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
       {/* Bottom Bar Center */}
       <div className="mx-auto flex items-center gap-4">
-        {state.matches("Initialized.JoinedLobby.Mic.Muted") ? (
+        {roomState === "ROOM" ? (
           <button
             onClick={() => {
-              produceAudio(micStream);
+              if (!micStream) return;
+              return produceAudio(micStream);
             }}
           >
             {NestedBasicIcons.active.mic}

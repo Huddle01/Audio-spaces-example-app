@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
@@ -6,22 +6,32 @@ import { toast } from "react-hot-toast";
 import CustomInput from "@/components/common/CustomInput";
 import PeerList from "./PeerList";
 import PeerMetaData from "./PeerMetaData";
+import { useAcl, usePeers } from "@huddle01/react/hooks";
 
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
+  const { changeRoomControls } = useAcl();
+
+  const { peers } = usePeers();
+
   const isRequested = false;
+
+  useEffect(() => {
+    console.log({ peers });
+  }, [peers]);
+
   return (
     <div>
-      <MuteMicDiv onClick={() => toast.error("todo")} />
+      <MuteMicDiv onClick={() => changeRoomControls("muteEveryone", true)} />
 
-      <CustomInput
+      {/* <CustomInput
         placeholder="Search for peers"
         type="search"
         onChange={() => ""}
         value=""
         className="mt-3"
-      />
+      /> */}
 
       {isRequested && (
         <PeerList className="mt-5" title="Requested to Speak">
@@ -41,14 +51,20 @@ const Peers: React.FC<PeersProps> = () => {
       )}
 
       <PeerList className="mt-5" title="Host">
-        <PeerMetaData
-          className="mt-5"
-          name="name"
-          src="/images/user-avatar.png"
-          role="host"
-        />
+        {Object.values(peers).map(({ cam, displayName, mic, peerId, role }) => {
+          console.log({ role, displayName });
+          return (
+            <PeerMetaData
+              key={peerId}
+              className="mt-5"
+              name={displayName}
+              src="/images/user-avatar.png"
+              role={role}
+            />
+          );
+        })}
       </PeerList>
-
+      {/* 
       <PeerList title="Co-Hosts">
         <PeerMetaData
           className="mt-5"
@@ -56,27 +72,30 @@ const Peers: React.FC<PeersProps> = () => {
           src="/images/user-avatar.png"
           role="co-host"
         />
-      </PeerList>
+      </PeerList> */}
 
-      <PeerList title="Speakers" count={1}>
+      {/* <PeerList title="Speakers" count={1}>
         <PeerMetaData
           className="mt-5"
           name="name"
           src="/images/user-avatar.png"
           role="speaker"
         />
-      </PeerList>
+      </PeerList> */}
 
-      <PeerList title="Listeners" count={20}>
-        {Array.from({ length: 20 }).map((_, i) => (
-          <PeerMetaData
-            key={i}
-            className="mt-3.5"
-            name="name"
-            src="/images/user-avatar.png"
-            role="listeners"
-          />
-        ))}
+      <PeerList title="Listeners" count={Object.keys(peers).length}>
+        {Object.values(peers).map(({ cam, displayName, mic, peerId, role }) => {
+          console.log({ displayName, role });
+          return (
+            <PeerMetaData
+              key={peerId}
+              className="mt-3.5"
+              name={displayName}
+              src="/images/user-avatar.png"
+              role={role}
+            />
+          );
+        })}
       </PeerList>
     </div>
   );

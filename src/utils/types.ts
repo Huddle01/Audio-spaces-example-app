@@ -1,4 +1,4 @@
-enum IRoleEnum {
+export enum IRoleEnum {
   host = "host",
   coHost = "coHost",
   moderator = "moderator",
@@ -7,10 +7,11 @@ enum IRoleEnum {
   peer = "peer",
 }
 
+// ToDo: Add avatar url also
 export type Peer = {
   peerId: string;
-  role?: IRoleEnum;
-  mic?: MediaStreamTrack;
-  cam?: MediaStreamTrack;
+  role: IRoleEnum;
+  mic: MediaStreamTrack | null;
+  cam: MediaStreamTrack | null;
   displayName: string;
 };

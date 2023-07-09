@@ -1,44 +1,62 @@
 import { Peer } from "@/utils/types";
 import GridCard from "./GridCard/GridCard";
-import { usePeers } from "@huddle01/react/hooks";
+import { useHuddle01, usePeers } from "@huddle01/react/hooks";
+import { useEffect } from "react";
 
 type GridLayoutProps = {};
 
 const GridLayout: React.FC<GridLayoutProps> = () => {
+  const Blacklist = ["peer", "listeners"];
+
   const { peers } = usePeers();
+  const { me } = useHuddle01();
+
+  useEffect(() => {
+    console.log({ me });
+  }, [me]);
 
   return (
     <div className="w-full h-full ml-10 flex items-center justify-center flex-col py-20">
       <div className="flex-wrap flex items-center justify-center gap-4 w-full">
-        {/* {Object.values(peers).length == 0 && (
+        {me.role === "host" && !Blacklist.includes(me.role) && (
           <GridCard
-            key={Object.values(peers)[0]?.peerId}
-            peer={Object.values(peers)[0]!}
+            displayName={me.displayName}
+            peerId={me.meId}
+            role={me.role}
           />
-        )} */}
-        {/* {Object.values(peers)
-          .filter((peer) => peer.role == "host")
-          .map((peer) => (
-            <GridCard key={peer.peerId} peer={peer} />
-          ))} */}
-
-        {/* Todo: Need To Remove when ACL is merged */}
-        <GridCard
-          peer={{
-            displayName: "harsh",
-            peerId: "123",
-          }}
-        />
+        )}
+        {Object.values(peers)
+          .filter((peer) => !Blacklist.includes(peer.role))
+          .map(({ cam, displayName, mic, peerId, role }) => (
+            <GridCard
+              key={peerId}
+              displayName={displayName}
+              peerId={peerId}
+              role={role}
+            />
+          ))}
       </div>
       <div className="mt-10">
         <div className="text-custom-6 text-base font-normal text-center mb-5">
-          Listeners - count
+          Listeners - {Object.keys(peers).length}
         </div>
         <div className="flex-wrap flex items-center justify-center gap-4 w-full">
+          {Blacklist.includes(me.role) && (
+            <GridCard
+              displayName={me.displayName}
+              peerId={me.meId}
+              role={me.role}
+            />
+          )}
           {Object.values(peers)
-            .filter((peer) => peer.role == "peer")
-            .map((peer) => (
-              <GridCard key={peer.peerId} peer={peer} />
+            .filter((peer) => Blacklist.includes(peer.role))
+            .map(({ cam, displayName, mic, peerId, role }, i) => (
+              <GridCard
+                key={peerId}
+                displayName={`Guest${i + 1}`}
+                peerId={peerId}
+                role={role}
+              />
             ))}
         </div>
       </div>

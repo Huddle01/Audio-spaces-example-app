@@ -186,7 +186,7 @@ export const NestedPeerListIcons: INestedSvgIcons = {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g clip-path="url(#clip0_1776_24967)">
+        <g clipPath="url(#clip0_1776_24967)">
           <circle cx="9.5" cy="4.50049" r="1.5" fill="#CBD5E1" />
           <circle cx="9.5" cy="9.50049" r="1.5" fill="#CBD5E1" />
           <circle cx="9.5" cy="14.5005" r="1.5" fill="#CBD5E1" />
@@ -249,7 +249,7 @@ export const NestedPeerListIcons: INestedSvgIcons = {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g clip-path="url(#clip0_1776_25073)">
+        <g clipPath="url(#clip0_1776_25073)">
           <circle cx="9.5" cy="4.50049" r="1.5" fill="#64748B" />
           <circle cx="9.5" cy="9.50049" r="1.5" fill="#64748B" />
           <circle cx="9.5" cy="14.5005" r="1.5" fill="#64748B" />

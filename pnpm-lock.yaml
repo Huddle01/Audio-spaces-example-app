@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@huddle01/react':
-    specifier: ^0.0.11
-    version: 0.0.11(@types/react@18.2.13)(mediasoup-client@3.6.87)
+    specifier: 0.0.13-beta.2
+    version: 0.0.13-beta.2
   '@radix-ui/react-dropdown-menu':
     specifier: ^2.0.5
     version: 2.0.5(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
@@ -94,7 +94,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
       espree: 9.5.2
       globals: 13.20.0
       ignore: 5.2.4
@@ -132,38 +132,28 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@huddle01/react@0.0.11(@types/react@18.2.13)(mediasoup-client@3.6.87):
-    resolution: {integrity: sha512-QSMykix0+7UaSZyJUGzJXxvsS8aofgGto9CSD76de3RA89QsYeUfQIM0SPEGTnljOZ6MBo76dXTvEi+lstBoJw==}
+  /@huddle01/react@0.0.13-beta.2:
+    resolution: {integrity: sha512-Ehgi5A1Om23DEY5Sl4du9fld76ON7xjX31FPRI0l8fd7JL/qw0Y+AwZspmgCQxdNyTRfSskp/IKGyLhfG6ZBDw==}
     dependencies:
-      '@huddle01/web-core': 0.0.10(mediasoup-client@3.6.87)
-      '@xstate/inspect': 0.7.1(ws@8.13.0)(xstate@4.37.2)
-      '@xstate/react': 3.2.2(@types/react@18.2.13)(react@18.2.0)(xstate@4.37.2)
+      '@huddle01/web-core': 0.0.15-beta.2
       jotai: 2.2.1(react@18.2.0)
-      jotai-xstate: 0.2.0(jotai@2.2.1)(xstate@4.37.2)
       react: 18.2.0
       ws: 8.13.0
-      xstate: 4.37.2
     transitivePeerDependencies:
-      - '@types/react'
-      - '@types/ws'
-      - '@xstate/fsm'
       - bufferutil
       - debug
-      - mediasoup-client
       - supports-color
       - utf-8-validate
     dev: false
 
-  /@huddle01/web-core@0.0.10(mediasoup-client@3.6.87):
-    resolution: {integrity: sha512-4Q2XyVEtjC2xV5LB4963gQ16xKRPFT/JU9kGYXuRu/B1A4UOEc31VbeG0I8zRUq/1EBvAvBBak67EBYZ9waWyQ==}
-    peerDependencies:
-      mediasoup-client: ^3.6.80
+  /@huddle01/web-core@0.0.15-beta.2:
+    resolution: {integrity: sha512-+mkID0SKt99AWcnVTVXngTnIFh/SBEDXVRqsdlvOr3LmM7WuWWdmV9ZfrK2KahrRbJKDkGmEQrqop+JHltRg0A==}
     dependencies:
       axios: 1.4.0
-      mediasoup-client: 3.6.87
-      nanoid: 3.3.6
-      socket.io-client: 4.6.2
-      xstate: 4.37.2
+      mediasoup-client: 3.6.93
+      nanoid: 3.3.4
+      socket.io-client: 4.7.1
+      zod: 3.21.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -176,7 +166,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -883,7 +873,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.60.0
       '@typescript-eslint/types': 5.60.0
       '@typescript-eslint/typescript-estree': 5.60.0(typescript@5.1.3)
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
       eslint: 8.43.0
       typescript: 5.1.3
     transitivePeerDependencies:
@@ -914,7 +904,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.60.0
       '@typescript-eslint/visitor-keys': 5.60.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.5.2
@@ -930,41 +920,6 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.60.0
       eslint-visitor-keys: 3.4.1
-    dev: false
-
-  /@xstate/inspect@0.7.1(ws@8.13.0)(xstate@4.37.2):
-    resolution: {integrity: sha512-lEIi6cSvzA9f+GzaJMRVe4xnNjPY/oKdU8rjb+qxqUYx2evLuqysFu0XbPmEjMCwpfdIvG4FFsZJ7Ng7+k9UHw==}
-    peerDependencies:
-      '@types/ws': ^8.0.0
-      ws: ^8.0.0
-      xstate: ^4.35.3
-    peerDependenciesMeta:
-      '@types/ws':
-        optional: true
-    dependencies:
-      fast-safe-stringify: 2.1.1
-      ws: 8.13.0
-      xstate: 4.37.2
-    dev: false
-
-  /@xstate/react@3.2.2(@types/react@18.2.13)(react@18.2.0)(xstate@4.37.2):
-    resolution: {integrity: sha512-feghXWLedyq8JeL13yda3XnHPZKwYDN5HPBLykpLeuNpr9178tQd2/3d0NrH6gSd0sG5mLuLeuD+ck830fgzLQ==}
-    peerDependencies:
-      '@xstate/fsm': ^2.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      xstate: ^4.37.2
-    peerDependenciesMeta:
-      '@xstate/fsm':
-        optional: true
-      xstate:
-        optional: true
-    dependencies:
-      react: 18.2.0
-      use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.13)(react@18.2.0)
-      use-sync-external-store: 1.2.0(react@18.2.0)
-      xstate: 4.37.2
-    transitivePeerDependencies:
-      - '@types/react'
     dev: false
 
   /acorn-jsx@5.3.2(acorn@8.9.0):
@@ -1117,11 +1072,11 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
-  /awaitqueue@3.0.1(supports-color@9.3.1):
+  /awaitqueue@3.0.1(supports-color@9.4.0):
     resolution: {integrity: sha512-w3uWpUVI/7Q/gS7SrW8UCkZBDC+JPxSjVSFVqlty+OEo4tSEOGPB6jHWXxsi+bRktDXFaFiVKFBvMVzPhUhvqA==}
     engines: {node: '>=14'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1321,7 +1276,7 @@ packages:
       ms: 2.1.3
     dev: false
 
-  /debug@4.3.4(supports-color@9.3.1):
+  /debug@4.3.4(supports-color@9.4.0):
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
@@ -1331,7 +1286,7 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-      supports-color: 9.3.1
+      supports-color: 9.4.0
     dev: false
 
   /deep-is@0.1.4:
@@ -1420,12 +1375,12 @@ packages:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: false
 
-  /engine.io-client@6.4.0:
-    resolution: {integrity: sha512-GyKPDyoEha+XZ7iEqam49vz6auPnNJ9ZBfy89f+rMMas8AuiMWOZ9PVzu8xb9ZC6rafUqiGHSCfu22ih66E+1g==}
+  /engine.io-client@6.5.1:
+    resolution: {integrity: sha512-hE5wKXH8Ru4L19MbM1GgYV/2Qo54JSMh1rlJbfpa40bEWkCKNo3ol2eOtGmowcr+ysgbI7+SGL+by42Q3pt/Ng==}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
-      debug: 4.3.4(supports-color@9.3.1)
-      engine.io-parser: 5.0.7
+      debug: 4.3.4(supports-color@9.4.0)
+      engine.io-parser: 5.1.0
       ws: 8.11.0
       xmlhttprequest-ssl: 2.0.0
     transitivePeerDependencies:
@@ -1434,8 +1389,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /engine.io-parser@5.0.7:
-    resolution: {integrity: sha512-P+jDFbvK6lE3n1OL+q9KuzdOFWkkZ/cMV9gol/SbVfpyqfvrfrFTOFJ6fQm2VC3PZHlU3QPhVwmbsCnauHF2MQ==}
+  /engine.io-parser@5.1.0:
+    resolution: {integrity: sha512-enySgNiK5tyZFynt3z7iqBR+Bto9EVVVvDFuTT0ioHCGbzirZVGDGiQjZzEp8hWl6hd5FSVytJGuScX1C1C35w==}
     engines: {node: '>=10.0.0'}
     dev: false
 
@@ -1563,7 +1518,7 @@ packages:
       eslint: '*'
       eslint-plugin-import: '*'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
       enhanced-resolve: 5.15.0
       eslint: 8.43.0
       eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.60.0)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@8.43.0)
@@ -1729,7 +1684,7 @@ packages:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.0
@@ -1863,10 +1818,6 @@ packages:
 
   /fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
-    dev: false
-
-  /fast-safe-stringify@2.1.1:
-    resolution: {integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==}
     dev: false
 
   /fastq@1.15.0:
@@ -2111,11 +2062,11 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: false
 
-  /h264-profile-level-id@1.0.1(supports-color@9.3.1):
+  /h264-profile-level-id@1.0.1(supports-color@9.4.0):
     resolution: {integrity: sha512-D3Rln/jKNjKDW5ZTJTK3niSoOGE+pFqPvRHHVgQN3G7umcn/zWGPUo8Q8VpDj16x3hKz++zVviRNRmXu5cpN+Q==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2385,16 +2336,6 @@ packages:
     hasBin: true
     dev: false
 
-  /jotai-xstate@0.2.0(jotai@2.2.1)(xstate@4.37.2):
-    resolution: {integrity: sha512-y5d8OUnI+VchEQ3UJYXQ5/7fETqL2M9rW2GfBgVlLvrV7Wan7K0HHbRVjymWcZ9ItbTLtYxdkJo4p7l4A8TCWg==}
-    peerDependencies:
-      jotai: '>=1.11.0'
-      xstate: '*'
-    dependencies:
-      jotai: 2.2.1(react@18.2.0)
-      xstate: 4.37.2
-    dev: false
-
   /jotai@2.2.1(react@18.2.0):
     resolution: {integrity: sha512-Gz4tpbRQy9OiFgBwF9F7TieDn0UTE3C0IFSDuxHjOIvgn2tACH30UKz6p/wIlfoZROXSTCIxEvYEa7Y25WM+8g==}
     engines: {node: '>=12.20.0'}
@@ -2493,19 +2434,19 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /mediasoup-client@3.6.87:
-    resolution: {integrity: sha512-W/aplJJmEJ5d6acgu3tjyfjKE0p1VuNEGu7tHyYhev34vGWwdyDikMYtv302LGy7err2q1/CQ1GYgChu2WN62A==}
+  /mediasoup-client@3.6.93:
+    resolution: {integrity: sha512-xzrVY00THiHIoHchNH+G0irG7cD+rqVfhIl190ELvlRvcAWATXBunZMI0rs5Vh4Z4sSE75Z4P0AgtYy1+fZ9pg==}
     engines: {node: '>=16'}
     dependencies:
       '@types/debug': 4.1.8
-      awaitqueue: 3.0.1(supports-color@9.3.1)
-      debug: 4.3.4(supports-color@9.3.1)
+      awaitqueue: 3.0.1(supports-color@9.4.0)
+      debug: 4.3.4(supports-color@9.4.0)
       events: 3.3.0
       fake-mediastreamtrack: 1.1.6
-      h264-profile-level-id: 1.0.1(supports-color@9.3.1)
+      h264-profile-level-id: 1.0.1(supports-color@9.4.0)
       queue-microtask: 1.2.3
       sdp-transform: 2.14.1
-      supports-color: 9.3.1
+      supports-color: 9.4.0
       ua-parser-js: 1.0.35
     dev: false
 
@@ -2572,6 +2513,12 @@ packages:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
+    dev: false
+
+  /nanoid@3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
     dev: false
 
   /nanoid@3.3.6:
@@ -3165,13 +3112,13 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /socket.io-client@4.6.2:
-    resolution: {integrity: sha512-OwWrMbbA8wSqhBAR0yoPK6EdQLERQAYjXb3A0zLpgxfM1ZGLKoxHx8gVmCHA6pcclRX5oA/zvQf7bghAS11jRA==}
+  /socket.io-client@4.7.1:
+    resolution: {integrity: sha512-Qk3Xj8ekbnzKu3faejo4wk2MzXA029XppiXtTF/PkbTg+fcwaTw1PlDrTrrrU4mKoYC4dvlApOnSeyLCKwek2w==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
-      debug: 4.3.4(supports-color@9.3.1)
-      engine.io-client: 6.4.0
+      debug: 4.3.4(supports-color@9.4.0)
+      engine.io-client: 6.5.1
       socket.io-parser: 4.2.4
     transitivePeerDependencies:
       - bufferutil
@@ -3184,7 +3131,7 @@ packages:
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3302,8 +3249,8 @@ packages:
       has-flag: 4.0.0
     dev: false
 
-  /supports-color@9.3.1:
-    resolution: {integrity: sha512-knBY82pjmnIzK3NifMo3RxEIRD9E0kIzV4BKcyTZ9+9kWgLMxd4PrsTSMoFQUabgRBbF8KOLRDCyKgNV+iK44Q==}
+  /supports-color@9.4.0:
+    resolution: {integrity: sha512-VL+lNrEoIXww1coLPOmiEmK/0sGigko5COxI09KzHc2VJXJsQ37UaQ+8quuxjDeA7+KnLGTWRyOXSLLR2Wb4jw==}
     engines: {node: '>=12'}
     dev: false
 
@@ -3497,19 +3444,6 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /use-isomorphic-layout-effect@1.1.2(@types/react@18.2.13)(react@18.2.0):
-    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@types/react': 18.2.13
-      react: 18.2.0
-    dev: false
-
   /use-sidecar@1.1.2(@types/react@18.2.13)(react@18.2.0):
     resolution: {integrity: sha512-epTbsLuzZ7lPClpz2TyryBfztm7m+28DlEv2ZCQ3MDr5ssiwyOwGH/e5F9CkfWjJ1t4clvI58yF822/GUkjjhw==}
     engines: {node: '>=10'}
@@ -3619,10 +3553,6 @@ packages:
   /xmlhttprequest-ssl@2.0.0:
     resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
     engines: {node: '>=0.4.0'}
-    dev: false
-
-  /xstate@4.37.2:
-    resolution: {integrity: sha512-Qm337O49CRTZ3PRyRuK6b+kvI+D3JGxXIZCTul+xEsyFCVkTFDt5jixaL1nBWcUBcaTQ9um/5CRGVItPi7fveg==}
     dev: false
 
   /yallist@4.0.0:

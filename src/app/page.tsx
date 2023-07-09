@@ -1,6 +1,5 @@
-"use  server";
-
-import LobbyPage from "@/components/LobbyPage/LobbyPage";
+// Components
+import IntroPage from "@/components/IntroPage/IntroPage";
 
 const createRandomRoom = async () => {
   const res = await fetch("https://api.huddle01.com/api/v1/create-room", {
@@ -21,5 +20,5 @@ const createRandomRoom = async () => {
 export default async function Home() {
   const roomId = await createRandomRoom();
 
-  return <LobbyPage roomId={roomId} />;
+  return <IntroPage roomId={roomId} />;
 }

@@ -9,35 +9,34 @@ import GridLayout from "@/components/GridLayout/GridLayout";
 import Prompts from "@/components/common/Prompts";
 import { useEventListener, useHuddle01 } from "@huddle01/react/hooks";
 import { useLobby, useRoom, useAudio } from "@huddle01/react/hooks";
+import { useRouter } from "next/navigation";
 // import { Peer } from "@/utils/types";
+import { useSearchParams } from "next/navigation";
+import { useDisplayName } from "@huddle01/react/app-utils";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
-  const { initialize, roomState } = useHuddle01();
-  const { joinLobby } = useLobby();
-  const { joinRoom } = useRoom();
+  const { isRoomJoined } = useRoom();
+  const { push } = useRouter();
+  const searchParams = useSearchParams();
+  const { setDisplayName } = useDisplayName();
 
-  const { fetchAudioStream, produceAudio, stream: micStream } = useAudio();
+  const username = searchParams.get("username");
 
-  useEffect(() => {
-    initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? "");
-  }, []);
-
-  useEventListener("app:initialized", () => {
-    joinLobby(params.roomId);
-  });
-
-  useEventListener("lobby:joined", () => {
-    fetchAudioStream();
-  });
-
-  useEventListener("app:mic-on", () => {
-    joinRoom();
-  });
+  const { produceAudio, stream: micStream } = useAudio();
 
   useEventListener("room:joined", () => {
     if (!micStream) return null;
     return produceAudio(micStream);
   });
+
+  useEffect(() => {
+    if (!isRoomJoined) {
+      push(`/${params.roomId}/lobby`);
+      return;
+    }
+
+    if (username) setDisplayName(username);
+  }, []);
 
   return (
     <section className="bg-audio flex h-screen items-center justify-center w-full relative  text-slate-100">

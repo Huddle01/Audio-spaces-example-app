@@ -1,35 +1,82 @@
 "use client";
 
-import { BasicIcons } from "@/assets/BasicIcons";
-import AvatarWrapper from "@/components/common/AvatarWrapper";
-import FeatCommon from "@/components/common/FeatCommon";
-import useStore from "@/store/slices";
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+
+// Assets
 import { toast } from "react-hot-toast";
+import { BasicIcons } from "@/assets/BasicIcons";
+
+// Components
+import FeatCommon from "@/components/common/FeatCommon";
+import AvatarWrapper from "@/components/common/AvatarWrapper";
+
+// Store
+import useStore from "@/store/slices";
+
+// Hooks
+import { useDisplayName } from "@huddle01/react/app-utils";
+import {
+  useAudio,
+  useEventListener,
+  useHuddle01,
+  useLobby,
+  useRoom,
+} from "@huddle01/react/hooks";
 
 type lobbyProps = {};
 
 const Lobby = ({ params }: { params: { roomId: string } }) => {
+  // Local States
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const { push } = useRouter();
-
-  const [displayName, setDisplayName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const avatarUrl = useStore((state) => state.avatarUrl);
   const setAvatarUrl = useStore((state) => state.setAvatarUrl);
 
+  const { push } = useRouter();
+
+  // Huddle Hooks
+  const { joinRoom } = useRoom();
+  const { initialize } = useHuddle01();
+  const { isLobbyJoined, joinLobby, isLoading } = useLobby();
+  const { fetchAudioStream } = useAudio();
+  const { setDisplayName } = useDisplayName();
+
+  useEffect(() => {
+    if (!isLobbyJoined) {
+      initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? "");
+      joinLobby(params.roomId);
+      return;
+    }
+  }, []);
+
+  useEventListener("lobby:joined", () => {
+    fetchAudioStream();
+  });
+
   const handleStartSpaces = () => {
-    if (!displayName.length) {
+    if (!isLobbyJoined) return;
+
+    if (!userName.length) {
       toast.error("Display name must required !!");
       return;
     }
-    push(`/${params.roomId}`);
+    joinRoom();
   };
 
+  useEventListener("room:joined", () => {
+    console.log({ userName });
+
+    push(`/${params.roomId}?username=${userName}`);
+  });
+
+  useEffect(() => {
+    console.log({ userName });
+  }, [userName]);
+
   return (
-    <main className="flex h-screen flex-colitems-center justify-center bg-lobby text-slate-100">
+    <main className="flex h-screen flex-col items-center justify-center bg-lobby text-slate-100">
       <div className="flex flex-col items-center justify-center gap-4 w-[26.25rem]">
         <div className="relative text-center flex items-center justify-center w-fit mx-auto">
           <Image
@@ -103,8 +150,8 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
                 />
               </div>
               <input
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 type="text"
                 placeholder="Enter your name"
                 className="flex-1 bg-transparent py-3 outline-none"
@@ -117,7 +164,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
             className="flex items-center justify-center bg-[#246BFD] text-slate-100 rounded-md p-2 mt-2 w-full"
             onClick={handleStartSpaces}
           >
-            Start Spaces
+            {isLoading ? "Loading..." : "Start Spaces"}
             <Image
               alt="narrow-right"
               width={30}

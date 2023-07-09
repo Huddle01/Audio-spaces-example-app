@@ -4,19 +4,29 @@ import Image from "next/image";
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
 import { Audio } from "@huddle01/react/components";
-import { Peer } from "@/utils/types";
+import { IRoleEnum } from "@/utils/types";
 import useStore from "@/store/slices";
 
 type GridCardProps = {
-  peer: Peer;
+  peerId: string;
+  displayName: string;
+  mic?: MediaStreamTrack | null;
+  cam?: MediaStreamTrack | null;
+  role: IRoleEnum;
 };
 
-const GridCard: React.FC<GridCardProps> = ({ peer }) => {
+const GridCard: React.FC<GridCardProps> = ({
+  peerId,
+  role,
+  displayName,
+  mic,
+  cam,
+}) => {
   const avatarUrl = useStore((state) => state.avatarUrl);
 
   return (
     <div className="relative flex items-center justify-center flex-col">
-      {peer.mic && <Audio peerId={peer?.peerId} track={peer?.mic} />}
+      {mic && <Audio peerId={peerId} track={mic} />}
       <Image
         src={avatarUrl}
         alt="default-avatar"
@@ -27,10 +37,8 @@ const GridCard: React.FC<GridCardProps> = ({ peer }) => {
         className="maskAvatar"
       />
       <div className="mt-1 text-center">
-        <div className="text-custom-5 text-xl font-medium">
-          {peer?.displayName}
-        </div>
-        <div className="text-custom-6 text-base font-normal">{peer?.role}</div>
+        <div className="text-custom-5 text-xl font-medium">{displayName}</div>
+        <div className="text-custom-6 text-base font-normal">{role}</div>
       </div>
 
       <div className="absolute right-0">{BasicIcons.audio}</div>

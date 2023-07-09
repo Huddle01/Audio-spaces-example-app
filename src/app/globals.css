@@ -6,6 +6,10 @@
   width: 0px;
 }
 
+body {
+  background-color: #121212;
+}
+
 .maskAvatar {
   -webkit-mask-image: url("/images/Mask.svg");
   mask-image: url("/images/Mask.svg");

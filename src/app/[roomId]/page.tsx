@@ -8,7 +8,10 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import GridLayout from "@/components/GridLayout/GridLayout";
 import Prompts from "@/components/common/Prompts";
 import { useEventListener, useHuddle01 } from "@huddle01/react/hooks";
-import { useLobby, useRoom, useAudio } from "@huddle01/react/hooks";
+import {
+  useRoom,
+  useAcl,
+} from "@huddle01/react/hooks";
 import { useRouter } from "next/navigation";
 // import { Peer } from "@/utils/types";
 import { useSearchParams } from "next/navigation";
@@ -19,14 +22,14 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const { setDisplayName } = useDisplayName();
+  const { changePeerRole } = useAcl();
 
   const username = searchParams.get("username");
 
-  const { produceAudio, stream: micStream } = useAudio();
-
-  useEventListener("room:joined", () => {
-    if (!micStream) return null;
-    return produceAudio(micStream);
+  useEventListener("room:peer-joined", ({ peerId, role }) => {
+    if (role === "peer") {
+      changePeerRole(peerId, "listener");
+    }
   });
 
   useEffect(() => {
@@ -34,7 +37,6 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
       push(`/${params.roomId}/lobby`);
       return;
     }
-
     if (username) setDisplayName(username);
   }, []);
 

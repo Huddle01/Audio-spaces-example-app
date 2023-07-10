@@ -38,9 +38,8 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
 
   // Huddle Hooks
   const { joinRoom } = useRoom();
-  const { initialize } = useHuddle01();
+  const { initialize, me } = useHuddle01();
   const { isLobbyJoined, joinLobby, isLoading } = useLobby();
-  const { fetchAudioStream } = useAudio();
   const { setDisplayName } = useDisplayName();
 
   useEffect(() => {
@@ -51,29 +50,21 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
     }
   }, []);
 
-  useEventListener("lobby:joined", () => {
-    fetchAudioStream();
-  });
-
   const handleStartSpaces = () => {
     if (!isLobbyJoined) return;
 
     if (!userName.length) {
       toast.error("Display name must required !!");
       return;
+    } else {
+      setDisplayName(userName);
+      joinRoom();
     }
-    joinRoom();
   };
 
   useEventListener("room:joined", () => {
-    console.log({ userName });
-
     push(`/${params.roomId}?username=${userName}`);
   });
-
-  useEffect(() => {
-    console.log({ userName });
-  }, [userName]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-lobby text-slate-100">

@@ -13,7 +13,7 @@ import { useAcl, useHuddle01, usePeers } from "@huddle01/react/hooks";
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
-  const BlackList = ["peer", "listeners"];
+  const BlackList = ["peer", "listener"];
 
   const { me } = useHuddle01();
   const { peers } = usePeers();
@@ -69,7 +69,7 @@ const Peers: React.FC<PeersProps> = () => {
           />
         )}
         {Object.values(peers)
-          .filter((peer) => !BlackList.includes(peer.role))
+          .filter((peer) => peer.role === "host")
           .map(({ cam, displayName, mic, peerId, role }) => (
             <PeerMetaData
               key={peerId}
@@ -82,7 +82,6 @@ const Peers: React.FC<PeersProps> = () => {
       </PeerList>
 
       {/* CO-Hosts */}
-
       {Object.values(peers).filter((peer) => peer.role === "co-host").length >
         0 && (
         <PeerList title="Co-Hosts">
@@ -142,7 +141,6 @@ const Peers: React.FC<PeersProps> = () => {
         </PeerList>
       )}
 
-      {/* Listeners && Peers*/}
       {Object.keys(peers).length > 0 && (
         <PeerList title="Listeners" count={Object.keys(peers).length}>
           {BlackList.includes(me.role) && (

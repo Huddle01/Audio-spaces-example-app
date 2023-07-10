@@ -1,37 +1,44 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
-import { toast } from "react-hot-toast";
-import CustomInput from "@/components/common/CustomInput";
+
+// Components
 import PeerList from "./PeerList";
 import PeerMetaData from "./PeerMetaData";
-import { useAcl, usePeers } from "@huddle01/react/hooks";
+
+// Hooks
+import { useAcl, useHuddle01, usePeers } from "@huddle01/react/hooks";
 
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
-  const { changeRoomControls } = useAcl();
+  const BlackList = ["peer", "listeners"];
 
+  const { me } = useHuddle01();
   const { peers } = usePeers();
+  const { changeRoomControls } = useAcl();
 
   const isRequested = false;
 
-  useEffect(() => {
-    console.log({ peers });
-  }, [peers]);
+  const MetaDataObj = {
+    host: {
+      meCond: me.role === "host",
+    },
+    "co-host": {
+      meCond: me.role === "co-host",
+    },
+    speakers: {
+      meCond: me.role === "speakers",
+    },
+    listeners: {
+      meCond: me.role === BlackList.includes("peer"),
+    },
+  } as const;
 
   return (
     <div>
       <MuteMicDiv onClick={() => changeRoomControls("muteEveryone", true)} />
-
-      {/* <CustomInput
-        placeholder="Search for peers"
-        type="search"
-        onChange={() => ""}
-        value=""
-        className="mt-3"
-      /> */}
 
       {isRequested && (
         <PeerList className="mt-5" title="Requested to Speak">
@@ -50,10 +57,44 @@ const Peers: React.FC<PeersProps> = () => {
         </PeerList>
       )}
 
+      {/* Host */}
       <PeerList className="mt-5" title="Host">
-        {Object.values(peers).map(({ cam, displayName, mic, peerId, role }) => {
-          console.log({ role, displayName });
-          return (
+        {me.role === "host" && (
+          <PeerMetaData
+            key={me.meId}
+            className="mt-5"
+            name={me.displayName}
+            src="/images/user-avatar.png"
+            role={me.role}
+          />
+        )}
+        {Object.values(peers)
+          .filter((peer) => !BlackList.includes(peer.role))
+          .map(({ cam, displayName, mic, peerId, role }) => (
+            <PeerMetaData
+              key={me.meId}
+              className="mt-5"
+              name={me.displayName}
+              src="/images/user-avatar.png"
+              role={me.role}
+            />
+          ))}
+      </PeerList>
+
+      {/* CO-Hosts */}
+      <PeerList title="Co-Hosts">
+        {me.role === "co-host" && (
+          <PeerMetaData
+            className="mt-5"
+            name={me.displayName}
+            src="/images/user-avatar.png"
+            role={me.role}
+          />
+        )}
+
+        {Object.values(peers)
+          .filter((peer) => peer.role === "co-host")
+          .map(({ cam, displayName, mic, peerId, role }) => (
             <PeerMetaData
               key={peerId}
               className="mt-5"
@@ -61,41 +102,61 @@ const Peers: React.FC<PeersProps> = () => {
               src="/images/user-avatar.png"
               role={role}
             />
-          );
-        })}
+          ))}
       </PeerList>
-      {/* 
-      <PeerList title="Co-Hosts">
-        <PeerMetaData
-          className="mt-5"
-          name="name"
-          src="/images/user-avatar.png"
-          role="co-host"
-        />
-      </PeerList> */}
 
-      {/* <PeerList title="Speakers" count={1}>
-        <PeerMetaData
-          className="mt-5"
-          name="name"
-          src="/images/user-avatar.png"
-          role="speaker"
-        />
-      </PeerList> */}
+      {/* Speakers */}
+      <PeerList
+        title="Speakers"
+        count={
+          Object.values(peers).filter((peer) => peer.role === "speakers").length
+        }
+      >
+        {me.role === "speakers" && (
+          <PeerMetaData
+            className="mt-5"
+            name={me.displayName}
+            src="/images/user-avatar.png"
+            role={me.role}
+          />
+        )}
 
-      <PeerList title="Listeners" count={Object.keys(peers).length}>
-        {Object.values(peers).map(({ cam, displayName, mic, peerId, role }) => {
-          console.log({ displayName, role });
-          return (
+        {Object.values(peers)
+          .filter((peer) => peer.role === "speakers")
+          .map(({ displayName, peerId, role }) => (
             <PeerMetaData
               key={peerId}
-              className="mt-3.5"
+              className="mt-5"
               name={displayName}
               src="/images/user-avatar.png"
               role={role}
             />
-          );
-        })}
+          ))}
+      </PeerList>
+
+      {/* Listeners && Peers*/}
+      <PeerList title="Listeners" count={Object.keys(peers).length}>
+        {BlackList.includes(me.role) && (
+          <PeerMetaData
+            key={me.meId}
+            name={me.displayName}
+            role={me.role}
+            className="mt-5"
+            src="/images/user-avatar.png"
+          />
+        )}
+
+        {Object.values(peers)
+          .filter((peer) => BlackList.includes(peer.role))
+          .map(({ cam, displayName, mic, peerId, role }) => (
+            <PeerMetaData
+              key={peerId}
+              className="mt-5"
+              name={displayName}
+              src="/images/user-avatar.png"
+              role={role}
+            />
+          ))}
       </PeerList>
     </div>
   );

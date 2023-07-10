@@ -6,6 +6,7 @@ import "./globals.css";
 // Components
 import Navbar from "@/components/common/Navbar";
 import HuddleProvider from "@/components/ClientComponents/HuddleProvider";
+import { cn } from "@/utils/helpers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen relative`}>
+      <body className={cn("min-h-screen relative font-inter", inter.className)}>
         <Navbar />
         <HuddleProvider>{children}</HuddleProvider>
       </body>

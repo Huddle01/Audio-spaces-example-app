@@ -6,7 +6,7 @@ import { useEffect } from "react";
 type GridLayoutProps = {};
 
 const GridLayout: React.FC<GridLayoutProps> = () => {
-  const Blacklist = ["peer", "listeners"];
+  const Blacklist = ["peer", "listener"];
 
   const { peers } = usePeers();
   const { me } = useHuddle01();
@@ -27,7 +27,7 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
         )}
         {Object.values(peers)
           .filter((peer) => !Blacklist.includes(peer.role))
-          .map(({ cam, displayName, mic, peerId, role }) => (
+          .map(({ displayName, peerId, role }) => (
             <GridCard
               key={peerId}
               displayName={displayName}

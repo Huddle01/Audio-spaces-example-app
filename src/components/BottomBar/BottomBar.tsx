@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "@/store/slices";
 
 // Assets
@@ -36,6 +36,25 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
   const setPromptView = useStore((state) => state.setPromptView);
 
+  const [isCamOn, setIsCamOn] = useState<boolean>(false);
+  const [isMicOn, setIsMicOn] = useState<boolean>(false);
+
+  const { me } = useHuddle01();
+
+  useEventListener("app:mic-on", () => {
+    setIsMicOn(true);
+    if (micStream) produceAudio(micStream);
+  });
+
+  useEventListener("app:mic-off", () => {
+    setIsMicOn(false);
+    stopProducingAudio();
+  });
+
+  useEffect(() => {
+    console.log(me.role);
+  }, [me]);
+
   // Todo: Will come from Acl Events
   const isHost = false;
 
@@ -62,24 +81,24 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
       {/* Bottom Bar Center */}
       <div className="mx-auto flex items-center gap-4">
-        {roomState === "ROOM" ? (
-          <button
-            onClick={() => {
-              if (!micStream) return;
-              return produceAudio(micStream);
-            }}
-          >
-            {NestedBasicIcons.active.mic}
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              stopAudioStream();
-            }}
-          >
-            {NestedBasicIcons.inactive.mic}
-          </button>
-        )}
+        {me.role !== "listener" &&
+          (!isMicOn ? (
+            <button
+              onClick={() => {
+                fetchAudioStream();
+              }}
+            >
+              {NestedBasicIcons.inactive.mic}
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                stopAudioStream();
+              }}
+            >
+              {NestedBasicIcons.active.mic}
+            </button>
+          ))}
         <Dropdown
           triggerChild={BasicIcons.avatar}
           open={isOpen}

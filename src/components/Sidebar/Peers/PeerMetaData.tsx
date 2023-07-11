@@ -10,7 +10,7 @@ import ListenersData from "./PeerRole/ListenersData";
 
 interface PeerMetaDatProps {
   isRequested?: boolean;
-  role: "host" | "co-host" | "speaker" | "listener";
+  role: "host" | "coHost" | "speaker" | "listener";
   className?: string;
   isHandRaised?: boolean;
   isMicActive?: boolean;
@@ -18,6 +18,7 @@ interface PeerMetaDatProps {
   src: string;
   onAccept?: () => void;
   onDeny?: () => void;
+  peerId: string;
 }
 
 const PeerMetaData: React.FC<PeerMetaDatProps> = ({
@@ -30,12 +31,13 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
   role,
   onAccept,
   onDeny,
+  peerId
 }) => {
   const RoleData = {
-    host: <HostData />,
-    "co-host": <CoHostData />,
-    speaker: <SpeakerData />,
-    listener: <ListenersData />,
+    host: <HostData peerId={peerId}/>,
+    coHost: <CoHostData peerId={peerId}/>,
+    speaker: <SpeakerData peerId={peerId}/>,
+    listener: <ListenersData peerId={peerId}/>,
   } as const;
 
   return (

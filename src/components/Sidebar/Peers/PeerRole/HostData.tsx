@@ -1,9 +1,11 @@
 import React from "react";
 import Strip from "./Strip";
 
-type HostDataProps = {};
+type HostDataProps = {
+  peerId: string;
+};
 
-const HostData: React.FC<HostDataProps> = () => {
+const HostData: React.FC<HostDataProps> = ({peerId}) => {
   return (
     <div>
       <Strip type="edit" title="Edit Display Name" variant="normal" />

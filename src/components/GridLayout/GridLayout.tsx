@@ -18,7 +18,7 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
   return (
     <div className="w-full h-full ml-10 flex items-center justify-center flex-col py-20">
       <div className="flex-wrap flex items-center justify-center gap-4 w-full">
-        {me.role === "host" && !Blacklist.includes(me.role) && (
+        {!Blacklist.includes(me.role) && (
           <GridCard
             displayName={me.displayName}
             peerId={me.meId}
@@ -26,7 +26,7 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
           />
         )}
         {Object.values(peers)
-          .filter((peer) => !Blacklist.includes(peer.role))
+          .filter((peer) => ["host", "coHost", "speaker"].includes(peer.role))
           .map(({ displayName, peerId, role }) => (
             <GridCard
               key={peerId}

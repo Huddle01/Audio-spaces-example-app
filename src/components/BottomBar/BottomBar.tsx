@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useStore from "@/store/slices";
 
 // Assets
@@ -9,7 +9,7 @@ import { cn } from "@/utils/helpers";
 import Dropdown from "../common/Dropdown";
 import EmojiTray from "../EmojiTray/EmojiTray";
 import { useRouter } from "next/navigation";
-import { useAudio, useHuddle01 } from "@huddle01/react/hooks";
+import { useAudio, useHuddle01, usePeers } from "@huddle01/react/hooks";
 import { useEventListener } from "@huddle01/react/hooks";
 
 type BottomBarProps = {};
@@ -17,10 +17,10 @@ type BottomBarProps = {};
 const BottomBar: React.FC<BottomBarProps> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { roomState } = useHuddle01();
+  const { peers } = usePeers();
 
   const { push } = useRouter();
-  // const { state } = useMeetingMachine();
+
   const {
     fetchAudioStream,
     produceAudio,
@@ -36,10 +36,11 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
   const setPromptView = useStore((state) => state.setPromptView);
 
-  const [isCamOn, setIsCamOn] = useState<boolean>(false);
   const [isMicOn, setIsMicOn] = useState<boolean>(false);
 
   const { me } = useHuddle01();
+
+  const count = Object.keys(peers).length + 1;
 
   useEventListener("app:mic-on", () => {
     setIsMicOn(true);
@@ -50,10 +51,6 @@ const BottomBar: React.FC<BottomBarProps> = () => {
     setIsMicOn(false);
     stopProducingAudio();
   });
-
-  useEffect(() => {
-    console.log(me.role);
-  }, [me]);
 
   // Todo: Will come from Acl Events
   const isHost = false;
@@ -80,7 +77,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       )}
 
       {/* Bottom Bar Center */}
-      <div className="mx-auto flex items-center gap-4">
+      <div className="flex items-center mr-20 gap-4">
         {me.role !== "listener" &&
           (!isMicOn ? (
             <button
@@ -125,7 +122,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         }
       >
         {BasicIcons.peers}
-        <span>count</span>
+        <span>{count}</span>
       </OutlineButton>
     </div>
   );

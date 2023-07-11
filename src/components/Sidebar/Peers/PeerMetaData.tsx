@@ -10,7 +10,7 @@ import ListenersData from "./PeerRole/ListenersData";
 
 interface PeerMetaDatProps {
   isRequested?: boolean;
-  role: "host" | "co-host" | "speaker" | "listeners";
+  role: "host" | "co-host" | "speaker" | "listener";
   className?: string;
   isHandRaised?: boolean;
   isMicActive?: boolean;
@@ -35,7 +35,7 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
     host: <HostData />,
     "co-host": <CoHostData />,
     speaker: <SpeakerData />,
-    listeners: <ListenersData />,
+    listener: <ListenersData />,
   } as const;
 
   return (

@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@huddle01/react':
-    specifier: 0.0.13-beta.2
-    version: 0.0.13-beta.2
+    specifier: 0.0.13-beta.5
+    version: 0.0.13-beta.5
   '@radix-ui/react-dropdown-menu':
     specifier: ^2.0.5
     version: 2.0.5(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
@@ -132,11 +132,11 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@huddle01/react@0.0.13-beta.2:
-    resolution: {integrity: sha512-Ehgi5A1Om23DEY5Sl4du9fld76ON7xjX31FPRI0l8fd7JL/qw0Y+AwZspmgCQxdNyTRfSskp/IKGyLhfG6ZBDw==}
+  /@huddle01/react@0.0.13-beta.5:
+    resolution: {integrity: sha512-2Ns2RXp8hUumK4j+M39gUMPwvI+DuUt0PHWAO2uFaRc60j0X6uByFGEx6P1cmPKy61bFRBfJRJtisKFkn+I0og==}
     dependencies:
-      '@huddle01/web-core': 0.0.15-beta.2
-      jotai: 2.2.1(react@18.2.0)
+      '@huddle01/web-core': 0.0.15-beta.4
+      jotai: 2.2.2(react@18.2.0)
       react: 18.2.0
       ws: 8.13.0
     transitivePeerDependencies:
@@ -146,8 +146,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@huddle01/web-core@0.0.15-beta.2:
-    resolution: {integrity: sha512-+mkID0SKt99AWcnVTVXngTnIFh/SBEDXVRqsdlvOr3LmM7WuWWdmV9ZfrK2KahrRbJKDkGmEQrqop+JHltRg0A==}
+  /@huddle01/web-core@0.0.15-beta.4:
+    resolution: {integrity: sha512-2PSmtqBeHVODc4AoSQ8u3wUsMitJ7c71a3JcBJGgkLlF1kMinW/VsQaZrEVR39yXKcw5BH4bKL+mcjyqPiKqoQ==}
     dependencies:
       axios: 1.4.0
       mediasoup-client: 3.6.93
@@ -2336,8 +2336,8 @@ packages:
     hasBin: true
     dev: false
 
-  /jotai@2.2.1(react@18.2.0):
-    resolution: {integrity: sha512-Gz4tpbRQy9OiFgBwF9F7TieDn0UTE3C0IFSDuxHjOIvgn2tACH30UKz6p/wIlfoZROXSTCIxEvYEa7Y25WM+8g==}
+  /jotai@2.2.2(react@18.2.0):
+    resolution: {integrity: sha512-Cn8hnBg1sc5ppFwEgVGTfMR5WSM0hbAasd/bdAwIwTaum0j3OUPqBSC4tyk3jtB95vicML+RRWgKFOn6gtfN0A==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       react: '>=17.0.0'

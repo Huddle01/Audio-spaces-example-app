@@ -52,6 +52,7 @@ const Peers: React.FC<PeersProps> = () => {
               role="host"
               onAccept={() => ""}
               onDeny={() => ""}
+              peerId={me.meId}
             />
           ))}
         </PeerList>
@@ -66,6 +67,7 @@ const Peers: React.FC<PeersProps> = () => {
             name={me.displayName}
             src="/images/user-avatar.png"
             role={me.role}
+            peerId={me.meId}
           />
         )}
         {Object.values(peers)
@@ -77,25 +79,27 @@ const Peers: React.FC<PeersProps> = () => {
               name={displayName}
               src="/images/user-avatar.png"
               role={role}
+              peerId={peerId}
             />
           ))}
       </PeerList>
 
       {/* CO-Hosts */}
-      {Object.values(peers).filter((peer) => peer.role === "co-host").length >
-        0 && (
+      {(Object.values(peers).filter((peer) => peer.role === "coHost").length >
+        0 || me.role == "coHost") && (
         <PeerList title="Co-Hosts">
-          {me.role === "co-host" && (
+          {me.role === "coHost" && (
             <PeerMetaData
               className="mt-5"
               name={me.displayName}
               src="/images/user-avatar.png"
               role={me.role}
+              peerId={me.meId}
             />
           )}
 
           {Object.values(peers)
-            .filter((peer) => peer.role === "co-host")
+            .filter((peer) => peer.role === "coHost")
             .map(({ cam, displayName, mic, peerId, role }) => (
               <PeerMetaData
                 key={peerId}
@@ -103,32 +107,34 @@ const Peers: React.FC<PeersProps> = () => {
                 name={displayName}
                 src="/images/user-avatar.png"
                 role={role}
+                peerId={peerId}
               />
             ))}
         </PeerList>
       )}
 
       {/* Speakers */}
-      {Object.values(peers).filter((peer) => peer.role === "speakers").length >
-        0 && (
+      {(Object.values(peers).filter((peer) => peer.role === "speaker").length >
+        0 || me.role == 'speaker') && (
         <PeerList
           title="Speakers"
           count={
-            Object.values(peers).filter((peer) => peer.role === "speakers")
+            Object.values(peers).filter((peer) => peer.role === "speaker")
               .length
           }
         >
-          {me.role === "speakers" && (
+          {me.role === "speaker" && (
             <PeerMetaData
               className="mt-5"
               name={me.displayName}
               src="/images/user-avatar.png"
               role={me.role}
+              peerId={me.meId}
             />
           )}
 
           {Object.values(peers)
-            .filter((peer) => peer.role === "speakers")
+            .filter((peer) => peer.role === "speaker")
             .map(({ displayName, peerId, role }) => (
               <PeerMetaData
                 key={peerId}
@@ -136,13 +142,20 @@ const Peers: React.FC<PeersProps> = () => {
                 name={displayName}
                 src="/images/user-avatar.png"
                 role={role}
+                peerId={peerId}
               />
             ))}
         </PeerList>
       )}
 
-      {Object.keys(peers).length > 0 && (
-        <PeerList title="Listeners" count={Object.keys(peers).length}>
+      {(Object.values(peers).filter(({role}) => role == "listener").length > 0 || me.role == "listener") && (
+        <PeerList
+          title="Listeners"
+          count={
+            Object.values(peers).filter(({ role }) => role == "listener")
+              .length 
+          }
+        >
           {BlackList.includes(me.role) && (
             <PeerMetaData
               key={me.meId}
@@ -150,6 +163,7 @@ const Peers: React.FC<PeersProps> = () => {
               role={me.role}
               className="mt-5"
               src="/images/user-avatar.png"
+              peerId={me.meId}
             />
           )}
 
@@ -162,6 +176,7 @@ const Peers: React.FC<PeersProps> = () => {
                 name={displayName}
                 src="/images/user-avatar.png"
                 role={role}
+                peerId={peerId}
               />
             ))}
         </PeerList>

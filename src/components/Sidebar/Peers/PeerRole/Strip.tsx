@@ -7,9 +7,10 @@ type StripProps = {
   title: string;
   className?: string;
   variant: "normal" | "danger";
+  onClick?: () => void;
 };
 
-const Strip: React.FC<StripProps> = ({ type, title, variant }) => {
+const Strip: React.FC<StripProps> = ({ type, title, variant, onClick }) => {
   return (
     <div
       className={cn(
@@ -18,6 +19,7 @@ const Strip: React.FC<StripProps> = ({ type, title, variant }) => {
           ? "text-rgbColors-3"
           : " text-red-400 hover:bg-rgbColors-4 "
       )}
+      onClick={onClick}
     >
       <div>{PeerListIcons[type]}</div>
       <div>{title}</div>

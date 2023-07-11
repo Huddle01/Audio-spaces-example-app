@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@huddle01/react": "0.0.13-beta.2",
+    "@huddle01/react": "0.0.13-beta.5",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@types/node": "20.3.1",
     "@types/react": "18.2.13",

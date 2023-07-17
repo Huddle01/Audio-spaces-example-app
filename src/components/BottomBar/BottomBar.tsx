@@ -57,13 +57,9 @@ const BottomBar: React.FC<BottomBarProps> = () => {
     <div className="absolute bottom-6 w-full flex items-center px-10">
       {/* Bottom Bar Left */}
       {me.role == 'host' || me.role == "coHost" || me.role == "speaker" ? (
-        <OutlineButton className="mr-auto flex items-center justify-between gap-3 w-44">
-          <div className="flex items-center gap-2">
-            {BasicIcons.record}
-            <div>Record</div>
-          </div>
-          <div>{BasicIcons.moreOptions}</div>
-        </OutlineButton>
+        <div className="mr-auto flex items-center justify-between gap-3 w-44">
+          {""}
+        </div>
       ) : (
         <OutlineButton
           className="mr-auto flex items-center justify-between gap-3"

@@ -11,8 +11,8 @@ type GridCardProps = {
   peerId: string;
   displayName: string;
   mic?: MediaStreamTrack | null;
-  cam?: MediaStreamTrack | null;
   role: IRoleEnum;
+  avatarUrl: string;
 };
 
 const GridCard: React.FC<GridCardProps> = ({
@@ -20,9 +20,8 @@ const GridCard: React.FC<GridCardProps> = ({
   role,
   displayName,
   mic,
-  cam,
+  avatarUrl
 }) => {
-  const avatarUrl = useStore((state) => state.avatarUrl);
 
   return (
     <div className="relative flex items-center justify-center flex-col">

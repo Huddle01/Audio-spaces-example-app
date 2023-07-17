@@ -1,4 +1,4 @@
-import React from "react";
+import React, {use, useState} from "react";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
@@ -8,7 +8,9 @@ import PeerList from "./PeerList";
 import PeerMetaData from "./PeerMetaData";
 
 // Hooks
-import { useAcl, useHuddle01, usePeers } from "@huddle01/react/hooks";
+import { useAcl, useHuddle01, usePeers, useEventListener } from "@huddle01/react/hooks";
+
+import { useAppUtils } from "@huddle01/react/app-utils";
 
 type PeersProps = {};
 
@@ -19,7 +21,11 @@ const Peers: React.FC<PeersProps> = () => {
   const { peers } = usePeers();
   const { changeRoomControls } = useAcl();
 
-  const isRequested = false;
+  const [ isRequested, setIsRequested ] = useState<boolean>(false);
+
+  useEventListener("room:data-received", (data) => {
+    console.log("room:data-received", { data });
+  });
 
   const MetaDataObj = {
     host: {

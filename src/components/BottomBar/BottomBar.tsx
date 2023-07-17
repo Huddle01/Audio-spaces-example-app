@@ -11,6 +11,7 @@ import EmojiTray from "../EmojiTray/EmojiTray";
 import { useRouter } from "next/navigation";
 import { useAudio, useHuddle01, usePeers } from "@huddle01/react/hooks";
 import { useEventListener } from "@huddle01/react/hooks";
+import { useAppUtils } from "@huddle01/react/app-utils";
 
 type BottomBarProps = {};
 

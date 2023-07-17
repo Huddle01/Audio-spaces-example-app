@@ -16,7 +16,7 @@ import AvatarWrapper from "@/components/common/AvatarWrapper";
 import useStore from "@/store/slices";
 
 // Hooks
-import { useDisplayName } from "@huddle01/react/app-utils";
+import { useAppUtils } from "@huddle01/react/app-utils";
 import {
   useAudio,
   useEventListener,
@@ -37,10 +37,10 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
   const { push } = useRouter();
 
   // Huddle Hooks
-  const { joinRoom } = useRoom();
+  const { joinRoom, isRoomJoined } = useRoom();
   const { initialize, me } = useHuddle01();
   const { isLobbyJoined, joinLobby, isLoading } = useLobby();
-  const { setDisplayName } = useDisplayName();
+  const { setDisplayName, changeAvatarUrl } = useAppUtils();
 
   useEffect(() => {
     if (!isLobbyJoined) {
@@ -57,14 +57,19 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
       toast.error("Display name must required !!");
       return;
     } else {
-      setDisplayName(userName);
       joinRoom();
     }
   };
 
   useEventListener("room:joined", () => {
-    push(`/${params.roomId}?username=${userName}`);
+    push(`/${params.roomId}`);
   });
+
+  useEffect(() => {
+    if (setDisplayName.isCallable) {
+      setDisplayName(userName);
+    }
+  }, [setDisplayName.isCallable]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-lobby text-slate-100">
@@ -110,7 +115,12 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
                     <AvatarWrapper
                       key={`sidebar-avatars-${i}`}
                       isActive={avatarUrl === url}
-                      onClick={() => setAvatarUrl(url)}
+                      onClick={() => {
+                        if (isLobbyJoined || isRoomJoined) {
+                          changeAvatarUrl(url);
+                        }
+                        setAvatarUrl(url);
+                      }}
                     >
                       <Image
                         src={url}
@@ -142,7 +152,9 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
               </div>
               <input
                 value={userName}
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
                 type="text"
                 placeholder="Enter your name"
                 className="flex-1 bg-transparent py-3 outline-none"

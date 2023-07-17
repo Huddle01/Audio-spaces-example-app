@@ -7,7 +7,7 @@ type ListenersDataProps = {
 };
 
 const ListenersData: React.FC<ListenersDataProps> = ({ peerId }) => {
-  const { changePeerRole, changePeerControls } = useAcl();
+  const { changePeerRole } = useAcl();
 
   const { me } = useHuddle01();
 

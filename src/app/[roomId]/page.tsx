@@ -15,16 +15,11 @@ import {
 import { useRouter } from "next/navigation";
 // import { Peer } from "@/utils/types";
 import { useSearchParams } from "next/navigation";
-import { useDisplayName } from "@huddle01/react/app-utils";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
   const { isRoomJoined } = useRoom();
   const { push } = useRouter();
-  const searchParams = useSearchParams();
-  const { setDisplayName } = useDisplayName();
   const { changePeerRole } = useAcl();
-
-  const username = searchParams.get("username");
 
   useEventListener("room:peer-joined", ({ peerId, role }) => {
     if (role === "peer") {
@@ -37,7 +32,6 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
       push(`/${params.roomId}/lobby`);
       return;
     }
-    if (username) setDisplayName(username);
   }, []);
 
   return (

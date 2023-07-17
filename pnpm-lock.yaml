@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@huddle01/react':
-    specifier: 0.0.13-beta.5
-    version: 0.0.13-beta.5
+    specifier: 0.0.13-beta.6
+    version: 0.0.13-beta.6
   '@radix-ui/react-dropdown-menu':
     specifier: ^2.0.5
     version: 2.0.5(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
@@ -132,10 +132,10 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@huddle01/react@0.0.13-beta.5:
-    resolution: {integrity: sha512-2Ns2RXp8hUumK4j+M39gUMPwvI+DuUt0PHWAO2uFaRc60j0X6uByFGEx6P1cmPKy61bFRBfJRJtisKFkn+I0og==}
+  /@huddle01/react@0.0.13-beta.6:
+    resolution: {integrity: sha512-fqKnkf4IY08wC6KtZGlYLDdN9b/ODQ39QY3VjqEeQgoG5ivuTOmjR5n41x2Nvk367wU3fpJ13kkc1aJMS0v5MQ==}
     dependencies:
-      '@huddle01/web-core': 0.0.15-beta.4
+      '@huddle01/web-core': 0.0.15-beta.5
       jotai: 2.2.2(react@18.2.0)
       react: 18.2.0
       ws: 8.13.0
@@ -146,11 +146,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@huddle01/web-core@0.0.15-beta.4:
-    resolution: {integrity: sha512-2PSmtqBeHVODc4AoSQ8u3wUsMitJ7c71a3JcBJGgkLlF1kMinW/VsQaZrEVR39yXKcw5BH4bKL+mcjyqPiKqoQ==}
+  /@huddle01/web-core@0.0.15-beta.5:
+    resolution: {integrity: sha512-QTH0fWtTGWkisUwKrDrZtdW/vG8tVH6sB7KrfVwQdAmNM2g8HPhv0S8LcAfi+WJqyU+i6R9dLnPz3aXQ39zuJA==}
     dependencies:
       axios: 1.4.0
-      mediasoup-client: 3.6.93
+      mediasoup-client: 3.6.95
       nanoid: 3.3.4
       socket.io-client: 4.7.1
       zod: 3.21.4
@@ -2434,8 +2434,8 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /mediasoup-client@3.6.93:
-    resolution: {integrity: sha512-xzrVY00THiHIoHchNH+G0irG7cD+rqVfhIl190ELvlRvcAWATXBunZMI0rs5Vh4Z4sSE75Z4P0AgtYy1+fZ9pg==}
+  /mediasoup-client@3.6.95:
+    resolution: {integrity: sha512-6fdFqpVkdL0qElzoy0ezkwVj8YqkmOtrEF6kr9tplUWiSrEJ/D5mjBAyuyNsMKqvRYFeYuqh0Jawl7xzyv6PFw==}
     engines: {node: '>=16'}
     dependencies:
       '@types/debug': 4.1.8

@@ -2,7 +2,7 @@ import { NestedBasicIcons } from "@/assets/BasicIcons";
 import React from "react";
 import Button from "../common/Button";
 import useStore from "@/store/slices";
-import { useHuddle01 } from "@huddle01/react/hooks";
+import { useHuddle01, usePeers } from "@huddle01/react/hooks";
 import { useAppUtils } from "@huddle01/react/app-utils";
 
 type RequestToSpeakProps = {};
@@ -13,10 +13,14 @@ const RequestToSpeak: React.FC<RequestToSpeakProps> = () => {
   const { me } = useHuddle01();
   const { sendData } = useAppUtils();
 
+  const { peers } = usePeers();
+
   const sendSpeakerRequest = () => {
-    sendData("*", {
-      "request-to-speak": "request-to-speak"
+    const peerIds = Object.values(peers).filter(({role}) => role === "host" || role === "co-host").map(({peerId}) => peerId);
+    sendData(peerIds, {
+      "request-to-speak": me.meId
     });
+    setPromptView("close");
   };
 
   return (

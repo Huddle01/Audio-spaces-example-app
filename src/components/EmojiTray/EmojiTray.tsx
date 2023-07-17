@@ -1,6 +1,9 @@
 import { BasicIcons } from "@/assets/BasicIcons";
 import { cn } from "@/utils/helpers";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { useAppUtils } from "@huddle01/react/app-utils";
+import { useHuddle01 } from "@huddle01/react/hooks";
+import useStore from "@/store/slices";
 
 type Reaction =
   | ""
@@ -26,7 +29,7 @@ interface Props {
 }
 
 const EmojiTray: React.FC<Props> = ({ onClick, onClose }) => {
-  const isHandRaised = false;
+  const [isHandRaised, setIsHandRaised] = useState(false);
   // Emoji Data
   const emojis: Reaction[] = [
     "😂",
@@ -45,6 +48,20 @@ const EmojiTray: React.FC<Props> = ({ onClick, onClose }) => {
     "❤️",
     "💯",
   ];
+
+  const { me } = useHuddle01();
+  const { sendData } = useAppUtils();
+  const setMyHandRaised = useStore((state) => state.setMyHandRaised);
+  const setMyReaction = useStore((state) => state.setMyReaction);
+
+  useEffect(() => {
+    sendData(
+      "*", {
+        raiseHand: isHandRaised,
+      }
+    )
+    setMyHandRaised(isHandRaised);
+  }, [isHandRaised])
 
   return (
     <div>
@@ -65,7 +82,13 @@ const EmojiTray: React.FC<Props> = ({ onClick, onClose }) => {
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            alert("todo");
+            setIsHandRaised((prev) => !prev);
+            sendData(
+              "*", {
+                raiseHand: isHandRaised,
+              }
+            )
+            setMyHandRaised(isHandRaised);
           }}
           className={cn(
             " w-full text-sm text-slate-100 py-2 rounded-lg font-inter flex items-center justify-center font-medium",
@@ -78,7 +101,14 @@ const EmojiTray: React.FC<Props> = ({ onClick, onClose }) => {
           {emojis.map((emoji) => (
             <span
               key={emoji}
-              onClick={() => onClick(emoji)}
+              onClick={() => {
+                sendData(
+                  "*", {
+                    reaction: emoji,
+                  }
+                )
+                setMyReaction(emoji);
+              }}
               role="presentation"
               className="m-1 cursor-pointer p-2 text-lg"
             >

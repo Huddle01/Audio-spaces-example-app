@@ -8,7 +8,7 @@ type SpeakerDataProps = {
 
 const Speaker: React.FC<SpeakerDataProps> = ({peerId}) => {
 
-  const { changePeerRole } = useAcl();
+  const { changePeerRole, kickPeer } = useAcl();
   const { me } = useHuddle01();
 
   return (
@@ -18,7 +18,11 @@ const Speaker: React.FC<SpeakerDataProps> = ({peerId}) => {
           changePeerRole(peerId, "listener");
         }
       }}/>
-      <Strip type="leave" title="Remove from spaces" variant="danger" />
+      <Strip type="leave" title="Remove from spaces" variant="danger" onClick={() => {
+        if (me.role === "host") {
+          kickPeer(peerId);
+        }
+      }}/>
     </div>
   );
 };

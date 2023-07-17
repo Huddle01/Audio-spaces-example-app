@@ -1,15 +1,20 @@
 import React from "react";
 import Strip from "./Strip";
+import { useRoom } from "@huddle01/react/hooks";
 
 type HostDataProps = {
   peerId: string;
 };
 
 const HostData: React.FC<HostDataProps> = ({peerId}) => {
+
+  const { leaveRoom } = useRoom();
+
   return (
     <div>
-      <Strip type="edit" title="Edit Display Name" variant="normal" />
-      <Strip type="leave" title="Leave the spaces" variant="danger" />
+      <Strip type="leave" title="Leave the spaces" variant="danger" onClick={() => {
+        leaveRoom();
+      }}/>
     </div>
   );
 };

@@ -66,10 +66,16 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
   });
 
   useEffect(() => {
-    if (setDisplayName.isCallable) {
+    if (setDisplayName.isCallable && userName.length) {
       setDisplayName(userName);
     }
   }, [setDisplayName.isCallable]);
+
+  useEffect(() => {
+    if (changeAvatarUrl.isCallable) {
+      changeAvatarUrl('/avatars/avatars/0.png');
+    }
+  }, [changeAvatarUrl.isCallable]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-lobby text-slate-100">

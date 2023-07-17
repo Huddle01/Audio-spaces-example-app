@@ -7,7 +7,7 @@ type ListenersDataProps = {
 };
 
 const ListenersData: React.FC<ListenersDataProps> = ({ peerId }) => {
-  const { changePeerRole } = useAcl();
+  const { changePeerRole, kickPeer } = useAcl();
 
   const { me } = useHuddle01();
 
@@ -41,7 +41,11 @@ const ListenersData: React.FC<ListenersDataProps> = ({ peerId }) => {
         type="leave"
         title="Remove from spaces"
         variant="danger"
-        onClick={() => {}}
+        onClick={() => {
+          if (me.role === "host" || me.role === "coHost") {
+            kickPeer(peerId);
+          }
+        }}
       />
     </div>
   );

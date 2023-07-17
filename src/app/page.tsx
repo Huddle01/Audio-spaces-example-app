@@ -3,9 +3,9 @@ import IntroPage from "@/components/IntroPage/IntroPage";
 
 interface RoomDetails {
   message: string;
-  data : {
+  data: {
     roomId: string;
-  }
+  };
 }
 
 const createRandomRoom = async () => {
@@ -25,7 +25,10 @@ const createRandomRoom = async () => {
 };
 
 export default async function Home() {
-  const roomId = await createRandomRoom();
-
-  return <IntroPage roomId={roomId} />;
+  try {
+    const roomId = await createRandomRoom();
+    return <IntroPage roomId={roomId} />;
+  } catch (error) {
+    console.log(error);
+  }
 }

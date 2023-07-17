@@ -1,6 +1,13 @@
 // Components
 import IntroPage from "@/components/IntroPage/IntroPage";
 
+interface RoomDetails {
+  message: string;
+  data : {
+    roomId: string;
+  }
+}
+
 const createRandomRoom = async () => {
   const res = await fetch("https://api.huddle01.com/api/v1/create-room", {
     method: "POST",
@@ -12,7 +19,7 @@ const createRandomRoom = async () => {
       "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
     },
   });
-  const data = await res.json();
+  const data: RoomDetails = await res.json();
   const { roomId } = data.data;
   return roomId;
 };

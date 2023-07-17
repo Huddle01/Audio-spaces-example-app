@@ -11,6 +11,7 @@ import EmojiTray from "../EmojiTray/EmojiTray";
 import { useRouter } from "next/navigation";
 import { useAudio, useHuddle01, usePeers } from "@huddle01/react/hooks";
 import { useEventListener } from "@huddle01/react/hooks";
+import { useAppUtils } from "@huddle01/react/app-utils";
 
 type BottomBarProps = {};
 
@@ -52,13 +53,10 @@ const BottomBar: React.FC<BottomBarProps> = () => {
     stopProducingAudio();
   });
 
-  // Todo: Will come from Acl Events
-  const isHost = false;
-
   return (
     <div className="absolute bottom-6 w-full flex items-center px-10">
       {/* Bottom Bar Left */}
-      {isHost ? (
+      {me.role == 'host' || me.role == "coHost" || me.role == "speaker" ? (
         <OutlineButton className="mr-auto flex items-center justify-between gap-3 w-44">
           <div className="flex items-center gap-2">
             {BasicIcons.record}

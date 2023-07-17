@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useState } from "react";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
@@ -8,7 +8,12 @@ import PeerList from "./PeerList";
 import PeerMetaData from "./PeerMetaData";
 
 // Hooks
-import { useAcl, useHuddle01, usePeers } from "@huddle01/react/hooks";
+import {
+  useAcl,
+  useHuddle01,
+  usePeers,
+  useEventListener,
+} from "@huddle01/react/hooks";
 
 type PeersProps = {};
 
@@ -17,9 +22,29 @@ const Peers: React.FC<PeersProps> = () => {
 
   const { me } = useHuddle01();
   const { peers } = usePeers();
-  const { changeRoomControls } = useAcl();
+  const { changeRoomControls, changePeerRole } = useAcl();
 
-  const isRequested = false;
+  const [isRequested, setIsRequested] = useState<boolean>(false);
+  const [requestedPeers, setRequestedPeers] = useState<string[]>([]);
+
+  useEventListener("room:data-received", (data) => {
+    if (data.payload["request-to-speak"]) {
+      setIsRequested(true);
+      if (requestedPeers.includes(data.payload["request-to-speak"])) return;
+      setRequestedPeers((requestedPeers) => [
+        ...requestedPeers,
+        data.payload["request-to-speak"],
+      ]);
+    }
+    console.log("data", { data });
+  });
+
+  useEventListener("room:peer-role-update", (data) => {
+    if (requestedPeers.includes(data)) {
+      const updatedPeers = requestedPeers.filter((peer) => peer !== data);
+      setRequestedPeers(updatedPeers);
+    }
+  });
 
   const MetaDataObj = {
     host: {
@@ -42,19 +67,34 @@ const Peers: React.FC<PeersProps> = () => {
 
       {isRequested && (
         <PeerList className="mt-5" title="Requested to Speak">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <PeerMetaData
-              key={i}
-              isRequested
-              className="mt-5"
-              name="name"
-              src="/images/user-avatar.png"
-              role="host"
-              onAccept={() => ""}
-              onDeny={() => ""}
-              peerId={me.meId}
-            />
-          ))}
+          {Object.values(peers)
+            .filter(({ peerId }) => requestedPeers.includes(peerId))
+            .map(({ peerId, displayName, avatarUrl }) => (
+              <PeerMetaData
+                key={peerId}
+                isRequested
+                className="mt-5"
+                name={displayName}
+                src={avatarUrl}
+                role="host"
+                onAccept={() => {
+                  if (me.role == "host" || me.role == "coHost") {
+                    changePeerRole(peerId, "speaker");
+                    const updatedPeers = requestedPeers.filter(
+                      (peer) => peer !== peerId
+                    );
+                    setRequestedPeers(updatedPeers);
+                  }
+                }}
+                onDeny={() => {
+                  const updatedPeers = requestedPeers.filter(
+                    (peer) => peer !== peerId
+                  );
+                  setRequestedPeers(updatedPeers);
+                }}
+                peerId={peerId}
+              />
+            ))}
         </PeerList>
       )}
 
@@ -65,19 +105,19 @@ const Peers: React.FC<PeersProps> = () => {
             key={me.meId}
             className="mt-5"
             name={me.displayName}
-            src="/images/user-avatar.png"
+            src={me.avatarUrl}
             role={me.role}
             peerId={me.meId}
           />
         )}
         {Object.values(peers)
           .filter((peer) => peer.role === "host")
-          .map(({ cam, displayName, mic, peerId, role }) => (
+          .map(({ cam, displayName, mic, peerId, role, avatarUrl }) => (
             <PeerMetaData
               key={peerId}
               className="mt-5"
               name={displayName}
-              src="/images/user-avatar.png"
+              src={avatarUrl}
               role={role}
               peerId={peerId}
             />
@@ -86,13 +126,14 @@ const Peers: React.FC<PeersProps> = () => {
 
       {/* CO-Hosts */}
       {(Object.values(peers).filter((peer) => peer.role === "coHost").length >
-        0 || me.role == "coHost") && (
+        0 ||
+        me.role == "coHost") && (
         <PeerList title="Co-Hosts">
           {me.role === "coHost" && (
             <PeerMetaData
               className="mt-5"
               name={me.displayName}
-              src="/images/user-avatar.png"
+              src={me.avatarUrl}
               role={me.role}
               peerId={me.meId}
             />
@@ -105,7 +146,7 @@ const Peers: React.FC<PeersProps> = () => {
                 key={peerId}
                 className="mt-5"
                 name={displayName}
-                src="/images/user-avatar.png"
+                src={me.avatarUrl}
                 role={role}
                 peerId={peerId}
               />
@@ -115,7 +156,8 @@ const Peers: React.FC<PeersProps> = () => {
 
       {/* Speakers */}
       {(Object.values(peers).filter((peer) => peer.role === "speaker").length >
-        0 || me.role == 'speaker') && (
+        0 ||
+        me.role == "speaker") && (
         <PeerList
           title="Speakers"
           count={
@@ -127,7 +169,7 @@ const Peers: React.FC<PeersProps> = () => {
             <PeerMetaData
               className="mt-5"
               name={me.displayName}
-              src="/images/user-avatar.png"
+              src={me.avatarUrl}
               role={me.role}
               peerId={me.meId}
             />
@@ -135,12 +177,12 @@ const Peers: React.FC<PeersProps> = () => {
 
           {Object.values(peers)
             .filter((peer) => peer.role === "speaker")
-            .map(({ displayName, peerId, role }) => (
+            .map(({ displayName, peerId, role, avatarUrl }) => (
               <PeerMetaData
                 key={peerId}
                 className="mt-5"
                 name={displayName}
-                src="/images/user-avatar.png"
+                src={avatarUrl}
                 role={role}
                 peerId={peerId}
               />
@@ -148,12 +190,13 @@ const Peers: React.FC<PeersProps> = () => {
         </PeerList>
       )}
 
-      {(Object.values(peers).filter(({role}) => role == "listener").length > 0 || me.role == "listener") && (
+      {(Object.values(peers).filter(({ role }) => role == "listener").length >
+        0 ||
+        me.role == "listener") && (
         <PeerList
           title="Listeners"
           count={
-            Object.values(peers).filter(({ role }) => role == "listener")
-              .length 
+            Object.values(peers).filter(({ role }) => role == "listener").length
           }
         >
           {BlackList.includes(me.role) && (
@@ -162,19 +205,19 @@ const Peers: React.FC<PeersProps> = () => {
               name={me.displayName}
               role={me.role}
               className="mt-5"
-              src="/images/user-avatar.png"
+              src={me.avatarUrl}
               peerId={me.meId}
             />
           )}
 
           {Object.values(peers)
             .filter((peer) => BlackList.includes(peer.role))
-            .map(({ cam, displayName, mic, peerId, role }) => (
+            .map(({ cam, displayName, mic, peerId, role, avatarUrl }) => (
               <PeerMetaData
                 key={peerId}
                 className="mt-5"
                 name={displayName}
-                src="/images/user-avatar.png"
+                src={avatarUrl}
                 role={role}
                 peerId={peerId}
               />

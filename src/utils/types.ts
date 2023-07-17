@@ -14,4 +14,5 @@ export type Peer = {
   mic: MediaStreamTrack | null;
   cam: MediaStreamTrack | null;
   displayName: string;
+  avatarUrl: string;
 };

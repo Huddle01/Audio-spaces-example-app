@@ -2,11 +2,14 @@ import { NestedPeerListIcons, PeerListIcons } from "@/assets/PeerListIcons";
 import Dropdown from "@/components/common/Dropdown";
 import { cn } from "@/utils/helpers";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HostData from "./PeerRole/HostData";
 import CoHostData from "./PeerRole/CoHostData";
 import SpeakerData from "./PeerRole/SpeakerData";
 import ListenersData from "./PeerRole/ListenersData";
+import { useHuddle01, useAudio, useEventListener } from "@huddle01/react/hooks";
+import { useAppUtils } from "@huddle01/react/app-utils";
+import useStore from "@/store/slices";
 
 interface PeerMetaDatProps {
   isRequested?: boolean;
@@ -22,7 +25,6 @@ interface PeerMetaDatProps {
 }
 
 const PeerMetaData: React.FC<PeerMetaDatProps> = ({
-  isHandRaised,
   className,
   isMicActive,
   name,
@@ -31,14 +33,42 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
   role,
   onAccept,
   onDeny,
-  peerId
+  peerId,
 }) => {
   const RoleData = {
-    host: <HostData peerId={peerId}/>,
-    coHost: <CoHostData peerId={peerId}/>,
-    speaker: <SpeakerData peerId={peerId}/>,
-    listener: <ListenersData peerId={peerId}/>,
+    host: <HostData peerId={peerId} />,
+    coHost: <CoHostData peerId={peerId} />,
+    speaker: <SpeakerData peerId={peerId} />,
+    listener: <ListenersData peerId={peerId} />,
   } as const;
+
+  const { me } = useHuddle01();
+  const { sendData } = useAppUtils();
+  const {
+    fetchAudioStream,
+    stopAudioStream,
+    produceAudio,
+    stopProducingAudio,
+    stream: micStream,
+    isAudioOn,
+  } = useAudio();
+  const [isHandRaised, setIsHandRaised] = useState<boolean>(false);
+  const setMyHandRaised = useStore((state) => state.setMyHandRaised);
+
+  useEffect(() => {
+    sendData("*", {
+      raiseHand: isHandRaised,
+    });
+    setMyHandRaised(isHandRaised);
+  }, [isHandRaised]);
+
+  useEventListener("app:mic-on", () => {
+    if (micStream) produceAudio(micStream);
+  });
+
+  useEventListener("app:mic-off", () => {
+    stopProducingAudio();
+  });
 
   return (
     <div className={cn(className, "flex items-center justify-between w-full")}>
@@ -50,7 +80,7 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
           height={30}
           priority
           quality={100}
-          className="object-contain"
+          className="object-contain rounded-full"
         />
         <div className="text-slate-400 tex-sm font-normal">{name}</div>
       </div>
@@ -58,8 +88,26 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
         <AcceptDenyGroup onDeny={onDeny} onAccept={onAccept} />
       ) : (
         <div className="flex items-center gap-3">
-          <div>{NestedPeerListIcons.inactive.hand}</div>
-          <div>{NestedPeerListIcons.inactive.mic}</div>
+          <button
+            onClick={() => {
+              setIsHandRaised((prev) => !prev);
+            }}
+          >
+            {isHandRaised
+              ? NestedPeerListIcons.active.hand
+              : NestedPeerListIcons.inactive.hand}
+          </button>
+          <button
+            onClick={() => {
+              if (["host", "coHost", "speaker"].includes(role)) {
+                isAudioOn ? stopAudioStream() : fetchAudioStream();
+              }
+            }}
+          >
+            {isAudioOn
+              ? NestedPeerListIcons.active.mic
+              : NestedPeerListIcons.inactive.mic}
+          </button>
 
           <Dropdown
             triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}

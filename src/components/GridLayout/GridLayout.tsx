@@ -15,6 +15,10 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
     console.log({ me });
   }, [me]);
 
+  useEffect(() => {
+    console.log({ peers })
+  }, [peers])
+
   return (
     <div className="w-full h-full ml-10 flex items-center justify-center flex-col py-20">
       <div className="flex-wrap flex items-center justify-center gap-4 w-full">
@@ -23,16 +27,18 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
             displayName={me.displayName}
             peerId={me.meId}
             role={me.role}
+            avatarUrl={me.avatarUrl}
           />
         )}
         {Object.values(peers)
           .filter((peer) => ["host", "coHost", "speaker"].includes(peer.role))
-          .map(({ displayName, peerId, role }) => (
+          .map(({ displayName, peerId, role, avatarUrl }) => (
             <GridCard
               key={peerId}
               displayName={displayName}
               peerId={peerId}
               role={role}
+              avatarUrl={avatarUrl}
             />
           ))}
       </div>
@@ -46,16 +52,18 @@ const GridLayout: React.FC<GridLayoutProps> = () => {
               displayName={me.displayName}
               peerId={me.meId}
               role={me.role}
+              avatarUrl={me.avatarUrl}
             />
           )}
           {Object.values(peers)
             .filter((peer) => Blacklist.includes(peer.role))
-            .map(({ cam, displayName, mic, peerId, role }, i) => (
+            .map(({ displayName, peerId, role, avatarUrl }, i) => (
               <GridCard
                 key={peerId}
-                displayName={`Guest${i + 1}`}
+                displayName={displayName}
                 peerId={peerId}
                 role={role}
+                avatarUrl={avatarUrl}
               />
             ))}
         </div>

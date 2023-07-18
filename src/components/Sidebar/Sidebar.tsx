@@ -18,7 +18,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
   return (
     <aside
       className={cn(
-        "w-[29rem] bg-custom-3 h-[40rem] mr-1 rounded-md  transition-all duration-300 ease-out flex-col",
+        "w-[29rem] bg-custom-3 h-[40rem] mr-1 rounded-md  transition-all duration-300 ease-out flex-col max-h-[80vh] my-16",
         isSidebarOpen ? "flex" : "hidden"
       )}
     >

@@ -37,13 +37,13 @@ const AcceptRequest: React.FC<AcceptRequestProps> = ({
         </div>
         <div className="flex items-start gap-2">
           <button
-            className="flex w-20 px-1 py-2 items-center justify-center bg-custom-8 rounded-lg text-xs"
+            className="flex w-20 px-1 py-2 items-center justify-center bg-custom-8 font-medium rounded-lg text-sm"
             onClick={onAccept}
           >
             Accept
           </button>
           <button
-            className="flex w-20 px-1 py-2 items-center justify-center bg-custom-4 rounded-lg text-red-400 text-xs"
+            className="flex w-20 px-1 py-2 items-center justify-center rounded-lg text-red-400 text-sm font-medium border border-red-400"
             onClick={onDeny}
           >
             Deny

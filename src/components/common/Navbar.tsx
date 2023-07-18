@@ -19,8 +19,6 @@ const Navbar: React.FC<NavbarProps> = () => {
         quality={100}
         priority
       />
-
-      <div>{roomState}</div>
     </header>
   );
 };

@@ -11,6 +11,7 @@ import { useEventListener, useHuddle01 } from "@huddle01/react/hooks";
 import { useRoom, useAcl } from "@huddle01/react/hooks";
 import { useRouter } from "next/navigation";
 import AcceptRequest from "@/components/Modals/AcceptRequest";
+import useStore from "@/store/slices";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
   const { isRoomJoined } = useRoom();
@@ -19,6 +20,9 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   const { me } = useHuddle01();
   const [requestedPeerId, setRequestedPeerId] = useState("");
   const [showAcceptRequest, setShowAcceptRequest] = useState(false);
+  const addRequestedPeers = useStore((state) => state.addRequestedPeers);
+  const removeRequestedPeers = useStore((state) => state.removeRequestedPeers);
+  const requestedPeers = useStore((state) => state.requestedPeers);
 
   useEventListener("room:peer-joined", ({ peerId, role }) => {
     if (role === "peer") {
@@ -44,6 +48,7 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
     ) {
       setShowAcceptRequest(true);
       setRequestedPeerId(data.payload["request-to-speak"]);
+      addRequestedPeers(data.payload["request-to-speak"]);
     }
   });
 
@@ -51,8 +56,15 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
     if (me.role == "host" || me.role == "coHost") {
       changePeerRole(requestedPeerId, "speaker");
       setShowAcceptRequest(false);
+      removeRequestedPeers(requestedPeerId);
     }
   };
+
+  useEffect(() => {
+    if (!requestedPeers.includes(requestedPeerId)) {
+      setShowAcceptRequest(false);
+    }
+  }, [requestedPeers])
 
   return (
     <section className="bg-audio flex h-screen items-center justify-center w-full relative  text-slate-100">
@@ -66,6 +78,7 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
               onAccept={handleAccept}
               onDeny={() => {
                 setShowAcceptRequest(false);
+                removeRequestedPeers(requestedPeerId);
               }}
             />
           )}

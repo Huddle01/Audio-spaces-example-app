@@ -15,6 +15,8 @@ import {
   useEventListener,
 } from "@huddle01/react/hooks";
 
+import useStore from "@/store/slices";
+
 type PeersProps = {};
 
 const Peers: React.FC<PeersProps> = () => {
@@ -24,48 +26,14 @@ const Peers: React.FC<PeersProps> = () => {
   const { peers } = usePeers();
   const { changeRoomControls, changePeerRole } = useAcl();
 
-  const [isRequested, setIsRequested] = useState<boolean>(false);
-  const [requestedPeers, setRequestedPeers] = useState<string[]>([]);
-
-  useEventListener("room:data-received", (data) => {
-    if (data.payload["request-to-speak"]) {
-      setIsRequested(true);
-      if (requestedPeers.includes(data.payload["request-to-speak"])) return;
-      setRequestedPeers((requestedPeers) => [
-        ...requestedPeers,
-        data.payload["request-to-speak"],
-      ]);
-    }
-    console.log("data", { data });
-  });
-
-  useEventListener("room:peer-role-update", (data) => {
-    if (requestedPeers.includes(data)) {
-      const updatedPeers = requestedPeers.filter((peer) => peer !== data);
-      setRequestedPeers(updatedPeers);
-    }
-  });
-
-  const MetaDataObj = {
-    host: {
-      meCond: me.role === "host",
-    },
-    "co-host": {
-      meCond: me.role === "co-host",
-    },
-    speakers: {
-      meCond: me.role === "speakers",
-    },
-    listeners: {
-      meCond: me.role === BlackList.includes("peer"),
-    },
-  } as const;
+  const requestedPeers = useStore((state) => state.requestedPeers);
+  const removeRequestedPeers = useStore((state) => state.removeRequestedPeers);
 
   return (
     <div>
       <MuteMicDiv onClick={() => changeRoomControls("muteEveryone", true)} />
 
-      {isRequested && (
+      {requestedPeers.length > 0 && (
         <PeerList className="mt-5" title="Requested to Speak">
           {Object.values(peers)
             .filter(({ peerId }) => requestedPeers.includes(peerId))
@@ -80,17 +48,11 @@ const Peers: React.FC<PeersProps> = () => {
                 onAccept={() => {
                   if (me.role == "host" || me.role == "coHost") {
                     changePeerRole(peerId, "speaker");
-                    const updatedPeers = requestedPeers.filter(
-                      (peer) => peer !== peerId
-                    );
-                    setRequestedPeers(updatedPeers);
+                    removeRequestedPeers(peerId);
                   }
                 }}
                 onDeny={() => {
-                  const updatedPeers = requestedPeers.filter(
-                    (peer) => peer !== peerId
-                  );
-                  setRequestedPeers(updatedPeers);
+                  removeRequestedPeers(peerId);
                 }}
                 peerId={peerId}
               />
@@ -124,7 +86,7 @@ const Peers: React.FC<PeersProps> = () => {
           ))}
       </PeerList>
 
-      {/* CO-Hosts */}
+      {/* Co-Hosts */}
       {(Object.values(peers).filter((peer) => peer.role === "coHost").length >
         0 ||
         me.role == "coHost") && (
@@ -141,12 +103,12 @@ const Peers: React.FC<PeersProps> = () => {
 
           {Object.values(peers)
             .filter((peer) => peer.role === "coHost")
-            .map(({ cam, displayName, mic, peerId, role }) => (
+            .map(({ cam, displayName, mic, peerId, role, avatarUrl }) => (
               <PeerMetaData
                 key={peerId}
                 className="mt-5"
                 name={displayName}
-                src={me.avatarUrl}
+                src={avatarUrl}
                 role={role}
                 peerId={peerId}
               />
@@ -162,7 +124,7 @@ const Peers: React.FC<PeersProps> = () => {
           title="Speakers"
           count={
             Object.values(peers).filter((peer) => peer.role === "speaker")
-              .length
+              .length + (me.role == "speaker" ? 1 : 0)
           }
         >
           {me.role === "speaker" && (
@@ -190,13 +152,14 @@ const Peers: React.FC<PeersProps> = () => {
         </PeerList>
       )}
 
+      {/* listeners */}
       {(Object.values(peers).filter(({ role }) => role == "listener").length >
         0 ||
         me.role == "listener") && (
         <PeerList
           title="Listeners"
           count={
-            Object.values(peers).filter(({ role }) => role == "listener").length
+            Object.values(peers).filter(({ role }) => role == "listener").length + (me.role == "listener" ? 1 : 0)
           }
         >
           {BlackList.includes(me.role) && (

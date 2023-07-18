@@ -12,6 +12,7 @@ import { useRoom, useAcl } from "@huddle01/react/hooks";
 import { useRouter } from "next/navigation";
 import AcceptRequest from "@/components/Modals/AcceptRequest";
 import useStore from "@/store/slices";
+import { toast } from "react-hot-toast";
 
 const Audio = ({ params }: { params: { roomId: string } }) => {
   const { isRoomJoined } = useRoom();
@@ -31,7 +32,7 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   });
 
   useEventListener("room:me-left", () => {
-    push("https://huddle01.com/docs");
+    push("https://huddle01.com/docs/usecase/audio-spaces");
   });
 
   useEffect(() => {
@@ -40,6 +41,10 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
       return;
     }
   }, []);
+
+  useEventListener("room:me-role-update", (role) => {
+    toast.success(`You are now ${role}`);
+  });
 
   useEventListener("room:data-received", (data) => {
     if (

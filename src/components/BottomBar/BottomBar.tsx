@@ -55,7 +55,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   return (
     <div className="absolute bottom-6 w-full flex items-center px-10">
       {/* Bottom Bar Left */}
-      {me.role == 'host' || me.role == "coHost" || me.role == "speaker" ? (
+      {me.role == "host" || me.role == "coHost" || me.role == "speaker" ? (
         <div className="mr-auto flex items-center justify-between gap-3 w-44">
           {""}
         </div>
@@ -101,7 +101,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         </Dropdown>
         <button
           type="button"
-          onClick={() => push("https://huddle01.com/docs/sdk/usecase")}
+          onClick={() => push("https://huddle01.com/docs/usecase/audio-spaces")}
         >
           {BasicIcons.leave}
         </button>

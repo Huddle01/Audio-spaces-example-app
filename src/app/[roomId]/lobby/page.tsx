@@ -61,9 +61,11 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
     }
   };
 
-  useEventListener("room:joined", () => {
-    push(`/${params.roomId}`);
-  });
+  useEffect(() => {
+    if(isRoomJoined) {
+      push(`/${params.roomId}`);
+    }
+  }, [isRoomJoined]);
 
   useEffect(() => {
     if (setDisplayName.isCallable && userName.length) {

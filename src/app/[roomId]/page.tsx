@@ -8,10 +8,7 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import GridLayout from "@/components/GridLayout/GridLayout";
 import Prompts from "@/components/common/Prompts";
 import { useEventListener, useHuddle01 } from "@huddle01/react/hooks";
-import {
-  useRoom,
-  useAcl,
-} from "@huddle01/react/hooks";
+import { useRoom, useAcl } from "@huddle01/react/hooks";
 import { useRouter } from "next/navigation";
 import AcceptRequest from "@/components/Modals/AcceptRequest";
 
@@ -20,7 +17,7 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   const { push } = useRouter();
   const { changePeerRole } = useAcl();
   const { me } = useHuddle01();
-  const [requestedPeerId, setRequestedPeerId] = useState(""); 
+  const [requestedPeerId, setRequestedPeerId] = useState("");
   const [showAcceptRequest, setShowAcceptRequest] = useState(false);
 
   useEventListener("room:peer-joined", ({ peerId, role }) => {
@@ -30,7 +27,7 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   });
 
   useEventListener("room:me-left", () => {
-    push("https://huddle01.com/docs")
+    push("https://huddle01.com/docs");
   });
 
   useEffect(() => {
@@ -41,7 +38,10 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
   }, []);
 
   useEventListener("room:data-received", (data) => {
-    if (data.payload["request-to-speak"]) {
+    if (
+      data.payload["request-to-speak"] &&
+      (me.role == "host" || me.role == "coHost")
+    ) {
       setShowAcceptRequest(true);
       setRequestedPeerId(data.payload["request-to-speak"]);
     }
@@ -60,7 +60,15 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
         <GridLayout />
         <Sidebar />
         <div className="absolute right-4 bottom-20">
-        {showAcceptRequest && <AcceptRequest peerId={requestedPeerId} onAccept={handleAccept} onDeny={() => {setShowAcceptRequest(false)}}/>}
+          {showAcceptRequest && (
+            <AcceptRequest
+              peerId={requestedPeerId}
+              onAccept={handleAccept}
+              onDeny={() => {
+                setShowAcceptRequest(false);
+              }}
+            />
+          )}
         </div>
       </div>
       <BottomBar />

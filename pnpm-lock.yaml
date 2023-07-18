@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@huddle01/react':
-    specifier: 0.0.13-beta.8
-    version: 0.0.13-beta.8
+    specifier: 0.0.13-beta.9
+    version: 0.0.13-beta.9
   '@radix-ui/react-dropdown-menu':
     specifier: ^2.0.5
     version: 2.0.5(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
@@ -132,8 +132,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@huddle01/react@0.0.13-beta.8:
-    resolution: {integrity: sha512-e+8fpQaxCZ+DhOPMtKpxChbyKWWMHVSKcPEn4a2tGEsDKrPs//ir14cQl3xQfnC6DbzqJ4iqHYWIKE+o0kq87Q==}
+  /@huddle01/react@0.0.13-beta.9:
+    resolution: {integrity: sha512-wAMgU3RwdQlR6Pj0+jaAFBxs3bGnXosBvA6GvcjLAcq3gLGoQzx7O4zqPquP1x1bXL+5KN76z55L+iAAa0KPcg==}
     dependencies:
       '@huddle01/web-core': 0.0.15-beta.6
       jotai: 2.2.2(react@18.2.0)

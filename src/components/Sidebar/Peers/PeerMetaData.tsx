@@ -90,7 +90,9 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={() => {
-              setIsHandRaised((prev) => !prev);
+              if (peerId === me?.meId) {
+                setIsHandRaised((prev) => !prev);
+              }
             }}
           >
             {isHandRaised

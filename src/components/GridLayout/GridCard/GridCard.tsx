@@ -71,7 +71,7 @@ const GridCard: React.FC<GridCardProps> = ({
       />
 
       <div className="mt-1 text-center">
-        <div className="text-custom-5 text-xl font-medium">{displayName}</div>
+        <div className="text-custom-5 text-xl font-medium">{me.meId === peerId ? `${displayName} (You)` : displayName}</div>
         <div className="text-custom-6 text-base font-normal">{role}</div>
       </div>
       <div className="absolute left-1/2 bottom-1/2 -translate-x-1/2 mb-2 text-4xl">

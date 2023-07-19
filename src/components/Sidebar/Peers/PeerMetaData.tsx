@@ -126,7 +126,7 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
             (me.role === "speaker" &&
               ["host", "coHost", "listener"].includes(role)) ||
             (me.role === "coHost" && role === "host") ||
-            (me.meId === peerId && ["speaker", "coHost"].includes(role))
+            !(me.meId === peerId && ["speaker", "coHost"].includes(role))
           ) ? (
             <Dropdown
               triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}

@@ -36,19 +36,19 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
   const setPromptView = useStore((state) => state.setPromptView);
 
-  const [isMicOn, setIsMicOn] = useState<boolean>(false);
+  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
 
   const { me } = useHuddle01();
 
   const count = Object.keys(peers).length + 1;
 
-  useEventListener("app:mic-on", () => {
-    setIsMicOn(true);
-    if (micStream) produceAudio(micStream);
+  useEventListener("app:mic-on", (stream) => {
+    setIsAudioOn(true);
+    if (stream) produceAudio(stream);
   });
 
   useEventListener("app:mic-off", () => {
-    setIsMicOn(false);
+    setIsAudioOn(false);
     stopProducingAudio();
   });
 
@@ -72,7 +72,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       {/* Bottom Bar Center */}
       <div className="flex items-center mr-20 gap-4">
         {me.role !== "listener" &&
-          (!isMicOn ? (
+          (!isAudioOn ? (
             <button
               onClick={() => {
                 fetchAudioStream();

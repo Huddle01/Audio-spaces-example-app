@@ -3,7 +3,7 @@ import Image from "next/image";
 
 // Assets
 import { BasicIcons } from "@/assets/BasicIcons";
-import { Audio } from "@huddle01/react/components";
+import Audio from "@/components/common/Audio";
 import { IRoleEnum } from "@/utils/types";
 import useStore from "@/store/slices";
 import { useEventListener, useHuddle01 } from "@huddle01/react/hooks";
@@ -62,7 +62,7 @@ const GridCard: React.FC<GridCardProps> = ({
 
   return (
     <div className="relative flex items-center justify-center flex-col">
-      {mic && <Audio peerId={peerId} track={mic} />}
+      {mic && <Audio track={mic} />}
       <Image
         src={avatarUrl}
         alt="default-avatar"

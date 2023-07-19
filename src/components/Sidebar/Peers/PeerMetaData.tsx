@@ -50,10 +50,10 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
     produceAudio,
     stopProducingAudio,
     stream: micStream,
-    isAudioOn,
   } = useAudio();
   const [isHandRaised, setIsHandRaised] = useState<boolean>(false);
   const setMyHandRaised = useStore((state) => state.setMyHandRaised);
+  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
 
   useEffect(() => {
     sendData("*", {
@@ -62,12 +62,18 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
     setMyHandRaised(isHandRaised);
   }, [isHandRaised]);
 
-  useEventListener("app:mic-on", () => {
-    if (micStream) produceAudio(micStream);
+  useEventListener("app:mic-on", (stream) => {
+    if (me.meId == peerId) {
+      setIsAudioOn(true);
+      if (stream) produceAudio(stream);
+    }
   });
 
   useEventListener("app:mic-off", () => {
-    stopProducingAudio();
+    if (me.meId == peerId) {
+      setIsAudioOn(false);
+      stopProducingAudio();
+    }
   });
 
   return (
@@ -101,12 +107,15 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
           </button>
           <button
             onClick={() => {
-              if (["host", "coHost", "speaker"].includes(role)) {
+              if (
+                ["host", "coHost", "speaker"].includes(role) &&
+                peerId === me?.meId
+              ) {
                 isAudioOn ? stopAudioStream() : fetchAudioStream();
               }
             }}
           >
-            {isAudioOn
+            {isAudioOn || isMicActive
               ? NestedPeerListIcons.active.mic
               : NestedPeerListIcons.inactive.mic}
           </button>
@@ -116,7 +125,8 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
               ["host", "coHost", "speaker"].includes(role)) ||
             (me.role === "speaker" &&
               ["host", "coHost", "listener"].includes(role)) ||
-            (me.role === "coHost" && role === "host")
+            (me.role === "coHost" && role === "host") ||
+            (me.meId === peerId && ["speaker", "coHost"].includes(role))
           ) ? (
             <Dropdown
               triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}

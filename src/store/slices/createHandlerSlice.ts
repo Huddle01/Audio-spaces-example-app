@@ -95,7 +95,7 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
     set((state) => ({
       requestedPeers: state.requestedPeers.filter((peer) => peer !== val),
     }));
-  }
+  }, 
 
 });
 

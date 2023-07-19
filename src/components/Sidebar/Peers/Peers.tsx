@@ -37,12 +37,13 @@ const Peers: React.FC<PeersProps> = () => {
         <PeerList className="mt-5" title="Requested to Speak">
           {Object.values(peers)
             .filter(({ peerId }) => requestedPeers.includes(peerId))
-            .map(({ peerId, displayName, avatarUrl }) => (
+            .map(({ peerId, displayName, avatarUrl, mic }) => (
               <PeerMetaData
                 key={peerId}
                 isRequested
                 className="mt-5"
                 name={displayName}
+                isMicActive={mic ? true : false}
                 src={avatarUrl}
                 role="host"
                 onAccept={() => {
@@ -74,11 +75,12 @@ const Peers: React.FC<PeersProps> = () => {
         )}
         {Object.values(peers)
           .filter((peer) => peer.role === "host")
-          .map(({ cam, displayName, mic, peerId, role, avatarUrl }) => (
+          .map(({ displayName, mic, peerId, role, avatarUrl }) => (
             <PeerMetaData
               key={peerId}
               className="mt-5"
               name={displayName}
+              isMicActive={mic ? true : false}
               src={avatarUrl}
               role={role}
               peerId={peerId}
@@ -103,11 +105,12 @@ const Peers: React.FC<PeersProps> = () => {
 
           {Object.values(peers)
             .filter((peer) => peer.role === "coHost")
-            .map(({ cam, displayName, mic, peerId, role, avatarUrl }) => (
+            .map(({ displayName, mic, peerId, role, avatarUrl }) => (
               <PeerMetaData
                 key={peerId}
                 className="mt-5"
                 name={displayName}
+                isMicActive={mic ? true : false}
                 src={avatarUrl}
                 role={role}
                 peerId={peerId}
@@ -139,12 +142,13 @@ const Peers: React.FC<PeersProps> = () => {
 
           {Object.values(peers)
             .filter((peer) => peer.role === "speaker")
-            .map(({ displayName, peerId, role, avatarUrl }) => (
+            .map(({ displayName, peerId, role, avatarUrl, mic }) => (
               <PeerMetaData
                 key={peerId}
                 className="mt-5"
                 name={displayName}
                 src={avatarUrl}
+                isMicActive={mic ? true : false}
                 role={role}
                 peerId={peerId}
               />

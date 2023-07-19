@@ -14,7 +14,7 @@ import AcceptRequest from "@/components/Modals/AcceptRequest";
 import useStore from "@/store/slices";
 import { toast } from "react-hot-toast";
 
-const Audio = ({ params }: { params: { roomId: string } }) => {
+const Home = ({ params }: { params: { roomId: string } }) => {
   const { isRoomJoined } = useRoom();
   const { push } = useRouter();
   const { changePeerRole } = useAcl();
@@ -54,6 +54,9 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
       setShowAcceptRequest(true);
       setRequestedPeerId(data.payload["request-to-speak"]);
       addRequestedPeers(data.payload["request-to-speak"]);
+      setTimeout(() => {
+        setShowAcceptRequest(false);
+      }, 5000);
     }
   });
 
@@ -94,4 +97,4 @@ const Audio = ({ params }: { params: { roomId: string } }) => {
     </section>
   );
 };
-export default Audio;
+export default Home;

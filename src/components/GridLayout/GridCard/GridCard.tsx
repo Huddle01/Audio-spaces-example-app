@@ -27,6 +27,7 @@ const GridCard: React.FC<GridCardProps> = ({
   const [isHandRaised, setIsHandRaised] = useState(false);
   const isMyHandRaised = useStore((state) => state.isMyHandRaised);
   const myReaction = useStore((state) => state.myReaction);
+  const setMyReaction = useStore((state) => state.setMyReaction);
   const { me } = useHuddle01();
 
   useEventListener("room:data-received", (data) => {
@@ -34,6 +35,7 @@ const GridCard: React.FC<GridCardProps> = ({
       setReaction(data.payload["reaction"]);
       setTimeout(() => {
         setReaction("");
+        setMyReaction("");
       }, 5000);
     }
 

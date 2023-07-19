@@ -18,6 +18,7 @@ const createRandomRoom = async () => {
       "Content-Type": "application/json",
       "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
     },
+    cache: "no-store",
   });
   const data: RoomDetails = await res.json();
   const { roomId } = data.data;

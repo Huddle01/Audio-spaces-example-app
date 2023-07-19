@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "@/store/slices";
 
 // Assets
@@ -24,10 +24,8 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   const {
     fetchAudioStream,
     produceAudio,
-    isProducing: isAudioProducing,
     stopAudioStream,
     stopProducingAudio,
-    stream: micStream,
   } = useAudio();
 
   const sidebarView = useStore((state) => state.sidebar.sidebarView);
@@ -39,8 +37,6 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
 
   const { me } = useHuddle01();
-
-  const count = Object.keys(peers).length + 1;
 
   useEventListener("app:mic-on", (stream) => {
     setIsAudioOn(true);
@@ -115,7 +111,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         }
       >
         {BasicIcons.peers}
-        <span>{count}</span>
+        <span>{Object.keys(peers).length + 1}</span>
       </OutlineButton>
     </div>
   );

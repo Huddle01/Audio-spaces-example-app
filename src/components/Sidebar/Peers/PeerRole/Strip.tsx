@@ -21,7 +21,7 @@ const Strip: React.FC<StripProps> = ({ type, title, variant, onClick }) => {
       )}
       onClick={onClick}
     >
-      <div>{PeerListIcons[type]}</div>
+      <div className="flex w-6 h-6 justify-center items-center">{PeerListIcons[type]}</div>
       <div>{title}</div>
     </div>
   );

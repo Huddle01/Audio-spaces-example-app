@@ -7,7 +7,7 @@ type HostDataProps = {
 };
 
 const HostData: React.FC<HostDataProps> = ({ peerId }) => {
-  const { leaveRoom } = useRoom();
+  const { leaveRoom, endRoom } = useRoom();
 
   const { me } = useHuddle01();
 
@@ -15,6 +15,14 @@ const HostData: React.FC<HostDataProps> = ({ peerId }) => {
     <>
       {me.role === "host" && (
         <div>
+          <Strip
+            type="close"
+            title="End spaces for all"
+            variant="danger"
+            onClick={() => {
+              endRoom();
+            }}
+          />
           <Strip
             type="leave"
             title="Leave the spaces"

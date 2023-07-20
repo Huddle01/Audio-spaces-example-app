@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import AcceptRequest from "@/components/Modals/AcceptRequest";
 import useStore from "@/store/slices";
 import { toast } from "react-hot-toast";
+import { useAppUtils } from "@huddle01/react/app-utils";
 
 const Home = ({ params }: { params: { roomId: string } }) => {
   const { isRoomJoined } = useRoom();
@@ -24,6 +25,8 @@ const Home = ({ params }: { params: { roomId: string } }) => {
   const addRequestedPeers = useStore((state) => state.addRequestedPeers);
   const removeRequestedPeers = useStore((state) => state.removeRequestedPeers);
   const requestedPeers = useStore((state) => state.requestedPeers);
+  const avatarUrl = useStore((state) => state.avatarUrl);
+  const { changeAvatarUrl } = useAppUtils();
 
   useEventListener("room:peer-joined", ({ peerId, role }) => {
     if (role === "peer") {
@@ -41,6 +44,17 @@ const Home = ({ params }: { params: { roomId: string } }) => {
       return;
     }
   }, []);
+
+  useEffect(() => {
+    if (changeAvatarUrl.isCallable) {
+      if (avatarUrl) {
+        changeAvatarUrl(avatarUrl);
+      } else {
+        changeAvatarUrl("/avatars/avatars/0.png");
+      }
+    }
+  }, [changeAvatarUrl.isCallable]);
+
 
   useEventListener("room:me-role-update", (role) => {
     toast.success(`You are now ${role}`);

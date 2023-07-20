@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import useStore from "@/store/slices";
+import Strip from "../Sidebar/Peers/PeerRole/Strip";
 
 // Assets
 import { BasicIcons, NestedBasicIcons } from "@/assets/BasicIcons";
@@ -9,7 +10,12 @@ import { cn } from "@/utils/helpers";
 import Dropdown from "../common/Dropdown";
 import EmojiTray from "../EmojiTray/EmojiTray";
 import { useRouter } from "next/navigation";
-import { useAudio, useHuddle01, usePeers } from "@huddle01/react/hooks";
+import {
+  useAudio,
+  useHuddle01,
+  usePeers,
+  useRoom,
+} from "@huddle01/react/hooks";
 import { useEventListener } from "@huddle01/react/hooks";
 
 type BottomBarProps = {};
@@ -20,6 +26,8 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   const { peers } = usePeers();
 
   const { push } = useRouter();
+
+  const { leaveRoom, endRoom } = useRoom();
 
   const {
     fetchAudioStream,
@@ -35,6 +43,8 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   const setPromptView = useStore((state) => state.setPromptView);
 
   const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
+
+  const [showLeaveDropDown, setShowLeaveDropDown] = useState<boolean>(true);
 
   const { me } = useHuddle01();
 
@@ -95,12 +105,28 @@ const BottomBar: React.FC<BottomBarProps> = () => {
             onClose={() => setIsOpen(false)}
           />
         </Dropdown>
-        <button
-          type="button"
-          onClick={() => push("https://huddle01.com/docs/usecase/audio-spaces")}
+        <Dropdown
+          triggerChild={BasicIcons.leave}
+          open={showLeaveDropDown}
+          onOpenChange={() => setShowLeaveDropDown((prev) => !prev)}
         >
-          {BasicIcons.leave}
-        </button>
+          <Strip
+            type="close"
+            title="End spaces for all"
+            variant="danger"
+            onClick={() => {
+              endRoom();
+            }}
+          />
+          <Strip
+            type="leave"
+            title="Leave the spaces"
+            variant="danger"
+            onClick={() => {
+              leaveRoom();
+            }}
+          />
+        </Dropdown>
       </div>
 
       {/* Bottom Bar Right */}

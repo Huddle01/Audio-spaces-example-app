@@ -62,7 +62,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
   };
 
   useEffect(() => {
-    if(isRoomJoined) {
+    if (isRoomJoined) {
       push(`/${params.roomId}`);
     }
   }, [isRoomJoined]);
@@ -73,11 +73,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
     }
   }, [setDisplayName.isCallable]);
 
-  useEffect(() => {
-    if (changeAvatarUrl.isCallable) {
-      changeAvatarUrl('/avatars/avatars/0.png');
-    }
-  }, [changeAvatarUrl.isCallable]);
+
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-lobby text-slate-100">
@@ -124,9 +120,6 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
                       key={`sidebar-avatars-${i}`}
                       isActive={avatarUrl === url}
                       onClick={() => {
-                        if (isLobbyJoined || isRoomJoined) {
-                          changeAvatarUrl(url);
-                        }
                         setAvatarUrl(url);
                       }}
                     >

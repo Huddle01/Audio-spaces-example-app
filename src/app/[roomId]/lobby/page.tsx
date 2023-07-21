@@ -16,10 +16,7 @@ import AvatarWrapper from "@/components/common/AvatarWrapper";
 import useStore from "@/store/slices";
 
 // Hooks
-import { useAppUtils } from "@huddle01/react/app-utils";
 import {
-  useAudio,
-  useEventListener,
   useHuddle01,
   useLobby,
   useRoom,
@@ -30,9 +27,10 @@ type lobbyProps = {};
 const Lobby = ({ params }: { params: { roomId: string } }) => {
   // Local States
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>("");
   const avatarUrl = useStore((state) => state.avatarUrl);
   const setAvatarUrl = useStore((state) => state.setAvatarUrl);
+  const setUserDisplayName = useStore((state) => state.setUserDisplayName);
+  const userDisplayName = useStore((state) => state.userDisplayName);
 
   const { push } = useRouter();
 
@@ -40,7 +38,6 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
   const { joinRoom, isRoomJoined } = useRoom();
   const { initialize, me } = useHuddle01();
   const { isLobbyJoined, joinLobby, isLoading } = useLobby();
-  const { setDisplayName, changeAvatarUrl } = useAppUtils();
 
   useEffect(() => {
     if (!isLobbyJoined) {
@@ -53,7 +50,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
   const handleStartSpaces = () => {
     if (!isLobbyJoined) return;
 
-    if (!userName.length) {
+    if (!userDisplayName.length) {
       toast.error("Display name must required !!");
       return;
     } else {
@@ -66,13 +63,6 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
       push(`/${params.roomId}`);
     }
   }, [isRoomJoined]);
-
-  useEffect(() => {
-    if (setDisplayName.isCallable && userName.length) {
-      setDisplayName(userName);
-    }
-  }, [setDisplayName.isCallable]);
-
 
 
   return (
@@ -152,9 +142,9 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
                 />
               </div>
               <input
-                value={userName}
+                value={userDisplayName}
                 onChange={(e) => {
-                  setUserName(e.target.value);
+                  setUserDisplayName(e.target.value);
                 }}
                 type="text"
                 placeholder="Enter your name"

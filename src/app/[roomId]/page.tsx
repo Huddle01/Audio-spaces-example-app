@@ -26,7 +26,8 @@ const Home = ({ params }: { params: { roomId: string } }) => {
   const removeRequestedPeers = useStore((state) => state.removeRequestedPeers);
   const requestedPeers = useStore((state) => state.requestedPeers);
   const avatarUrl = useStore((state) => state.avatarUrl);
-  const { changeAvatarUrl } = useAppUtils();
+  const userDisplayName = useStore((state) => state.userDisplayName);
+  const { changeAvatarUrl, setDisplayName } = useAppUtils();
 
   useEventListener("room:peer-joined", ({ peerId, role }) => {
     if (role === "peer") {
@@ -47,14 +48,15 @@ const Home = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (changeAvatarUrl.isCallable) {
-      if (avatarUrl) {
-        changeAvatarUrl(avatarUrl);
-      } else {
-        changeAvatarUrl("/avatars/avatars/0.png");
-      }
+      changeAvatarUrl(avatarUrl);
     }
   }, [changeAvatarUrl.isCallable]);
 
+  useEffect(() => {
+    if (setDisplayName.isCallable) {
+      setDisplayName(userDisplayName);
+    }
+  }, [setDisplayName.isCallable]);
 
   useEventListener("room:me-role-update", (role) => {
     toast.success(`You are now ${role}`);
@@ -86,7 +88,7 @@ const Home = ({ params }: { params: { roomId: string } }) => {
     if (!requestedPeers.includes(requestedPeerId)) {
       setShowAcceptRequest(false);
     }
-  }, [requestedPeers])
+  }, [requestedPeers]);
 
   return (
     <section className="bg-audio flex h-screen items-center justify-center w-full relative  text-slate-100">

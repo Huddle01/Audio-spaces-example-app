@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import { useAppUtils } from "@huddle01/react/app-utils";
 import { useHuddle01 } from "@huddle01/react/hooks";
 import useStore from "@/store/slices";
+import { useUpdateEffect } from "usehooks-ts";
 
 type Reaction =
   | ""
@@ -54,7 +55,7 @@ const EmojiTray: React.FC<Props> = ({ onClick, onClose }) => {
   const setMyHandRaised = useStore((state) => state.setMyHandRaised);
   const setMyReaction = useStore((state) => state.setMyReaction);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     sendData(
       "*", {
         raiseHand: isHandRaised,
@@ -83,12 +84,6 @@ const EmojiTray: React.FC<Props> = ({ onClick, onClose }) => {
           onClick={(e) => {
             e.stopPropagation();
             setIsHandRaised((prev) => !prev);
-            sendData(
-              "*", {
-                raiseHand: isHandRaised,
-              }
-            )
-            setMyHandRaised(isHandRaised);
           }}
           className={cn(
             " w-full text-sm text-slate-100 py-2 rounded-lg font-inter flex items-center justify-center font-medium",

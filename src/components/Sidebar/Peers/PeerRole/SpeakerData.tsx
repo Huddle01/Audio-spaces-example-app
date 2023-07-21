@@ -13,7 +13,7 @@ const Speaker: React.FC<SpeakerDataProps> = ({ peerId }) => {
 
   return (
     <>
-      {(me.role === "host" || me.role === "coHost") && (
+      {me.role === "host" && (
           <div>
             <Strip
               type="personNormal"
@@ -23,6 +23,10 @@ const Speaker: React.FC<SpeakerDataProps> = ({ peerId }) => {
                   changePeerRole(peerId, "coHost");
               }}
             />
+            </div>
+            )}
+            {["host", "coHost"].includes(me.role) && (
+              <div>
             <Strip
               type="speaker"
               title="Remove as Speaker"

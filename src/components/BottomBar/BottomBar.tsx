@@ -105,28 +105,38 @@ const BottomBar: React.FC<BottomBarProps> = () => {
             onClose={() => setIsOpen(false)}
           />
         </Dropdown>
-        <Dropdown
-          triggerChild={BasicIcons.leave}
-          open={showLeaveDropDown}
-          onOpenChange={() => setShowLeaveDropDown((prev) => !prev)}
-        >
-          <Strip
-            type="close"
-            title="End spaces for all"
-            variant="danger"
-            onClick={() => {
-              endRoom();
-            }}
-          />
-          <Strip
-            type="leave"
-            title="Leave the spaces"
-            variant="danger"
+        {me.role === "host" ? (
+          <Dropdown
+            triggerChild={BasicIcons.leave}
+            open={showLeaveDropDown}
+            onOpenChange={() => setShowLeaveDropDown((prev) => !prev)}
+          >
+            <Strip
+              type="close"
+              title="End spaces for all"
+              variant="danger"
+              onClick={() => {
+                endRoom();
+              }}
+            />
+            <Strip
+              type="leave"
+              title="Leave the spaces"
+              variant="danger"
+              onClick={() => {
+                leaveRoom();
+              }}
+            />
+          </Dropdown>
+        ) : (
+          <button
             onClick={() => {
               leaveRoom();
             }}
-          />
-        </Dropdown>
+          >
+            {BasicIcons.leave}
+          </button>
+        )}
       </div>
 
       {/* Bottom Bar Right */}
@@ -137,7 +147,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         }
       >
         {BasicIcons.peers}
-        <span>{Object.keys(peers).length + (me.role === "host" ? 0 : 1)}</span>
+        <span>{Object.keys(peers).length + 1}</span>
       </OutlineButton>
     </div>
   );

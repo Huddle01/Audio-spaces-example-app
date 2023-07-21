@@ -137,7 +137,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         }
       >
         {BasicIcons.peers}
-        <span>{Object.keys(peers).length + 1}</span>
+        <span>{Object.keys(peers).length + (me.role === "host" ? 0 : 1)}</span>
       </OutlineButton>
     </div>
   );

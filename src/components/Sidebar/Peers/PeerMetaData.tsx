@@ -120,22 +120,19 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
               : NestedPeerListIcons.inactive.mic}
           </button>
 
-          {(
-            (me.role === "listener" &&
-              ["host", "coHost", "speaker"].includes(role)) ||
-            (me.role === "speaker" && me.meId !== peerId) ||
-            (me.role === "coHost" && me.meId !== peerId)
-          ) ?
-          (
-            <button> {NestedPeerListIcons.inactive.more}</button>
-          ) : (
+          {me.role === "host" ||
+          (me.role === "coHost" && (me.meId === peerId || ["speaker", "listener"].includes(role))) ||
+          ((me.role === "speaker" || me.role === "listener") &&
+            me.meId === peerId) ? (
             <Dropdown
               triggerChild={<div>{NestedPeerListIcons.inactive.more}</div>}
               align="end"
             >
               {RoleData[role]}
             </Dropdown>
-          ) }
+          ) : (
+            <button> {NestedPeerListIcons.inactive.more}</button>
+          )}
         </div>
       )}
     </div>

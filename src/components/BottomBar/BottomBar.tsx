@@ -44,7 +44,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
   const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
 
-  const [showLeaveDropDown, setShowLeaveDropDown] = useState<boolean>(true);
+  const [showLeaveDropDown, setShowLeaveDropDown] = useState<boolean>(false);
 
   const { me } = useHuddle01();
 

@@ -16,7 +16,7 @@ const RequestToSpeak: React.FC<RequestToSpeakProps> = () => {
   const { peers } = usePeers();
 
   const sendSpeakerRequest = () => {
-    const peerIds = Object.values(peers).filter(({role}) => role === "host" || role === "co-host").map(({peerId}) => peerId);
+    const peerIds = Object.values(peers).filter(({role}) => (role === "host" || role === "coHost")).map(({peerId}) => peerId);
     sendData(peerIds, {
       "request-to-speak": me.meId
     });

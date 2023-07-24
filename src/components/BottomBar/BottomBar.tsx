@@ -15,6 +15,7 @@ import {
   useHuddle01,
   usePeers,
   useRoom,
+  useRecording
 } from "@huddle01/react/hooks";
 import { useEventListener } from "@huddle01/react/hooks";
 
@@ -105,20 +106,19 @@ const BottomBar: React.FC<BottomBarProps> = () => {
             onClose={() => setIsOpen(false)}
           />
         </Dropdown>
-        {me.role === "host" ? (
           <Dropdown
             triggerChild={BasicIcons.leave}
             open={showLeaveDropDown}
             onOpenChange={() => setShowLeaveDropDown((prev) => !prev)}
           >
-            <Strip
+            {me.role === "host" && <Strip
               type="close"
               title="End spaces for all"
               variant="danger"
               onClick={() => {
                 endRoom();
               }}
-            />
+            />}
             <Strip
               type="leave"
               title="Leave the spaces"
@@ -128,15 +128,6 @@ const BottomBar: React.FC<BottomBarProps> = () => {
               }}
             />
           </Dropdown>
-        ) : (
-          <button
-            onClick={() => {
-              leaveRoom();
-            }}
-          >
-            {BasicIcons.leave}
-          </button>
-        )}
       </div>
 
       {/* Bottom Bar Right */}
@@ -147,7 +138,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         }
       >
         {BasicIcons.peers}
-        <span>{Object.keys(peers).length + 1}</span>
+        <span>{Object.keys(peers).filter((peerId) => peerId !== me.meId).length + 1}</span>
       </OutlineButton>
     </div>
   );

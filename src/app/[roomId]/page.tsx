@@ -64,8 +64,7 @@ const Home = ({ params }: { params: { roomId: string } }) => {
 
   useEventListener("room:data-received", (data) => {
     if (
-      data.payload["request-to-speak"] &&
-      (me.role == "host" || me.role == "coHost")
+      data.payload["request-to-speak"] 
     ) {
       setShowAcceptRequest(true);
       setRequestedPeerId(data.payload["request-to-speak"]);

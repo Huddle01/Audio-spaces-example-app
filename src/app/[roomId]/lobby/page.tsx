@@ -51,7 +51,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
     if (!isLobbyJoined) return;
 
     if (!userDisplayName.length) {
-      toast.error("Display name must required !!");
+      toast.error("Display name is required!");
       return;
     } else {
       joinRoom();

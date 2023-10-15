@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useHuddle01 } from "@huddle01/react";
-import { useLobby } from "@huddle01/react/hooks";
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useHuddle01 } from '@huddle01/react';
+import { useLobby } from '@huddle01/react/hooks';
 
 type LobbyPageProps = {
   roomId: string;
@@ -15,7 +15,7 @@ const IntroPage: React.FC<LobbyPageProps> = ({ roomId }) => {
   const { push } = useRouter();
 
   useEffect(() => {
-    initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? "");
+    initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? '');
     joinLobby(roomId);
     push(`/${roomId}/lobby`);
   }, []);

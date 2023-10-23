@@ -48,17 +48,21 @@ const Chat = () => {
   };
 
   useEventListener('room:data-received', (data) => {
-    setChats((chats) => {
-      return [
-        ...chats,
-        {
-          name: data.payload.name,
-          text: data.payload.message,
-          is_user: false,
-        },
-      ];
-    });
+    if (data.payload.message) {
+      setChats((chats) => {
+        return [
+          ...chats,
+          {
+            name: data.payload.name,
+            text: data.payload.message,
+            is_user: false,
+          },
+        ];
+      });
+    }
   });
+
+  console.log(chats);
 
   const displayChats = chats.map((chat) => {
     return (

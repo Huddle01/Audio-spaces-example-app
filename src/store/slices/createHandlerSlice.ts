@@ -30,7 +30,7 @@ export interface ISidebarState {
   removeRequestedPeers: (val: string) => void;
   setUserDisplayName: (val: string) => void;
   setChatView: (val: TChatView) => void;
-  // setIsChatOpen: (val: boolean) => void;
+  setIsChatOpen: (val: boolean) => void;
 }
 
 const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
@@ -51,6 +51,11 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
   requestedPeers: [],
   userDisplayName: '',
 
+  setIsChatOpen: (chatOpen: boolean) => {
+    set(() => ({
+      isChatOpen: chatOpen,
+    }));
+  },
   setChatView(chatView: TChatView) {
     const prevView = get().chatbar.chatView;
 

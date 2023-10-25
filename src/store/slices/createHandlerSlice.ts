@@ -16,6 +16,7 @@ export interface ISidebarState {
   chatView: TChatView;
   promptView: TPromptView;
   avatarUrl: string;
+  isChatOpen: boolean;
   isMyHandRaised: boolean;
   myReaction: string;
   requestedPeers: string[];
@@ -29,6 +30,7 @@ export interface ISidebarState {
   removeRequestedPeers: (val: string) => void;
   setUserDisplayName: (val: string) => void;
   setChatView: (val: TChatView) => void;
+  // setIsChatOpen: (val: boolean) => void;
 }
 
 const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
@@ -42,6 +44,7 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
   },
   avatarUrl: '/avatars/avatars/0.png',
   chatView: 'close',
+  isChatOpen: false,
   promptView: 'close',
   isMyHandRaised: false,
   myReaction: '',

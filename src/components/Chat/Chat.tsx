@@ -72,7 +72,7 @@ const Chat = () => {
         className={`${
           chat.is_user
             ? 'ml-auto text-md break-words shadow-md max-w-xs w-fit py-1 px-4 mb-2 bg-[#216CFC] rounded-2xl'
-            : 'w-fit py-1 px-4 break-words max-w-xs shadow-md text-md mb-2 rounded-2xl bg-[#242731]'
+            : 'w-fit py-1 px-4 break-words max-w-xs shadow-md text-md mb-2 rounded-2xl bg-[#343744]'
         }`}
       >
         <div className="text-xs text-blue-300">
@@ -84,9 +84,12 @@ const Chat = () => {
   });
 
   return (
-    <div className="text-white w-1/4 h-4/5 p-2 mr-3">
+    <div className="text-white w-1/4 h-4/5 p-2 mr-3 bg-[#191B1F] rounded-xl ">
       <div className="flex flex-col h-full">
-        <div className="mb-6 font-mono text-left text-2xl ">Huddle Chat</div>
+        <div className="mb-3 font-mono text-left text-lg p-2">
+          <div className="flex items-center gap-2">{BasicIcons.chat}Chat</div>
+          <div className="border-t mt-3 border-[#94A3B8]"></div>
+        </div>
         <div ref={ref} className="overflow-auto flex-col h-full">
           <div className="font-sans">{displayChats}</div>
         </div>

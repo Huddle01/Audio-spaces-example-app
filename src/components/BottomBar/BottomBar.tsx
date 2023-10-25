@@ -62,21 +62,23 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   });
 
   return (
-    <div className="absolute bottom-6 w-full flex items-center px-10">
+    <div className="absolute bottom-6 w-full flex items-center px-10 justify-between">
       {/* Bottom Bar Left */}
-      {me.role == 'host' || me.role == 'coHost' || me.role == 'speaker' ? (
-        <div className="mr-auto flex items-center justify-between gap-3 w-44">
-          {''}
-        </div>
-      ) : (
-        <OutlineButton
-          className="mr-auto flex items-center justify-between gap-3"
-          onClick={() => setPromptView('request-to-speak')}
-        >
-          {BasicIcons.requestToSpeak}
-          <div>Request to speak</div>
-        </OutlineButton>
-      )}
+      <div>
+        {me.role == 'host' || me.role == 'coHost' || me.role == 'speaker' ? (
+          <div className="mr-auto flex items-center justify-between gap-3 w-44">
+            {''}
+          </div>
+        ) : (
+          <OutlineButton
+            className="mr-auto flex items-center justify-between gap-3"
+            onClick={() => setPromptView('request-to-speak')}
+          >
+            {BasicIcons.requestToSpeak}
+            <div>Request to speak</div>
+          </OutlineButton>
+        )}
+      </div>
 
       {/* Bottom Bar Center */}
       <div className="flex items-center mr-20 gap-4">
@@ -133,27 +135,28 @@ const BottomBar: React.FC<BottomBarProps> = () => {
           />
         </Dropdown>
       </div>
+      <div className="flex items-center gap-4">
+        {/* Bottom Bar Right */}
 
-      {/* Bottom Bar Right */}
-
-      <OutlineButton
-        className="ml-auto flex items-center gap-3"
-        onClick={() =>
-          setSidebarView(sidebarView === 'peers' ? 'close' : 'peers')
-        }
-      >
-        {BasicIcons.peers}
-        <span>
-          {Object.keys(peers).filter((peerId) => peerId !== me.meId).length + 1}
-        </span>
-      </OutlineButton>
-      <OutlineButton
-        className="ml-auto flex items-center gap-3"
-        onClick={() => setChatView(chatView === 'chat' ? 'close' : 'chat')}
-      >
-        {BasicIcons.peers}
-        <span>chat</span>
-      </OutlineButton>
+        <OutlineButton
+          className="ml-auto flex items-center gap-3"
+          onClick={() =>
+            setSidebarView(sidebarView === 'peers' ? 'close' : 'peers')
+          }
+        >
+          {BasicIcons.peers}
+          <span>
+            {Object.keys(peers).filter((peerId) => peerId !== me.meId).length +
+              1}
+          </span>
+        </OutlineButton>
+        <OutlineButton
+          className="ml-auto flex items-center gap-3"
+          onClick={() => setChatView(chatView === 'chat' ? 'close' : 'chat')}
+        >
+          {BasicIcons.chat}
+        </OutlineButton>
+      </div>
     </div>
   );
 };

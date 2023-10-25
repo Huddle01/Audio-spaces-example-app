@@ -4,7 +4,7 @@ import useChatScroll from './ChatScroll';
 import { useAppUtils } from '@huddle01/react/app-utils';
 import { nanoid } from 'nanoid';
 import useStore from '@/store/slices';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useEventListener, useHuddle01 } from '@huddle01/react/hooks';
 import { BasicIcons } from '@/assets/BasicIcons';
 
@@ -91,7 +91,7 @@ const Chat = () => {
           <input
             type="text"
             placeholder="Type a message"
-            className="p-1.5 rounded-xl w-full bg-[#242731]"
+            className="p-1.5 rounded-xl w-full bg-[#343744] text-sm"
             value={message}
             onChange={handleChange}
             onKeyDown={handleKeyDown}

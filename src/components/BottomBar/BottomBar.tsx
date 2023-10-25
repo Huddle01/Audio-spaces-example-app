@@ -38,8 +38,10 @@ const BottomBar: React.FC<BottomBarProps> = () => {
   } = useAudio();
 
   const sidebarView = useStore((state) => state.sidebar.sidebarView);
-  const chatView = useStore((state) => state.chatView);
-  const setChatView = useStore((state) => state.setChatView);
+  // const chatView = useStore((state) => state.chatView);
+  // const setChatView = useStore((state) => state.setChatView);
+  const isChatOpen = useStore((state) => state.isChatOpen);
+  const setIsChatOpen = useStore((state) => state.setIsChatOpen);
 
   const setSidebarView = useStore((state) => state.setSidebarView);
 
@@ -152,7 +154,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
         </OutlineButton>
         <OutlineButton
           className="ml-auto flex items-center gap-3"
-          onClick={() => setChatView(chatView === 'chat' ? 'close' : 'chat')}
+          onClick={() => setIsChatOpen(!isChatOpen)}
         >
           {BasicIcons.chat}
         </OutlineButton>

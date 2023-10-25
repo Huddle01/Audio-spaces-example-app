@@ -4,13 +4,15 @@ import useChatScroll from './ChatScroll';
 import { useAppUtils } from '@huddle01/react/app-utils';
 import { nanoid } from 'nanoid';
 import useStore from '@/store/slices';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useEventListener, useHuddle01 } from '@huddle01/react/hooks';
 import { BasicIcons } from '@/assets/BasicIcons';
 
 const Chat = () => {
   const userDisplayName = useStore((state) => state.userDisplayName);
   const [message, setMessage] = useState<string>('');
+  const addChatMessage = useStore((state) => state.addChatMessage);
+  const chatMessages = useStore((state) => state.chatMessages);
   const [chats, setChats] = useState<
     { name: string; text: string; is_user: boolean }[]
   >([]);
@@ -21,16 +23,12 @@ const Chat = () => {
 
   async function handleSend() {
     sendDataToAllPeers();
-    setChats((chats) => {
-      return [
-        ...chats,
-        {
-          name: userDisplayName,
-          text: message,
-          is_user: true,
-        },
-      ];
-    });
+    const newChatMessage = {
+      name: userDisplayName,
+      text: message,
+      is_user: true,
+    };
+    addChatMessage(newChatMessage);
     setMessage('');
   }
 
@@ -50,22 +48,18 @@ const Chat = () => {
 
   useEventListener('room:data-received', (data) => {
     if (data.payload.message && data.fromPeerId !== me.meId) {
-      setChats((chats) => {
-        return [
-          ...chats,
-          {
-            name: data.payload.name,
-            text: data.payload.message,
-            is_user: false,
-          },
-        ];
-      });
+      const newChatMessage = {
+        name: data.payload.name,
+        text: data.payload.message,
+        is_user: false,
+      };
+      addChatMessage(newChatMessage);
     }
   });
 
-  // console.log(chats);
+  console.log(chatMessages);
 
-  const displayChats = chats.map((chat) => {
+  const displayChats = chatMessages.map((chat) => {
     return (
       <div
         key={nanoid()}

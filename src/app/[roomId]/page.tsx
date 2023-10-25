@@ -15,7 +15,6 @@ import useStore from '@/store/slices';
 import { toast } from 'react-hot-toast';
 import { useAppUtils } from '@huddle01/react/app-utils';
 import Chat from '@/components/Chat/Chat';
-import ChatView from '@/components/Chat/ChatView';
 
 const Home = ({ params }: { params: { roomId: string } }) => {
   const { isRoomJoined } = useRoom();
@@ -30,6 +29,7 @@ const Home = ({ params }: { params: { roomId: string } }) => {
   const avatarUrl = useStore((state) => state.avatarUrl);
   const userDisplayName = useStore((state) => state.userDisplayName);
   const { changeAvatarUrl, setDisplayName, sendData } = useAppUtils();
+  const isChatOpen = useStore((state) => state.isChatOpen);
 
   useEventListener('room:peer-joined', ({ peerId, role }) => {
     if (role === 'peer') {
@@ -111,8 +111,7 @@ const Home = ({ params }: { params: { roomId: string } }) => {
           )}
         </div>
       </div>
-      <Chat />
-      {/* <ChatView /> */}
+      {isChatOpen && <Chat />}
       <BottomBar />
       <Prompts />
     </section>

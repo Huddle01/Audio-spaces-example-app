@@ -1,19 +1,19 @@
 import { StoreSlice } from '../types';
 
 export type TSidebarView = 'close' | 'peers';
-export type TChatView = 'close' | 'chat';
 export type TPromptView = 'close' | 'request-to-speak';
+
+export interface IChatMessage {
+  name: string;
+  text: string;
+  is_user: boolean;
+}
 
 export interface ISidebarState {
   sidebar: {
     isSidebarOpen: boolean;
     sidebarView: TSidebarView;
   };
-  chatbar: {
-    isChatOpen: boolean;
-    chatView: TChatView;
-  };
-  chatView: TChatView;
   promptView: TPromptView;
   avatarUrl: string;
   isChatOpen: boolean;
@@ -21,15 +21,16 @@ export interface ISidebarState {
   myReaction: string;
   requestedPeers: string[];
   userDisplayName: string;
+  chatMessages: IChatMessage[];
   setPromptView: (val: TPromptView) => void;
   setSidebarView: (val: TSidebarView) => void;
   setAvatarUrl: (va: string) => void;
   setMyHandRaised: (val: boolean) => void;
   setMyReaction: (val: string) => void;
+  addChatMessage: (val: IChatMessage) => void;
   addRequestedPeers: (val: string) => void;
   removeRequestedPeers: (val: string) => void;
   setUserDisplayName: (val: string) => void;
-  setChatView: (val: TChatView) => void;
   setIsChatOpen: (val: boolean) => void;
 }
 
@@ -37,10 +38,6 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
   sidebar: {
     isSidebarOpen: false,
     sidebarView: 'close',
-  },
-  chatbar: {
-    isChatOpen: false,
-    chatView: 'close',
   },
   avatarUrl: '/avatars/avatars/0.png',
   chatView: 'close',
@@ -50,29 +47,11 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
   myReaction: '',
   requestedPeers: [],
   userDisplayName: '',
+  chatMessages: [],
 
   setIsChatOpen: (chatOpen: boolean) => {
     set(() => ({
       isChatOpen: chatOpen,
-    }));
-  },
-  setChatView(chatView: TChatView) {
-    const prevView = get().chatbar.chatView;
-
-    if (chatView === 'close' || chatView === prevView) {
-      set(() => ({
-        chatbar: {
-          isChatOpen: false,
-          chatView: 'close',
-        },
-      }));
-    }
-
-    set(() => ({
-      chatbar: {
-        isChatOpen: true,
-        chatView,
-      },
     }));
   },
 
@@ -93,6 +72,12 @@ const createHandlerSlice: StoreSlice<ISidebarState> = (set, get) => ({
         isSidebarOpen: true,
         sidebarView,
       },
+    }));
+  },
+
+  addChatMessage: (val: IChatMessage) => {
+    set((state) => ({
+      chatMessages: [...state.chatMessages, val],
     }));
   },
 

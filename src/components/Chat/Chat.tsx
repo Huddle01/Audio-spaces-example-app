@@ -13,10 +13,7 @@ const Chat = () => {
   const [message, setMessage] = useState<string>('');
   const addChatMessage = useStore((state) => state.addChatMessage);
   const chatMessages = useStore((state) => state.chatMessages);
-  const [chats, setChats] = useState<
-    { name: string; text: string; is_user: boolean }[]
-  >([]);
-  const ref = useChatScroll(chats);
+  const ref = useChatScroll(chatMessages);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { sendData } = useAppUtils();
   const { me } = useHuddle01();
@@ -46,27 +43,16 @@ const Chat = () => {
     sendData('*', { message: message, name: userDisplayName });
   };
 
-  useEventListener('room:data-received', (data) => {
-    if (data.payload.message && data.fromPeerId !== me.meId) {
-      const newChatMessage = {
-        name: data.payload.name,
-        text: data.payload.message,
-        is_user: false,
-      };
-      addChatMessage(newChatMessage);
-    }
-  });
-
   console.log(chatMessages);
-
+  console.log(me.role);
   const displayChats = chatMessages.map((chat) => {
     return (
       <div
         key={nanoid()}
         className={`${
           chat.is_user
-            ? 'ml-auto text-md break-words shadow-md max-w-xs w-fit py-1 px-4 mb-2 bg-[#216CFC] rounded-2xl'
-            : 'w-fit py-1 px-4 break-words max-w-xs shadow-md text-md mb-2 rounded-2xl bg-[#343744]'
+            ? 'ml-auto text-md break-words max-w-xs w-fit py-1 px-4 mb-2 bg-[#216CFC] rounded-2xl items-center flex'
+            : 'w-fit py-1 px-4 break-words max-w-xs text-md mb-2 rounded-2xl bg-[#343744]'
         }`}
       >
         <div className="text-xs text-blue-300">
@@ -87,7 +73,7 @@ const Chat = () => {
         <div ref={ref} className="overflow-auto flex-col h-full">
           <div className="font-sans">{displayChats}</div>
         </div>
-        <div className="flex py-2">
+        <div className="flex py-1 pl-1">
           <input
             type="text"
             placeholder="Type a message"

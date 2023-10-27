@@ -83,7 +83,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
       </div>
 
       {/* Bottom Bar Center */}
-      <div className="flex items-center mr-20 gap-4">
+      <div className="flex items-center gap-4">
         {me.role !== 'listener' &&
           (!isAudioOn ? (
             <button

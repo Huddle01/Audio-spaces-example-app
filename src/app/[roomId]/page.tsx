@@ -23,6 +23,7 @@ const Home = ({ params }: { params: { roomId: string } }) => {
   const { me } = useHuddle01();
   const [requestedPeerId, setRequestedPeerId] = useState('');
   const [showAcceptRequest, setShowAcceptRequest] = useState(false);
+  const addChatMessage = useStore((state) => state.addChatMessage);
   const addRequestedPeers = useStore((state) => state.addRequestedPeers);
   const removeRequestedPeers = useStore((state) => state.removeRequestedPeers);
   const requestedPeers = useStore((state) => state.requestedPeers);
@@ -76,6 +77,15 @@ const Home = ({ params }: { params: { roomId: string } }) => {
       setTimeout(() => {
         setShowAcceptRequest(false);
       }, 5000);
+    }
+
+    if (data.payload.message && data.fromPeerId !== me.meId) {
+      const newChatMessage = {
+        name: data.payload.name,
+        text: data.payload.message,
+        is_user: false,
+      };
+      addChatMessage(newChatMessage);
     }
   });
 

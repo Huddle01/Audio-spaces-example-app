@@ -1,26 +1,22 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Assets
-import { toast } from "react-hot-toast";
-import { BasicIcons } from "@/assets/BasicIcons";
+import { toast } from 'react-hot-toast';
+import { BasicIcons } from '@/assets/BasicIcons';
 
 // Components
-import FeatCommon from "@/components/common/FeatCommon";
-import AvatarWrapper from "@/components/common/AvatarWrapper";
+import FeatCommon from '@/components/common/FeatCommon';
+import AvatarWrapper from '@/components/common/AvatarWrapper';
 
 // Store
-import useStore from "@/store/slices";
+import useStore from '@/store/slices';
 
 // Hooks
-import {
-  useHuddle01,
-  useLobby,
-  useRoom,
-} from "@huddle01/react/hooks";
+import { useHuddle01, useLobby, useRoom } from '@huddle01/react/hooks';
 
 type lobbyProps = {};
 
@@ -41,7 +37,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (!isLobbyJoined) {
-      initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? "");
+      initialize(process.env.NEXT_PUBLIC_PROJECT_ID ?? '');
       joinLobby(params.roomId);
       return;
     }
@@ -51,7 +47,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
     if (!isLobbyJoined) return;
 
     if (!userDisplayName.length) {
-      toast.error("Display name is required!");
+      toast.error('Display name is required!');
       return;
     } else {
       joinRoom();
@@ -63,7 +59,6 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
       push(`/${params.roomId}`);
     }
   }, [isRoomJoined]);
-
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-lobby text-slate-100">
@@ -96,8 +91,8 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
             onClose={() => setIsOpen(false)}
             className={
               isOpen
-                ? "absolute top-4 block"
-                : "absolute top-1/2 -translate-y-1/2 hidden "
+                ? 'absolute top-4 block'
+                : 'absolute top-1/2 -translate-y-1/2 hidden '
             }
           >
             <div className="relative mt-5">
@@ -158,7 +153,7 @@ const Lobby = ({ params }: { params: { roomId: string } }) => {
             className="flex items-center justify-center bg-[#246BFD] text-slate-100 rounded-md p-2 mt-2 w-full"
             onClick={handleStartSpaces}
           >
-            {isLoading ? "Loading..." : "Start Spaces"}
+            {isLoading ? 'Loading...' : 'Start Spaces'}
             <Image
               alt="narrow-right"
               width={30}

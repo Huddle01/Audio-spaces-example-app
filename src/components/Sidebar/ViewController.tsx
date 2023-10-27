@@ -1,5 +1,6 @@
-import { BasicIcons } from "@/assets/BasicIcons";
-import Peers from "./Peers/Peers";
+import { BasicIcons } from '@/assets/BasicIcons';
+import Peers from './Peers/Peers';
+import Chat from '../Chat/Chat';
 
 export type TViewComponent = {
   [key: string]: {
@@ -12,8 +13,13 @@ export type TViewComponent = {
 const ViewComponent: TViewComponent = {
   peers: {
     icon: BasicIcons.peers,
-    headerData: "Peers",
+    headerData: 'Peers',
     component: <Peers />,
+  },
+  chat: {
+    icon: BasicIcons.peers,
+    headerData: 'Chat',
+    component: <Chat />,
   },
 };
 

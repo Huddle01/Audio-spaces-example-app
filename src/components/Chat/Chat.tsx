@@ -5,7 +5,6 @@ import { useAppUtils } from '@huddle01/react/app-utils';
 import { nanoid } from 'nanoid';
 import useStore from '@/store/slices';
 import { useState, useRef } from 'react';
-import { useEventListener, useHuddle01 } from '@huddle01/react/hooks';
 import { BasicIcons } from '@/assets/BasicIcons';
 
 const Chat = () => {
@@ -16,7 +15,6 @@ const Chat = () => {
   const ref = useChatScroll(chatMessages);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { sendData } = useAppUtils();
-  const { me } = useHuddle01();
 
   async function handleSend() {
     sendDataToAllPeers();
@@ -43,8 +41,6 @@ const Chat = () => {
     sendData('*', { message: message, name: userDisplayName });
   };
 
-  console.log(chatMessages);
-  console.log(me.role);
   const displayChats = chatMessages.map((chat) => {
     return (
       <div

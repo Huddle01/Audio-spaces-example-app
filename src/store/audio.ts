@@ -5,6 +5,8 @@ interface AudioPersistState {
   setAudioInputDevice: (audioInputDevice: MediaDeviceInfo) => void;
   audioOutputDevice: MediaDeviceInfo;
   setAudioOutputDevice: (audioOutputDevice: MediaDeviceInfo) => void;
+  isAudioOn: boolean;
+  setIsAudioOn: (isAudioOn: boolean) => void;
 }
 
 export const useAudioPersistStore = create<AudioPersistState>((set) => ({
@@ -13,4 +15,6 @@ export const useAudioPersistStore = create<AudioPersistState>((set) => ({
   audioOutputDevice: {} as MediaDeviceInfo,
   setAudioOutputDevice: (audioOutputDevice) =>
     set(() => ({ audioOutputDevice })),
+  isAudioOn: false,
+  setIsAudioOn: (isAudioOn) => set(() => ({ isAudioOn })),
 }));

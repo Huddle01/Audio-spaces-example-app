@@ -9,7 +9,6 @@ import { BasicIcons, NestedBasicIcons } from "@/assets/BasicIcons";
 import { cn } from "@/utils/helpers";
 import Dropdown from "../common/Dropdown";
 import EmojiTray from "../EmojiTray/EmojiTray";
-import { useRouter } from "next/navigation";
 import {
   useAudio,
   useHuddle01,
@@ -19,6 +18,7 @@ import {
 } from "@huddle01/react/hooks";
 import { useEventListener } from "@huddle01/react/hooks";
 import SwitchDevice from "../SwitchDevice/SwitchDevice";
+import { useAudioPersistStore } from "@/store/audio";
 
 type BottomBarProps = {};
 
@@ -36,6 +36,8 @@ const BottomBar: React.FC<BottomBarProps> = () => {
     stopProducingAudio,
   } = useAudio();
 
+  const { audioInputDevice, isAudioOn, setIsAudioOn } = useAudioPersistStore();
+
   const sidebarView = useStore((state) => state.sidebar.sidebarView);
   // const chatView = useStore((state) => state.chatView);
   // const setChatView = useStore((state) => state.setChatView);
@@ -44,9 +46,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
 
   const setSidebarView = useStore((state) => state.setSidebarView);
 
-  const setPromptView = useStore((state) => state.setPromptView);
-
-  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
+  const setPromptView = useStore((state) => state.setPromptView); 
 
   const [showLeaveDropDown, setShowLeaveDropDown] = useState<boolean>(false);
 
@@ -61,6 +61,7 @@ const BottomBar: React.FC<BottomBarProps> = () => {
     setIsAudioOn(false);
     stopProducingAudio();
   });
+
 
   return (
     <div className="absolute bottom-6 w-full flex items-center px-10 justify-between">
@@ -87,7 +88,9 @@ const BottomBar: React.FC<BottomBarProps> = () => {
           (!isAudioOn ? (
             <button
               onClick={() => {
-                fetchAudioStream();
+                audioInputDevice
+                  ? fetchAudioStream(audioInputDevice.deviceId)
+                  : fetchAudioStream();
               }}
             >
               {NestedBasicIcons.inactive.mic}

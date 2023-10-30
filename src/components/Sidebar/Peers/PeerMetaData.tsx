@@ -10,6 +10,7 @@ import ListenersData from "./PeerRole/ListenersData";
 import { useHuddle01, useAudio, useEventListener } from "@huddle01/react/hooks";
 import { useAppUtils } from "@huddle01/react/app-utils";
 import useStore from "@/store/slices";
+import { useAudioPersistStore } from "@/store/audio";
 
 interface PeerMetaDatProps {
   isRequested?: boolean;
@@ -54,7 +55,7 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
   const [isHandRaised, setIsHandRaised] = useState<boolean>(false);
   const setMyHandRaised = useStore((state) => state.setMyHandRaised);
   const isMyHandRaised = useStore((state) => state.isMyHandRaised);
-  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
+  const { audioInputDevice, isAudioOn, setIsAudioOn } = useAudioPersistStore();
 
   useEffect(() => {
     sendData("*", {
@@ -118,7 +119,11 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
                 ["host", "coHost", "speaker"].includes(role) &&
                 peerId === me?.meId
               ) {
-                isAudioOn ? stopAudioStream() : fetchAudioStream();
+                isAudioOn
+                  ? stopAudioStream()
+                  : audioInputDevice
+                  ? fetchAudioStream(audioInputDevice.deviceId)
+                  : fetchAudioStream();
               }
             }}
           >
@@ -128,7 +133,8 @@ const PeerMetaData: React.FC<PeerMetaDatProps> = ({
           </button>
 
           {me.role === "host" ||
-          (me.role === "coHost" && (me.meId === peerId || ["speaker", "listener"].includes(role))) ||
+          (me.role === "coHost" &&
+            (me.meId === peerId || ["speaker", "listener"].includes(role))) ||
           ((me.role === "speaker" || me.role === "listener") &&
             me.meId === peerId) ? (
             <Dropdown
